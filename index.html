@@ -3,514 +3,1529 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NotesWallah - Free Notes Forever</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>🚀 NeonFirewall - Advanced Security Suite</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .channel-modal {
+
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-pink: #ff00ff;
+            --neon-green: #00ff00;
+            --neon-purple: #bf00ff;
+            --neon-orange: #ff6b00;
+            --dark-bg: #0a0a1a;
+            --darker-bg: #050510;
+            --card-bg: #111125;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --glow-intensity: 0.5;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .neon-loader {
+            text-align: center;
+        }
+
+        .loader-text {
+            font-size: 2rem;
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue);
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        .loader-bar {
+            width: 300px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loader-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+            width: 0%;
+            animation: loading 3s ease-in-out;
+            border-radius: 2px;
+        }
+
+        @keyframes loading {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Main Container */
+        .main-container {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .main-container.loaded {
+            opacity: 1;
+        }
+
+        /* Neon Header */
+        .neon-header {
+            background: rgba(17, 17, 37, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 243, 255, 0.3);
+            padding: 1rem 2rem;
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .logo i {
+            color: var(--neon-blue);
+            text-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        .logo-text {
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            animation: glow 2s infinite;
+        }
+
+        .status-dot.active {
+            background: var(--neon-green);
+            box-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .status-text {
+            color: var(--neon-green);
+            font-weight: 600;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Neon Tabs */
+        .neon-tabs {
+            background: rgba(17, 17, 37, 0.8);
+            border-bottom: 1px solid rgba(255, 0, 255, 0.3);
+        }
+
+        .tabs-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            padding: 1rem 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .tab-button:hover {
+            color: var(--neon-blue);
+            background: rgba(0, 243, 255, 0.1);
+        }
+
+        .tab-button.active {
+            color: var(--neon-blue);
+            border-bottom-color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Neon Cards */
+        .neon-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .neon-card:hover {
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-header h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--neon-blue);
+        }
+
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-badge.active {
+            background: rgba(0, 255, 0, 0.2);
+            color: var(--neon-green);
+            border: 1px solid var(--neon-green);
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .security-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .metric {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .metric-value {
+            display: block;
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--neon-purple);
+            text-shadow: 0 0 10px var(--neon-purple);
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .threat-level {
+            text-align: center;
+        }
+
+        .threat-meter {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .meter-fill {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        .meter-fill.low {
+            width: 25%;
+            background: var(--neon-green);
+            box-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .threat-text {
+            color: var(--neon-green);
+            font-weight: bold;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .neon-btn {
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .neon-btn.primary {
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            color: white;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+        }
+
+        .neon-btn.primary:hover {
+            box-shadow: 0 0 25px rgba(0, 243, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .neon-btn.secondary {
+            background: rgba(0, 243, 255, 0.1);
+            color: var(--neon-blue);
+            border: 1px solid var(--neon-blue);
+        }
+
+        .neon-btn.warning {
+            background: rgba(255, 107, 0, 0.1);
+            color: var(--neon-orange);
+            border: 1px solid var(--neon-orange);
+        }
+
+        .neon-btn.danger {
+            background: rgba(255, 0, 0, 0.1);
+            color: #ff4444;
+            border: 1px solid #ff4444;
+        }
+
+        /* Tables */
+        .connections-table, .rules-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .connections-table th, .rules-table th {
+            background: rgba(0, 243, 255, 0.1);
+            padding: 1rem;
+            text-align: left;
+            color: var(--neon-blue);
+            font-weight: 600;
+        }
+
+        .connections-table td, .rules-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .connections-table tr:hover, .rules-table tr:hover {
+            background: rgba(0, 243, 255, 0.05);
+        }
+
+        /* Inputs */
+        .neon-input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .neon-input:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .input-group .neon-input {
+            flex: 1;
+        }
+
+        /* Modal */
+        .modal {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 100;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
             justify-content: center;
             align-items: center;
         }
-        .channel-modal.active {
+
+        .modal-content {
+            width: 90%;
+            max-width: 500px;
+            margin: 2rem;
+        }
+
+        .modal-header {
             display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            color: var(--neon-blue);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--neon-blue);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        /* Notifications */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+        }
+
+        .notification {
+            background: var(--card-bg);
+            border-left: 4px solid var(--neon-blue);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        /* Footer */
+        .neon-footer {
+            background: rgba(17, 17, 37, 0.95);
+            border-top: 1px solid rgba(255, 0, 255, 0.3);
+            padding: 1rem 2rem;
+            margin-top: 2rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Dynamic Elements */
+        .threat-item {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+        }
+
+        .threat-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+        }
+
+        .threat-icon.critical { background: rgba(255, 0, 0, 0.2); color: #ff4444; }
+        .threat-icon.high { background: rgba(255, 107, 0, 0.2); color: #ff6b00; }
+        .threat-icon.medium { background: rgba(255, 255, 0, 0.2); color: #ffff00; }
+
+        .threat-info { flex: 1; }
+        .threat-type { font-weight: bold; }
+        .threat-source { color: #cccccc; font-size: 0.9rem; }
+        .threat-time { color: #888888; font-size: 0.8rem; }
+
+        .threat-severity {
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .threat-severity.critical { background: rgba(255, 0, 0, 0.2); color: #ff4444; }
+        .threat-severity.high { background: rgba(255, 107, 0, 0.2); color: #ff6b00; }
+        .threat-severity.medium { background: rgba(255, 255, 0, 0.2); color: #ffff00; }
+
+        .scan-result {
+            padding: 2rem;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        .scan-result.safe { background: rgba(0, 255, 0, 0.1); border: 1px solid #00ff00; }
+        .scan-result.unsafe { background: rgba(255, 0, 0, 0.1); border: 1px solid #ff4444; }
+
+        .result-header {
+            margin-bottom: 1rem;
+        }
+
+        .result-header i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .scan-result.safe .result-header i { color: #00ff00; }
+        .scan-result.unsafe .result-header i { color: #ff4444; }
+
+        .action-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .action-badge.block { background: rgba(255, 0, 0, 0.2); color: #ff4444; }
+        .action-badge.allow { background: rgba(0, 255, 0, 0.2); color: #00ff00; }
+        .action-badge.monitor { background: rgba(0, 243, 255, 0.2); color: #00f3ff; }
+
+        .neon-btn.small {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .scanning-animation {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .scanning-animation i {
+            font-size: 3rem;
+            color: #00f3ff;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs-container {
+                overflow-x: auto;
+            }
+            
+            .security-metrics {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
-<body class="min-h-screen bg-gradient-to-b from-sky-100 via-white to-slate-100 text-slate-900 antialiased">
-    <!-- Channel Selection Modal -->
-    <div id="channel-modal" class="channel-modal">
-        <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-bold text-slate-800">Choose Your Channel</h3>
-                <button id="close-modal" class="text-slate-500 hover:text-slate-700">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-            <p class="text-slate-600 mb-6">Select your preferred platform to access free notes</p>
-            
-            <div class="space-y-4">
-                <a href="https://whatsapp.com/channel/0029VbBV0ri65yDH94E0Zr2c" target="_blank" class="flex items-center gap-4 p-4 border border-slate-200 rounded-xl hover:bg-green-50 hover:border-green-200 transition">
-                    <div class="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center text-white">
-                        <i class="fab fa-whatsapp text-xl"></i>
-                    </div>
-                    <div class="flex-1">
-                        <div class="font-semibold text-slate-800">WhatsApp Channel</div>
-                        <div class="text-sm text-slate-500">Get updates directly on WhatsApp</div>
-                    </div>
-                    <i class="fas fa-chevron-right text-slate-400"></i>
-                </a>
-                
-                <a href="https://t.me/noteswallahfree" target="_blank" class="flex items-center gap-4 p-4 border border-slate-200 rounded-xl hover:bg-blue-50 hover:border-blue-200 transition">
-                    <div class="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white">
-                        <i class="fab fa-telegram text-xl"></i>
-                    </div>
-                    <div class="flex-1">
-                        <div class="font-semibold text-slate-800">Telegram Channel</div>
-                        <div class="text-sm text-slate-500">Join our Telegram community</div>
-                    </div>
-                    <i class="fas fa-chevron-right text-slate-400"></i>
-                </a>
-            </div>
-            
-            <div class="mt-6 text-center">
-                <button id="close-modal-2" class="text-sm text-slate-500 hover:text-slate-700">Close</button>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="neon-loader">
+            <div class="loader-text">🚀 Initializing NeonFirewall</div>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
             </div>
         </div>
     </div>
 
-    <!-- Navigation -->
-    <header class="backdrop-blur sticky top-0 z-50 bg-white/70 border-b border-slate-200 shadow-sm">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-12 h-12 rounded-full shadow-md bg-gradient-to-r from-indigo-600 to-pink-600 flex items-center justify-center text-white font-bold text-lg">NW</div>
-                <div>
-                    <div class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent">NotesWallah</div>
-                    <div class="text-xs text-slate-500">Best Free Notes Hub in the Telegram</div>
-                </div>
-            </div>
-
-            <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
-                <a href="#features" class="hover:text-indigo-600">Features</a>
-                <a href="#library" class="hover:text-indigo-600">Library</a>
-                <a href="#teachers" class="hover:text-indigo-600">Team</a>
-                <a href="#pricing" class="hover:text-indigo-600">Pricing</a>
-                <a href="#agents" class="hover:text-indigo-600">Join Us</a>
-                <button class="ml-4 px-5 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 text-white shadow hover:opacity-90 channel-btn">Join Free</button>
-            </nav>
-            
-            <!-- Mobile menu button -->
-            <button id="mobile-menu-button" class="md:hidden text-slate-700">
-                <i class="fas fa-bars text-xl"></i>
-            </button>
-        </div>
-        
-        <!-- Mobile menu -->
-        <div id="mobile-menu" class="md:hidden hidden px-6 pb-4">
-            <div class="flex flex-col space-y-3">
-                <a href="#features" class="hover:text-indigo-600 py-2">Features</a>
-                <a href="#library" class="hover:text-indigo-600 py-2">Library</a>
-                <a href="#teachers" class="hover:text-indigo-600 py-2">Team</a>
-                <a href="#pricing" class="hover:text-indigo-600 py-2">Pricing</a>
-                <a href="#agents" class="hover:text-indigo-600 py-2">Join Us</a>
-                <button class="px-5 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 text-white shadow hover:opacity-90 channel-btn text-center">Join Free</button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Hero -->
-    <main class="max-w-7xl mx-auto px-6 pt-16 pb-24">
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-                <h1 class="text-5xl md:text-6xl font-extrabold leading-tight tracking-tight bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent">All Notes Free Forever ✨</h1>
-                <p class="mt-6 text-lg text-slate-700">Welcome to NotesWallah, the world's most beautiful and powerful free notes platform. Download unlimited study notes, PDFs, and guides directly from our WhatsApp or Telegram channels — no payment, no ads, just pure learning.</p>
-
-                <div class="mt-8 flex flex-col sm:flex-row gap-4">
-                    <button class="channel-btn inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-semibold shadow-lg hover:opacity-90 transition">Download Free Notes</button>
-                    <a href="#library" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-slate-300 bg-white text-slate-700 shadow hover:shadow-md transition">Explore Library</a>
+    <!-- Main Container -->
+    <div id="mainApp" class="main-container">
+        <!-- Header -->
+        <header class="neon-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo">
+                        <i class="fas fa-shield-alt"></i>
+                        <span class="logo-text">NeonFirewall</span>
+                    </div>
+                    <div class="status-indicator">
+                        <span class="status-dot active"></span>
+                        <span class="status-text">ACTIVE PROTECTION</span>
+                    </div>
                 </div>
                 
-                <div class="mt-6 flex items-center gap-4 text-sm text-slate-600">
-                    <div class="flex items-center gap-2">
-                        <i class="fab fa-whatsapp text-green-500"></i>
-                        <span>WhatsApp Channel</span>
+                <div class="header-stats">
+                    <div class="stat-item">
+                        <span class="stat-value" id="connectionsCount">0</span>
+                        <span class="stat-label">Connections</span>
                     </div>
-                    <div class="h-4 w-px bg-slate-300"></div>
-                    <div class="flex items-center gap-2">
-                        <i class="fab fa-telegram text-blue-500"></i>
-                        <span>Telegram Channel</span>
+                    <div class="stat-item">
+                        <span class="stat-value" id="threatsCount">0</span>
+                        <span class="stat-label">Threats Blocked</span>
                     </div>
-                </div>
-            </div>
-
-            <div class="relative">
-                <div class="rounded-3xl overflow-hidden shadow-2xl ring-2 ring-indigo-100">
-                    <div class="w-full h-96 bg-gradient-to-br from-indigo-400 to-pink-400 flex items-center justify-center text-white text-5xl">
-                        <i class="fas fa-book-open"></i>
+                    <div class="stat-item">
+                        <span class="stat-value" id="websitesScanned">0</span>
+                        <span class="stat-label">Websites Scanned</span>
                     </div>
                 </div>
             </div>
-        </section>
+        </header>
 
-        <!-- Features -->
-        <section id="features" class="mt-28 text-center">
-            <h2 class="text-3xl font-extrabold tracking-tight">Why Choose NotesWallah?</h2>
-            <p class="mt-2 text-slate-600">Because free knowledge should look and feel amazing.</p>
-
-            <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="p-6 bg-white rounded-2xl shadow hover:shadow-md border border-slate-200 transition">
-                    <div class="text-4xl">💯</div>
-                    <div class="mt-3 font-semibold text-lg">100% Free</div>
-                    <div class="mt-1 text-sm text-slate-600">Every single note, PDF, and quiz is free to download via WhatsApp or Telegram.</div>
-                </div>
-                <div class="p-6 bg-white rounded-2xl shadow hover:shadow-md border border-slate-200 transition">
-                    <div class="text-4xl">🌍</div>
-                    <div class="mt-3 font-semibold text-lg">Premium UI</div>
-                    <div class="mt-1 text-sm text-slate-600">The most beautiful student-friendly platform in the Telegram.</div>
-                </div>
-                <div class="p-6 bg-white rounded-2xl shadow hover:shadow-md border border-slate-200 transition">
-                    <div class="text-4xl">⚡</div>
-                    <div class="mt-3 font-semibold text-lg">Instant Access</div>
-                    <div class="mt-1 text-sm text-slate-600">Click download and choose your preferred channel for instant access.</div>
-                </div>
+        <!-- Navigation Tabs -->
+        <nav class="neon-tabs">
+            <div class="tabs-container">
+                <button class="tab-button active" data-tab="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Dashboard
+                </button>
+                <button class="tab-button" data-tab="monitor">
+                    <i class="fas fa-desktop"></i>
+                    Real-time Monitor
+                </button>
+                <button class="tab-button" data-tab="scanner">
+                    <i class="fas fa-search"></i>
+                    Website Scanner
+                </button>
+                <button class="tab-button" data-tab="firewall">
+                    <i class="fas fa-fire"></i>
+                    Firewall Rules
+                </button>
+                <button class="tab-button" data-tab="analytics">
+                    <i class="fas fa-chart-bar"></i>
+                    Analytics
+                </button>
             </div>
-        </section>
+        </nav>
 
-        <!-- Library -->
-        <section id="library" class="mt-24">
-            <h3 class="text-2xl font-bold text-center">Library Highlights</h3>
-            <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Note Card 1 -->
-                <div class="bg-white p-5 rounded-2xl shadow-md hover:shadow-lg transition border border-slate-200">
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-pink-500 to-amber-500 text-white flex items-center justify-center font-bold">S</div>
-                        <div>
-                            <div class="font-semibold">Chapter 1: Key Concepts</div>
-                            <div class="text-xs text-slate-500">Science • 6 pages</div>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-content active">
+                <div class="dashboard-grid">
+                    <!-- Security Status Card -->
+                    <div class="neon-card security-status">
+                        <div class="card-header">
+                            <h3><i class="fas fa-shield-alt"></i> Security Status</h3>
+                            <span class="status-badge active">Active</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="security-metrics">
+                                <div class="metric">
+                                    <span class="metric-value" id="activeProtections">12</span>
+                                    <span class="metric-label">Active Protections</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value" id="portsMonitored">25</span>
+                                    <span class="metric-label">Ports Monitored</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value" id="uptime">99.9%</span>
+                                    <span class="metric-label">Uptime</span>
+                                </div>
+                            </div>
+                            <div class="threat-level">
+                                <div class="threat-meter">
+                                    <div class="meter-fill low"></div>
+                                </div>
+                                <span class="threat-text">LOW THREAT LEVEL</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="mt-4 flex items-center gap-2">
-                        <button class="channel-btn flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 text-white text-sm font-semibold shadow hover:opacity-90">Download Free</button>
-                    </div>
-                </div>
-                
-                <!-- Note Card 2 -->
-                <div class="bg-white p-5 rounded-2xl shadow-md hover:shadow-lg transition border border-slate-200">
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 text-white flex items-center justify-center font-bold">M</div>
-                        <div>
-                            <div class="font-semibold">Chapter 2: Key Concepts</div>
-                            <div class="text-xs text-slate-500">Maths • 7 pages</div>
-                        </div>
-                    </div>
-                    <div class="mt-4 flex items-center gap-2">
-                        <button class="channel-btn flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 text-white text-sm font-semibold shadow hover:opacity-90">Download Free</button>
-                    </div>
-                </div>
-                
-                <!-- Note Card 3 -->
-                <div class="bg-white p-5 rounded-2xl shadow-md hover:shadow-lg transition border border-slate-200">
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-green-500 to-emerald-500 text-white flex items-center justify-center font-bold">H</div>
-                        <div>
-                            <div class="font-semibold">Chapter 3: Key Concepts</div>
-                            <div class="text-xs text-slate-500">History • 8 pages</div>
-                        </div>
-                    </div>
-                    <div class="mt-4 flex items-center gap-2">
-                        <button class="channel-btn flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 text-white text-sm font-semibold shadow hover:opacity-90">Download Free</button>
-                    </div>
-                </div>
-                
-                <!-- Note Card 4 -->
-                <div class="bg-white p-5 rounded-2xl shadow-md hover:shadow-lg transition border border-slate-200">
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-violet-500 text-white flex items-center justify-center font-bold">P</div>
-                        <div>
-                            <div class="font-semibold">Chapter 4: Key Concepts</div>
-                            <div class="text-xs text-slate-500">Physics • 9 pages</div>
-                        </div>
-                    </div>
-                    <div class="mt-4 flex items-center gap-2">
-                        <button class="channel-btn flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 text-white text-sm font-semibold shadow hover:opacity-90">Download Free</button>
-                    </div>
-                </div>
-                
-                <!-- Note Card 5 -->
-                <div class="bg-white p-5 rounded-2xl shadow-md hover:shadow-lg transition border border-slate-200">
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-amber-500 to-orange-500 text-white flex items-center justify-center font-bold">C</div>
-                        <div>
-                            <div class="font-semibold">Chapter 5: Key Concepts</div>
-                            <div class="text-xs text-slate-500">Chemistry • 10 pages</div>
-                        </div>
-                    </div>
-                    <div class="mt-4 flex items-center gap-2">
-                        <button class="channel-btn flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 text-white text-sm font-semibold shadow hover:opacity-90">Download Free</button>
-                    </div>
-                </div>
-                
-                <!-- Note Card 6 -->
-                <div class="bg-white p-5 rounded-2xl shadow-md hover:shadow-lg transition border border-slate-200">
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-red-500 to-pink-500 text-white flex items-center justify-center font-bold">B</div>
-                        <div>
-                            <div class="font-semibold">Chapter 6: Key Concepts</div>
-                            <div class="text-xs text-slate-500">Biology • 11 pages</div>
-                        </div>
-                    </div>
-                    <div class="mt-4 flex items-center gap-2">
-                        <button class="channel-btn flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 text-white text-sm font-semibold shadow hover:opacity-90">Download Free</button>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Team -->
-        <section id="teachers" class="mt-24 bg-gradient-to-r from-indigo-50 to-pink-50 p-10 rounded-3xl shadow-inner">
-            <h3 class="text-2xl font-bold text-center">Meet Our Team Community</h3>
-            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Teacher Card 1 -->
-                <div class="bg-white p-5 rounded-2xl shadow border border-slate-200 flex items-center gap-4 hover:shadow-md transition">
-                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center text-white font-bold text-lg">A</div>
-                    <div>
-                        <div class="font-semibold">IMON</div>
-                        <div class="text-sm text-slate-500">TECH & CHAIRMAN</div>
-                    </div>
-                </div>
-                
-                <!-- Teacher Card 2 -->
-                <div class="bg-white p-5 rounded-2xl shadow border border-slate-200 flex items-center gap-4 hover:shadow-md transition">
-                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white font-bold text-lg">R</div>
-                    <div>
-                        <div class="font-semibold">ADRI KANRI</div>
-                        <div class="text-sm text-slate-500">TECH AND CEO</div>
-                    </div>
-                </div>
-                
-                <!-- Teacher Card 3 -->
-                <div class="bg-white p-5 rounded-2xl shadow border border-slate-200 flex items-center gap-4 hover:shadow-md transition">
-                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center text-white font-bold text-lg">S</div>
-                    <div>
-                        <div class="font-semibold">SRAJANI HEMBRAM</div>
-                        <div class="text-sm text-slate-500">NOTES PROVIDER AND SECURITY  </div>
-                    </div>
-                </div>
-                <!-- Teacher Card 4 -->
-                <div class="bg-white p-5 rounded-2xl shadow border border-slate-200 flex items-center gap-4 hover:shadow-md transition">
-                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white font-bold text-lg">R</div>
-                    <div>
-                        <div class="font-semibold">EXPERTS</div>
-                        <div class="text-sm text-slate-500">MORE THAN 5+</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Pricing -->
-        <section id="pricing" class="mt-24 text-center">
-            <h3 class="text-2xl font-bold">Pricing</h3>
-            <p class="text-slate-600 mt-2">No money, no premium wall — everything is 100% free forever.</p>
-
-            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Pricing Card 1 -->
-                <div class="p-6 rounded-2xl shadow bg-gradient-to-br from-indigo-50 to-white border border-indigo-200">
-                    <div class="flex items-center gap-3">
-                        <div class="font-semibold text-lg">Student</div>
-                        <div class="ml-auto text-xs px-2 py-1 rounded-full bg-indigo-600 text-white">Top Choice</div>
-                    </div>
-                    <div class="mt-4 text-3xl font-extrabold text-indigo-600">Free</div>
-                    <ul class="mt-4 space-y-2 text-sm text-slate-600">
-                        <li>✔ Unlimited Notes</li>
-                        <li>✔ Download via WhatsApp/Telegram</li>
-                        <li>✔ No Ads</li>
-                    </ul>
-                    <div class="mt-6">
-                        <button class="channel-btn w-full px-4 py-3 rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-semibold shadow hover:opacity-90">Join Free</button>
-                    </div>
-                </div>
-                
-                <!-- Pricing Card 2 -->
-                <div class="p-6 rounded-2xl shadow bg-white border border-slate-200">
-                    <div class="flex items-center gap-3">
-                        <div class="font-semibold text-lg">Teacher</div>
-                    </div>
-                    <div class="mt-4 text-3xl font-extrabold text-indigo-600">Free</div>
-                    <ul class="mt-4 space-y-2 text-sm text-slate-600">
-                        <li>✔ Upload Notes</li>
-                        <li>✔ Free Dashboard</li>
-                        <li>✔ Community Access</li>
-                    </ul>
-                    <div class="mt-6">
-                        <button class="channel-btn w-full px-4 py-3 rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-semibold shadow hover:opacity-90">Join Free</button>
-                    </div>
-                </div>
-                
-                <!-- Pricing Card 3 -->
-                <div class="p-6 rounded-2xl shadow bg-white border border-slate-200">
-                    <div class="flex items-center gap-3">
-                        <div class="font-semibold text-lg">School</div>
-                    </div>
-                    <div class="mt-4 text-3xl font-extrabold text-indigo-600">Free</div>
-                    <ul class="mt-4 space-y-2 text-sm text-slate-600">
-                        <li>✔ Multi-class Support</li>
-                        <li>✔ Free Resources</li>
-                        <li>✔ No Charges Ever</li>
-                    </ul>
-                    <div class="mt-6">
-                        <button class="channel-btn w-full px-4 py-3 rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-semibold shadow hover:opacity-90">Join Free</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Technical Agents Section -->
-        <section id="agents" class="mt-24 bg-gradient-to-r from-slate-800 to-slate-900 rounded-3xl p-10 text-white">
-            <div class="max-w-4xl mx-auto text-center">
-                <h3 class="text-2xl font-bold">Join Our Technical Team</h3>
-                <p class="mt-4 text-slate-300">We're looking for technical experts to help us build and maintain our platform</p>
-                
-                <div class="mt-8 bg-slate-700/50 p-8 rounded-2xl backdrop-blur-sm border border-slate-600">
-                    <div class="flex flex-col md:flex-row gap-8 items-center">
-                        <div class="flex-1 text-left">
-                            <h4 class="text-xl font-bold mb-4">We Need Technical Agents!</h4>
-                            <p class="text-slate-300 mb-4">As NotesWallah grows, we need talented technical people to handle our platform infrastructure, development, and maintenance.</p>
-                            <ul class="space-y-2 text-slate-300 mb-6">
-                                <li class="flex items-start gap-2">
-                                    <i class="fas fa-check text-green-400 mt-1"></i>
-                                    <span>Work with cutting-edge technologies</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <i class="fas fa-check text-green-400 mt-1"></i>
-                                    <span>Contribute to a platform serving thousands of students</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <i class="fas fa-check text-green-400 mt-1"></i>
-                                    <span>Flexible remote work opportunities</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <i class="fas fa-check text-green-400 mt-1"></i>
-                                    <span>Join a passionate team of educators and technologists</span>
-                                </li>
-                            </ul>
+                    <!-- Real-time Traffic Graph -->
+                    <div class="neon-card traffic-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-line"></i> Network Traffic</h3>
                         </div>
-                        
-                        <div class="bg-gradient-to-br from-indigo-600 to-pink-600 p-6 rounded-2xl shadow-lg">
-                            <div class="text-center">
-                                <i class="fas fa-laptop-code text-4xl mb-4"></i>
-                                <h5 class="font-bold text-lg mb-2">Become a Technical Agent</h5>
-                                <p class="text-sm mb-4 text-indigo-100">Fill out our application form to join our technical team</p>
-                                <a href="https://forms.gle/5ARLquGAcudZwbub9" target="_blank" class="inline-block px-6 py-3 bg-white text-indigo-600 font-semibold rounded-lg hover:bg-slate-100 transition shadow">Apply Now</a>
+                        <div class="card-body">
+                            <canvas id="trafficChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="neon-card actions-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="action-buttons">
+                                <button class="neon-btn primary" onclick="enableFirewall()">
+                                    <i class="fas fa-power-off"></i>
+                                    Enable Firewall
+                                </button>
+                                <button class="neon-btn secondary" onclick="scanNetwork()">
+                                    <i class="fas fa-radar-dish"></i>
+                                    Scan Network
+                                </button>
+                                <button class="neon-btn warning" onclick="generateReport()">
+                                    <i class="fas fa-file-alt"></i>
+                                    Generate Report
+                                </button>
+                                <button class="neon-btn danger" onclick="emergencyBlock()">
+                                    <i class="fas fa-ban"></i>
+                                    Emergency Block
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Threat Feed -->
+                    <div class="neon-card threats-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-exclamation-triangle"></i> Recent Threats</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="threats-list" id="threatsList">
+                                <!-- Threats will be populated by JavaScript -->
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <!-- Channels Section -->
-        <section class="mt-24 bg-gradient-to-r from-indigo-600 to-pink-600 rounded-3xl p-10 text-white">
-            <div class="max-w-4xl mx-auto text-center">
-                <h3 class="text-2xl font-bold">Join Our Free Channels</h3>
-                <p class="mt-4 text-indigo-100">Get instant access to all our free notes, PDFs, and study materials through your preferred platform</p>
-                
-                <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <a href="https://whatsapp.com/channel/0029VbBV0ri65yDH94E0Zr2c" target="_blank" class="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition flex flex-col items-center gap-4">
-                        <div class="w-16 h-16 rounded-full bg-green-500 flex items-center justify-center text-white">
-                            <i class="fab fa-whatsapp text-2xl"></i>
-                        </div>
-                        <div>
-                            <div class="font-bold text-lg">WhatsApp Channel</div>
-                            <div class="text-sm text-indigo-100 mt-1">Get updates directly on WhatsApp</div>
-                        </div>
-                        <div class="mt-2 px-4 py-2 bg-white text-indigo-600 rounded-lg font-semibold text-sm">Join Now</div>
-                    </a>
-                    
-                    <a href="https://t.me/noteswallahfree" target="_blank" class="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition flex flex-col items-center gap-4">
-                        <div class="w-16 h-16 rounded-full bg-blue-500 flex items-center justify-center text-white">
-                            <i class="fab fa-telegram text-2xl"></i>
-                        </div>
-                        <div>
-                            <div class="font-bold text-lg">Telegram Channel</div>
-                            <div class="text-sm text-indigo-100 mt-1">Join our Telegram community</div>
-                        </div>
-                        <div class="mt-2 px-4 py-2 bg-white text-indigo-600 rounded-lg font-semibold text-sm">Join Now</div>
-                    </a>
+            <!-- Real-time Monitor Tab -->
+            <div id="monitor" class="tab-content">
+                <div class="monitor-container">
+                    <div class="monitor-header">
+                        <h2><i class="fas fa-desktop"></i> Real-time Connection Monitor</h2>
+                        <button class="neon-btn primary" onclick="startMonitoring()">
+                            <i class="fas fa-play"></i> Start Monitoring
+                        </button>
+                    </div>
+                    <div class="connections-table-container">
+                        <table class="connections-table">
+                            <thead>
+                                <tr>
+                                    <th>Protocol</th>
+                                    <th>Local Address</th>
+                                    <th>Remote Address</th>
+                                    <th>Status</th>
+                                    <th>Process</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="connectionsTable">
+                                <!-- Connections will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </section>
+
+            <!-- Website Scanner Tab -->
+            <div id="scanner" class="tab-content">
+                <div class="scanner-container">
+                    <div class="scanner-header">
+                        <h2><i class="fas fa-search"></i> Website Security Scanner</h2>
+                    </div>
+                    <div class="scanner-input">
+                        <div class="input-group">
+                            <input type="text" id="websiteUrl" placeholder="https://example.com" class="neon-input">
+                            <button class="neon-btn primary" onclick="scanWebsite()">
+                                <i class="fas fa-search"></i> Scan Now
+                            </button>
+                        </div>
+                    </div>
+                    <div class="scan-results" id="scanResults">
+                        <div class="results-placeholder">
+                            <i class="fas fa-search-location"></i>
+                            <p>Enter a URL to scan for security threats</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Firewall Rules Tab -->
+            <div id="firewall" class="tab-content">
+                <div class="firewall-container">
+                    <div class="firewall-header">
+                        <h2><i class="fas fa-fire"></i> Firewall Rules Management</h2>
+                        <button class="neon-btn primary" onclick="showAddRuleModal()">
+                            <i class="fas fa-plus"></i> Add New Rule
+                        </button>
+                    </div>
+                    <div class="rules-table-container">
+                        <table class="rules-table">
+                            <thead>
+                                <tr>
+                                    <th>Rule Name</th>
+                                    <th>Type</th>
+                                    <th>Target</th>
+                                    <th>Action</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rulesTable">
+                                <!-- Rules will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div id="analytics" class="tab-content">
+                <div class="analytics-container">
+                    <div class="analytics-header">
+                        <h2><i class="fas fa-chart-bar"></i> Security Analytics</h2>
+                    </div>
+                    <div class="analytics-grid">
+                        <div class="analytics-card">
+                            <canvas id="threatsChart"></canvas>
+                        </div>
+                        <div class="analytics-card">
+                            <canvas id="trafficAnalyticsChart"></canvas>
+                        </div>
+                        <div class="analytics-card">
+                            <canvas id="protocolsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
 
         <!-- Footer -->
-        <footer class="mt-28 border-t pt-10 pb-14 text-sm text-slate-600 bg-gradient-to-r from-white to-slate-50">
-            <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <div class="font-extrabold text-lg bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent">NotesWallah</div>
-                    <div class="mt-2">© <span id="current-year">2024</span> NotesWallah — Free Knowledge For All.</div>
+        <footer class="neon-footer">
+            <div class="footer-content">
+                <div class="footer-text">
+                    <span>🚀 NeonFirewall v1.0 | Advanced Security Suite</span>
                 </div>
-                <div>
-                    <div class="font-semibold">Quick Links</div>
-                    <ul class="mt-2 space-y-1">
-                        <li><a href="#features" class="hover:text-indigo-600">Features</a></li>
-                        <li><a href="#library" class="hover:text-indigo-600">Library</a></li>
-                        <li><a href="#teachers" class="hover:text-indigo-600">Team</a></li>
-                        <li><a href="#agents" class="hover:text-indigo-600">Join Our Team</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <div class="font-semibold">Our Channels</div>
-                    <ul class="mt-2 space-y-1">
-                        <li><a href="https://whatsapp.com/channel/0029VbBV0ri65yDH94E0Zr2c" target="_blank" class="text-green-600 font-semibold">WhatsApp Channel</a></li>
-                        <li><a href="https://t.me/noteswallahfree" target="_blank" class="text-blue-600 font-semibold">Telegram Channel</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <div class="font-semibold">Contact</div>
-                    <div class="mt-2">noteswallah08@gmail.com</div>
+                <div class="footer-stats">
+                    <span id="lastUpdate">Last update: Just now</span>
                 </div>
             </div>
         </footer>
-    </main>
+    </div>
+
+    <!-- Add Rule Modal -->
+    <div id="addRuleModal" class="modal">
+        <div class="modal-content neon-card">
+            <div class="modal-header">
+                <h3>Add New Firewall Rule</h3>
+                <button class="close-btn" onclick="closeAddRuleModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="ruleForm">
+                    <div class="form-group">
+                        <label for="ruleName">Rule Name</label>
+                        <input type="text" id="ruleName" class="neon-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ruleType">Rule Type</label>
+                        <select id="ruleType" class="neon-input" required>
+                            <option value="ip">IP Address</option>
+                            <option value="domain">Domain</option>
+                            <option value="port">Port</option>
+                            <option value="protocol">Protocol</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="ruleTarget">Target</label>
+                        <input type="text" id="ruleTarget" class="neon-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ruleAction">Action</label>
+                        <select id="ruleAction" class="neon-input" required>
+                            <option value="block">Block</option>
+                            <option value="allow">Allow</option>
+                            <option value="monitor">Monitor Only</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="neon-btn secondary" onclick="closeAddRuleModal()">Cancel</button>
+                        <button type="submit" class="neon-btn primary">Add Rule</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification System -->
+    <div id="notificationContainer" class="notification-container"></div>
 
     <script>
-        // Mobile menu toggle
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
+        // Global variables
+        let trafficChart;
+        let threatsChart;
+        let trafficAnalyticsChart;
+        let protocolsChart;
+        let isMonitoring = false;
+        let connections = [];
+        let threats = [];
+
+        // Initialize application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
         });
 
-        // Set current year in footer
-        document.getElementById('current-year').textContent = new Date().getFullYear();
+        async function initializeApp() {
+            // Simulate loading
+            await simulateLoading();
+            
+            // Hide loading screen
+            document.getElementById('loadingScreen').style.display = 'none';
+            document.getElementById('mainApp').classList.add('loaded');
+            
+            // Initialize charts
+            initializeCharts();
+            
+            // Load initial data
+            loadInitialData();
+            
+            // Set up event listeners
+            setupEventListeners();
+            
+            // Start background updates
+            startBackgroundUpdates();
+        }
 
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+        function simulateLoading() {
+            return new Promise(resolve => {
+                setTimeout(resolve, 3000);
+            });
+        }
+
+        function initializeCharts() {
+            // Traffic Chart
+            const trafficCtx = document.getElementById('trafficChart').getContext('2d');
+            trafficChart = new Chart(trafficCtx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: 60}, (_, i) => i + 's'),
+                    datasets: [{
+                        label: 'Network Traffic (KB/s)',
+                        data: Array(60).fill(0),
+                        borderColor: '#00f3ff',
+                        backgroundColor: 'rgba(0, 243, 255, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        duration: 0
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#cccccc'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#cccccc'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#cccccc'
+                            }
+                        }
+                    }
                 }
             });
-        });
 
-        // Channel modal functionality
-        const modal = document.getElementById('channel-modal');
-        const closeButtons = document.querySelectorAll('#close-modal, #close-modal-2');
-        const channelButtons = document.querySelectorAll('.channel-btn');
-        
-        // Open modal when any channel button is clicked
-        channelButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                modal.classList.add('active');
+            // Threats Chart
+            const threatsCtx = document.getElementById('threatsChart').getContext('2d');
+            threatsChart = new Chart(threatsCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Malware', 'Phishing', 'Suspicious IPs', 'Port Scanning'],
+                    datasets: [{
+                        data: [12, 8, 15, 5],
+                        backgroundColor: [
+                            '#ff00ff',
+                            '#00ff00',
+                            '#00f3ff',
+                            '#ff6b00'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#cccccc',
+                                padding: 20
+                            }
+                        }
+                    }
+                }
             });
-        });
-        
-        // Close modal when close buttons are clicked
-        closeButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                modal.classList.remove('active');
+            
+            // Traffic Analytics Chart
+            const trafficAnalyticsCtx = document.getElementById('trafficAnalyticsChart').getContext('2d');
+            trafficAnalyticsChart = new Chart(trafficAnalyticsCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Incoming (MB)',
+                        data: [120, 190, 130, 170, 150, 200, 180],
+                        backgroundColor: '#00f3ff'
+                    }, {
+                        label: 'Outgoing (MB)',
+                        data: [80, 120, 100, 140, 130, 160, 150],
+                        backgroundColor: '#ff00ff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#cccccc'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#cccccc'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#cccccc'
+                            }
+                        }
+                    }
+                }
             });
-        });
-        
-        // Close modal when clicking outside the modal content
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                modal.classList.remove('active');
+            
+            // Protocols Chart
+            const protocolsCtx = document.getElementById('protocolsChart').getContext('2d');
+            protocolsChart = new Chart(protocolsCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['HTTP', 'HTTPS', 'FTP', 'SSH', 'DNS'],
+                    datasets: [{
+                        data: [15, 45, 10, 5, 25],
+                        backgroundColor: [
+                            '#00f3ff',
+                            '#ff00ff',
+                            '#00ff00',
+                            '#ff6b00',
+                            '#bf00ff'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#cccccc',
+                                padding: 20
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function setupEventListeners() {
+            // Tab switching
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    switchTab(tabName);
+                });
+            });
+
+            // Form submission
+            document.getElementById('ruleForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addNewRule();
+            });
+        }
+
+        function switchTab(tabName) {
+            // Update active tab button
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+
+            // Update active tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        function loadInitialData() {
+            // Load sample threats
+            threats = [
+                { type: 'Suspicious IP', source: '185.159.128.10', severity: 'High', time: '2 minutes ago' },
+                { type: 'Port Scanning', source: '192.168.1.100', severity: 'Medium', time: '5 minutes ago' },
+                { type: 'Malware Detection', source: 'download-malware.com', severity: 'Critical', time: '10 minutes ago' }
+            ];
+            updateThreatsList();
+
+            // Load sample connections
+            connections = [
+                { protocol: 'TCP', local: '192.168.1.10:443', remote: '104.16.249.249:443', status: 'ESTABLISHED', process: 'chrome.exe' },
+                { protocol: 'UDP', local: '192.168.1.10:5353', remote: '224.0.0.251:5353', status: 'LISTEN', process: 'mDNSResponder' },
+                { protocol: 'TCP', local: '192.168.1.10:5223', remote: '17.57.144.44:5223', status: 'ESTABLISHED', process: 'apsd' }
+            ];
+            updateConnectionsTable();
+
+            // Load sample rules
+            updateRulesTable();
+
+            // Update statistics
+            updateStatistics();
+        }
+
+        function updateThreatsList() {
+            const threatsList = document.getElementById('threatsList');
+            threatsList.innerHTML = threats.map(threat => `
+                <div class="threat-item">
+                    <div class="threat-icon ${threat.severity.toLowerCase()}">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <div class="threat-info">
+                        <div class="threat-type">${threat.type}</div>
+                        <div class="threat-source">${threat.source}</div>
+                        <div class="threat-time">${threat.time}</div>
+                    </div>
+                    <div class="threat-severity ${threat.severity.toLowerCase()}">${threat.severity}</div>
+                </div>
+            `).join('');
+        }
+
+        function updateConnectionsTable() {
+            const tableBody = document.getElementById('connectionsTable');
+            tableBody.innerHTML = connections.map(conn => `
+                <tr>
+                    <td>${conn.protocol}</td>
+                    <td>${conn.local}</td>
+                    <td>${conn.remote}</td>
+                    <td><span class="status-badge">${conn.status}</span></td>
+                    <td>${conn.process}</td>
+                    <td>
+                        <button class="neon-btn danger small" onclick="blockConnection('${conn.remote}')">
+                            <i class="fas fa-ban"></i> Block
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateRulesTable() {
+            const rules = [
+                { name: 'Block Malicious IPs', type: 'IP', target: '185.159.128.0/24', action: 'block', status: 'Active' },
+                { name: 'Allow HTTP Traffic', type: 'Port', target: '80', action: 'allow', status: 'Active' },
+                { name: 'Monitor FTP', type: 'Protocol', target: 'FTP', action: 'monitor', status: 'Active' }
+            ];
+            
+            const tableBody = document.getElementById('rulesTable');
+            tableBody.innerHTML = rules.map(rule => `
+                <tr>
+                    <td>${rule.name}</td>
+                    <td>${rule.type}</td>
+                    <td>${rule.target}</td>
+                    <td><span class="action-badge ${rule.action}">${rule.action.toUpperCase()}</span></td>
+                    <td><span class="status-badge active">${rule.status}</span></td>
+                    <td>
+                        <button class="neon-btn danger small" onclick="deleteRule(this)">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateStatistics() {
+            document.getElementById('connectionsCount').textContent = connections.length;
+            document.getElementById('threatsCount').textContent = threats.length;
+            document.getElementById('websitesScanned').textContent = '47';
+            document.getElementById('lastUpdate').textContent = `Last update: ${new Date().toLocaleTimeString()}`;
+        }
+
+        function startBackgroundUpdates() {
+            // Update traffic chart
+            setInterval(() => {
+                if (trafficChart) {
+                    const newData = Math.random() * 1000;
+                    trafficChart.data.datasets[0].data.push(newData);
+                    trafficChart.data.datasets[0].data.shift();
+                    trafficChart.update('none');
+                }
+            }, 1000);
+
+            // Update statistics every 5 seconds
+            setInterval(() => {
+                updateStatistics();
+                
+                // Simulate new threats occasionally
+                if (Math.random() < 0.1) {
+                    const newThreats = [
+                        { type: 'Suspicious Activity', source: '192.168.1.' + Math.floor(Math.random() * 255), severity: 'Medium', time: 'Just now' },
+                        { type: 'Unknown Protocol', source: 'External Network', severity: 'Low', time: 'Just now' }
+                    ];
+                    
+                    if (Math.random() < 0.3) {
+                        threats.unshift(newThreats[0]);
+                        updateThreatsList();
+                        showNotification('New threat detected: ' + newThreats[0].type, 'warning');
+                    }
+                }
+            }, 5000);
+        }
+
+        // Action Functions
+        function enableFirewall() {
+            showNotification('Firewall protection enabled successfully!', 'success');
+            document.querySelector('.status-badge.active').textContent = 'Active';
+        }
+
+        function scanNetwork() {
+            showNotification('Network scan initiated...', 'info');
+            // Simulate scan
+            setTimeout(() => {
+                showNotification('Network scan completed. No threats found.', 'success');
+            }, 3000);
+        }
+
+        function generateReport() {
+            showNotification('Security report generated successfully!', 'success');
+            // In a real app, this would download a report
+        }
+
+        function emergencyBlock() {
+            showNotification('Emergency block activated! All suspicious traffic blocked.', 'warning');
+        }
+
+        function startMonitoring() {
+            isMonitoring = !isMonitoring;
+            const button = document.querySelector('#monitor .neon-btn.primary');
+            if (isMonitoring) {
+                button.innerHTML = '<i class="fas fa-stop"></i> Stop Monitoring';
+                showNotification('Real-time monitoring started', 'success');
+                
+                // Simulate new connections
+                const monitorInterval = setInterval(() => {
+                    if (!isMonitoring) {
+                        clearInterval(monitorInterval);
+                        return;
+                    }
+                    
+                    if (Math.random() < 0.3) {
+                        const newConn = {
+                            protocol: Math.random() > 0.5 ? 'TCP' : 'UDP',
+                            local: `192.168.1.10:${Math.floor(Math.random() * 1000) + 8000}`,
+                            remote: `${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}:${Math.floor(Math.random() * 1000) + 8000}`,
+                            status: 'ESTABLISHED',
+                            process: ['chrome.exe', 'firefox.exe', 'discord.exe', 'steam.exe'][Math.floor(Math.random() * 4)]
+                        };
+                        
+                        connections.unshift(newConn);
+                        if (connections.length > 10) connections.pop();
+                        updateConnectionsTable();
+                    }
+                }, 2000);
+            } else {
+                button.innerHTML = '<i class="fas fa-play"></i> Start Monitoring';
+                showNotification('Monitoring stopped', 'info');
             }
-        });
+        }
+
+        function scanWebsite() {
+            const url = document.getElementById('websiteUrl').value;
+            if (!url) {
+                showNotification('Please enter a URL to scan', 'error');
+                return;
+            }
+
+            showNotification(`Scanning ${url} for security threats...`, 'info');
+            
+            // Simulate scanning process
+            const resultsDiv = document.getElementById('scanResults');
+            resultsDiv.innerHTML = `
+                <div class="scanning-animation">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Scanning in progress...</p>
+                </div>
+            `;
+
+            setTimeout(() => {
+                const isSafe = Math.random() > 0.3; // 70% chance of being safe
+                resultsDiv.innerHTML = `
+                    <div class="scan-result ${isSafe ? 'safe' : 'unsafe'}">
+                        <div class="result-header">
+                            <i class="fas ${isSafe ? 'fa-check-circle' : 'fa-exclamation-triangle'}"></i>
+                            <h3>${isSafe ? 'SAFE' : 'UNSAFE'}</h3>
+                        </div>
+                        <div class="result-details">
+                            <p><strong>URL:</strong> ${url}</p>
+                            <p><strong>Status:</strong> ${isSafe ? 'No threats detected' : 'Potential security risks found'}</p>
+                            <p><strong>Recommendation:</strong> ${isSafe ? 'Safe to proceed' : 'Avoid visiting this site'}</p>
+                            ${!isSafe ? '<p><strong>Threats detected:</strong> Malware distribution, Phishing attempt</p>' : ''}
+                        </div>
+                    </div>
+                `;
+                
+                showNotification(`Scan completed: ${isSafe ? 'Safe' : 'Unsafe'}`, isSafe ? 'success' : 'warning');
+                
+                // Update scanned websites count
+                const currentCount = parseInt(document.getElementById('websitesScanned').textContent);
+                document.getElementById('websitesScanned').textContent = currentCount + 1;
+            }, 2000);
+        }
+
+        function showAddRuleModal() {
+            document.getElementById('addRuleModal').style.display = 'flex';
+        }
+
+        function closeAddRuleModal() {
+            document.getElementById('addRuleModal').style.display = 'none';
+            document.getElementById('ruleForm').reset();
+        }
+
+        function addNewRule() {
+            const name = document.getElementById('ruleName').value;
+            const type = document.getElementById('ruleType').value;
+            const target = document.getElementById('ruleTarget').value;
+            const action = document.getElementById('ruleAction').value;
+
+            // Add to rules table
+            const rulesTable = document.getElementById('rulesTable');
+            const newRow = rulesTable.insertRow();
+            newRow.innerHTML = `
+                <td>${name}</td>
+                <td>${type.toUpperCase()}</td>
+                <td>${target}</td>
+                <td><span class="action-badge ${action}">${action.toUpperCase()}</span></td>
+                <td><span class="status-badge active">Active</span></td>
+                <td>
+                    <button class="neon-btn danger small" onclick="deleteRule(this)">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </td>
+            `;
+
+            showNotification(`Firewall rule "${name}" added successfully!`, 'success');
+            closeAddRuleModal();
+        }
+
+        function deleteRule(button) {
+            const row = button.closest('tr');
+            row.remove();
+            showNotification('Firewall rule deleted', 'info');
+        }
+
+        function blockConnection(remoteAddress) {
+            showNotification(`Blocked connection from ${remoteAddress}`, 'warning');
+            
+            // Add to threats list
+            threats.unshift({
+                type: 'Blocked Connection',
+                source: remoteAddress,
+                severity: 'Medium',
+                time: 'Just now'
+            });
+            updateThreatsList();
+            
+            // Update threats count
+            document.getElementById('threatsCount').textContent = threats.length;
+        }
+
+        // Notification System
+        function showNotification(message, type = 'info') {
+            const container = document.getElementById('notificationContainer');
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <i class="fas fa-${getNotificationIcon(type)}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+
+            container.appendChild(notification);
+
+            // Remove notification after 5 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+
+        function getNotificationIcon(type) {
+            const icons = {
+                success: 'check-circle',
+                error: 'exclamation-circle',
+                warning: 'exclamation-triangle',
+                info: 'info-circle'
+            };
+            return icons[type] || 'info-circle';
+        }
     </script>
 </body>
 </html>
