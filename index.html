@@ -1,18 +1,70 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NotesWallah - Free Notes Forever</title>
+    <title>NotesWallah - Class 8 Free Notes</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text: #2d3748;
+            --bg: #f7fafc;
+            --card: #ffffff;
+        }
+        
         body {
             font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            transition: all 0.3s ease;
         }
-        .channel-modal, .login-modal, .admin-modal {
+        
+        /* Light Mode */
+        .light-mode {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text: #2d3748;
+            --bg: #f7fafc;
+            --card: #ffffff;
+        }
+        
+        /* Dark Mode */
+        .dark-mode {
+            --primary: #8b5cf6;
+            --secondary: #6366f1;
+            --accent: #a78bfa;
+            --text: #e2e8f0;
+            --bg: #0f172a;
+            --card: #1e293b;
+        }
+        
+        /* Neon Mode */
+        .neon-mode {
+            --primary: #00ffcc;
+            --secondary: #ff00ff;
+            --accent: #ffff00;
+            --text: #ffffff;
+            --bg: #0a0a0a;
+            --card: #1a1a1a;
+        }
+        
+        .neon-glow {
+            box-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary), 0 0 40px var(--primary);
+        }
+        
+        .neon-text {
+            text-shadow: 0 0 5px var(--primary), 0 0 10px var(--primary);
+        }
+        
+        .channel-modal, .login-modal, .admin-modal, .team-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -24,12 +76,10 @@
             justify-content: center;
             align-items: center;
         }
-        .channel-modal.active, .login-modal.active, .admin-modal.active {
+        .channel-modal.active, .login-modal.active, .admin-modal.active, .team-modal.active {
             display: flex;
         }
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
+        
         .floating { 
             animation: floating 3s ease-in-out infinite;
         }
@@ -46,66 +96,118 @@
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
+        
+        .desktop-view .container-limit {
+            max-width: 1280px;
+        }
+        
+        .mobile-view .container-limit {
+            max-width: 480px;
+        }
+        
+        .subject-card {
+            background: var(--card);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .neon-mode .subject-card {
+            border: 1px solid var(--primary);
+        }
+        
+        .mode-toggle, .view-toggle {
+            background: var(--card);
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            display: flex;
+            gap: 0.25rem;
+        }
+        
+        .mode-btn, .view-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        
+        .mode-btn.active, .view-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .team-role-card {
+            background: var(--card);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        
+        .team-role-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+        
         .stats-counter {
             font-size: 2.5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .glow {
-            box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
-        }
     </style>
 </head>
-<body class="min-h-screen bg-gradient-to-b from-sky-100 via-white to-slate-100 text-slate-900 antialiased">
+<body class="neon-mode desktop-view min-h-screen">
     <!-- Login Modal -->
     <div id="login-modal" class="login-modal active">
-        <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl" style="background-color: var(--card); color: var(--text);">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-bold text-slate-800">Welcome to NotesWallah</h3>
+                <h3 class="text-xl font-bold">Welcome to NotesWallah Class 8</h3>
                 <button id="close-login-modal" class="text-slate-500 hover:text-slate-700">
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
-            <p class="text-slate-600 mb-6">Please register to access our free notes library</p>
+            <p class="mb-6">Please register to access our free Class 8 notes library</p>
             
             <form id="login-form" class="space-y-4">
                 <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Full Name</label>
-                    <input type="text" id="student-name" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                    <label class="block text-sm font-medium mb-1">Full Name</label>
+                    <input type="text" id="student-name" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" style="background-color: var(--card); color: var(--text);">
                 </div>
                 
                 <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Email Address</label>
-                    <input type="email" id="student-email" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                    <label class="block text-sm font-medium mb-1">Email Address</label>
+                    <input type="email" id="student-email" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" style="background-color: var(--card); color: var(--text);">
                 </div>
                 
                 <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Education Level</label>
-                    <select id="education-level" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-                        <option value="">Select your education level</option>
-                        <option value="school">School Student</option>
-                        <option value="highschool">High School</option>
-                        <option value="college">College/University</option>
-                        <option value="competitive">Competitive Exams</option>
-                    </select>
+                    <label class="block text-sm font-medium mb-1">School Name</label>
+                    <input type="text" id="school-name" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" style="background-color: var(--card); color: var(--text);">
                 </div>
                 
                 <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Contact Information</label>
+                    <label class="block text-sm font-medium mb-1">Contact Information</label>
                     <div class="flex gap-2">
-                        <select id="contact-type" required class="w-1/3 px-2 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                        <select id="contact-type" required class="w-1/3 px-2 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" style="background-color: var(--card); color: var(--text);">
                             <option value="whatsapp">WhatsApp</option>
                             <option value="telegram">Telegram</option>
                         </select>
-                        <input type="text" id="contact-info" required class="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="Phone or username">
+                        <input type="text" id="contact-info" required class="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="Phone or username" style="background-color: var(--card); color: var(--text);">
                     </div>
                 </div>
                 
                 <div class="flex items-center">
                     <input type="checkbox" id="agree-terms" required class="h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
-                    <label for="agree-terms" class="ml-2 block text-sm text-slate-700">
+                    <label for="agree-terms" class="ml-2 block text-sm">
                         I agree to the <a href="#" class="text-indigo-600 hover:text-indigo-500">Terms & Conditions</a>
                     </label>
                 </div>
@@ -114,21 +216,21 @@
             </form>
             
             <div class="mt-6 text-center">
-                <button id="close-login-modal-2" class="text-sm text-slate-500 hover:text-slate-700">Skip for now</button>
+                <p class="text-sm">This platform is exclusively for Class 8 students</p>
             </div>
         </div>
     </div>
 
     <!-- Channel Selection Modal -->
     <div id="channel-modal" class="channel-modal">
-        <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl" style="background-color: var(--card); color: var(--text);">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-bold text-slate-800">Choose Your Channel</h3>
+                <h3 class="text-xl font-bold">Choose Your Channel</h3>
                 <button id="close-modal" class="text-slate-500 hover:text-slate-700">
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
-            <p class="text-slate-600 mb-6">Select your preferred platform to access free notes</p>
+            <p class="mb-6">Select your preferred platform to access free Class 8 notes</p>
             
             <div class="space-y-4">
                 <a href="https://whatsapp.com/channel/0029VbBV0ri65yDH94E0Zr2c" target="_blank" class="flex items-center gap-4 p-4 border border-slate-200 rounded-xl hover:bg-green-50 hover:border-green-200 transition">
@@ -136,7 +238,7 @@
                         <i class="fab fa-whatsapp text-xl"></i>
                     </div>
                     <div class="flex-1">
-                        <div class="font-semibold text-slate-800">WhatsApp Channel</div>
+                        <div class="font-semibold">WhatsApp Channel</div>
                         <div class="text-sm text-slate-500">Get updates directly on WhatsApp</div>
                     </div>
                     <i class="fas fa-chevron-right text-slate-400"></i>
@@ -147,7 +249,7 @@
                         <i class="fab fa-telegram text-xl"></i>
                     </div>
                     <div class="flex-1">
-                        <div class="font-semibold text-slate-800">Telegram Channel</div>
+                        <div class="font-semibold">Telegram Channel</div>
                         <div class="text-sm text-slate-500">Join our Telegram community</div>
                     </div>
                     <i class="fas fa-chevron-right text-slate-400"></i>
@@ -160,47 +262,125 @@
         </div>
     </div>
 
+    <!-- Join Team Modal -->
+    <div id="team-modal" class="team-modal">
+        <div class="bg-white rounded-2xl p-8 max-w-2xl w-full mx-4 shadow-2xl" style="background-color: var(--card); color: var(--text);">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold">Join Our Team</h3>
+                <button id="close-team-modal" class="text-slate-500 hover:text-slate-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <p class="mb-6">We're looking for passionate individuals to join our mission of providing free education to Class 8 students</p>
+            
+            <div class="space-y-6">
+                <div class="p-4 border border-slate-200 rounded-xl">
+                    <h4 class="font-semibold text-lg mb-2">Available Positions</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                            <span><strong>Content Creators:</strong> Create study materials, notes, and solutions</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                            <span><strong>Subject Matter Experts:</strong> Review and verify educational content</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                            <span><strong>Digital Marketers:</strong> Help spread awareness about our platform</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                            <span><strong>Community Managers:</strong> Engage with students on our channels</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                            <span><strong>Web Developers:</strong> Improve and maintain our platform</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="p-4 border border-slate-200 rounded-xl">
+                    <h4 class="font-semibold text-lg mb-2">Benefits of Joining</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-star mt-1" style="color: var(--accent);"></i>
+                            <span>Certificate of contribution</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-star mt-1" style="color: var(--accent);"></i>
+                            <span>Letter of recommendation for exceptional contributors</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-star mt-1" style="color: var(--accent);"></i>
+                            <span>Opportunity to work with experienced educators</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-star mt-1" style="color: var(--accent);"></i>
+                            <span>Flexible remote working hours</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-star mt-1" style="color: var(--accent);"></i>
+                            <span>Make a real impact on students' education</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="text-center">
+                    <a href="https://forms.gle/5ARLquGAcudZwbub9" target="_blank" class="inline-block px-6 py-3 bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-semibold rounded-lg shadow hover:opacity-90 transition">
+                        Apply Now
+                    </a>
+                    <p class="text-sm mt-2">Fill out our application form to join our team</p>
+                </div>
+            </div>
+            
+            <div class="mt-6 text-center">
+                <button id="close-team-modal-2" class="text-sm text-slate-500 hover:text-slate-700">Close</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Admin Modal -->
     <div id="admin-modal" class="admin-modal">
-        <div class="bg-white rounded-2xl p-8 max-w-6xl w-full mx-4 shadow-2xl max-h-[90vh] overflow-y-auto">
+        <div class="bg-white rounded-2xl p-8 max-w-6xl w-full mx-4 shadow-2xl max-h-[90vh] overflow-y-auto" style="background-color: var(--card); color: var(--text);">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-bold text-slate-800">Admin Dashboard</h3>
+                <h3 class="text-xl font-bold">Admin Dashboard</h3>
                 <button id="close-admin-modal" class="text-slate-500 hover:text-slate-700">
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
             
             <div id="admin-login" class="space-y-4">
-                <p class="text-slate-600 mb-6">Enter admin password to access user data</p>
+                <p class="mb-6">Enter admin password to access user data</p>
                 <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Admin Password</label>
-                    <input type="password" id="admin-password" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                    <label class="block text-sm font-medium mb-1">Admin Password</label>
+                    <input type="password" id="admin-password" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" style="background-color: var(--card); color: var(--text);">
                 </div>
                 <button id="admin-login-btn" class="w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-semibold rounded-lg shadow hover:opacity-90 transition">Access Dashboard</button>
             </div>
             
             <div id="admin-dashboard" class="hidden">
                 <div class="flex justify-between items-center mb-6">
-                    <h4 class="text-lg font-bold text-slate-800">User Statistics</h4>
+                    <h4 class="text-lg font-bold">User Statistics</h4>
                     <button id="export-data" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">Export Data</button>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-                    <div class="bg-indigo-50 p-4 rounded-lg text-center">
-                        <div class="stats-counter" id="total-users">0</div>
-                        <div class="text-sm text-slate-600">Total Users</div>
+                    <div class="p-4 rounded-lg text-center" style="background-color: var(--card);">
+                        <div class="text-2xl font-bold" style="color: var(--primary);" id="total-users">0</div>
+                        <div class="text-sm">Total Users</div>
                     </div>
-                    <div class="bg-pink-50 p-4 rounded-lg text-center">
-                        <div class="stats-counter" id="whatsapp-users">0</div>
-                        <div class="text-sm text-slate-600">WhatsApp Users</div>
+                    <div class="p-4 rounded-lg text-center" style="background-color: var(--card);">
+                        <div class="text-2xl font-bold" style="color: var(--primary);" id="whatsapp-users">0</div>
+                        <div class="text-sm">WhatsApp Users</div>
                     </div>
-                    <div class="bg-blue-50 p-4 rounded-lg text-center">
-                        <div class="stats-counter" id="telegram-users">0</div>
-                        <div class="text-sm text-slate-600">Telegram Users</div>
+                    <div class="p-4 rounded-lg text-center" style="background-color: var(--card);">
+                        <div class="text-2xl font-bold" style="color: var(--primary);" id="telegram-users">0</div>
+                        <div class="text-sm">Telegram Users</div>
                     </div>
-                    <div class="bg-green-50 p-4 rounded-lg text-center">
-                        <div class="stats-counter" id="today-users">0</div>
-                        <div class="text-sm text-slate-600">Today's Registrations</div>
+                    <div class="p-4 rounded-lg text-center" style="background-color: var(--card);">
+                        <div class="text-2xl font-bold" style="color: var(--primary);" id="today-users">0</div>
+                        <div class="text-sm">Today's Registrations</div>
                     </div>
                 </div>
                 
@@ -209,14 +389,14 @@
                 </div>
                 
                 <div>
-                    <h4 class="text-lg font-bold text-slate-800 mb-4">User Details</h4>
+                    <h4 class="text-lg font-bold mb-4">User Details</h4>
                     <div class="overflow-x-auto">
-                        <table class="min-w-full bg-white border border-slate-200">
+                        <table class="min-w-full border border-slate-200" style="background-color: var(--card);">
                             <thead>
-                                <tr class="bg-slate-100">
+                                <tr style="background-color: var(--bg);">
                                     <th class="py-2 px-4 border-b text-left">Name</th>
                                     <th class="py-2 px-4 border-b text-left">Email</th>
-                                    <th class="py-2 px-4 border-b text-left">Education</th>
+                                    <th class="py-2 px-4 border-b text-left">School</th>
                                     <th class="py-2 px-4 border-b text-left">Contact Type</th>
                                     <th class="py-2 px-4 border-b text-left">Contact Info</th>
                                     <th class="py-2 px-4 border-b text-left">Registration Date</th>
@@ -233,46 +413,59 @@
     </div>
 
     <!-- Navigation -->
-    <header class="backdrop-blur sticky top-0 z-50 bg-white/70 border-b border-slate-200 shadow-sm">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <header class="backdrop-blur sticky top-0 z-50 border-b shadow-sm" style="background-color: var(--card); border-color: var(--bg);">
+        <div class="container-limit mx-auto px-6 py-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-12 h-12 rounded-full shadow-md bg-gradient-to-r from-indigo-600 to-pink-600 flex items-center justify-center text-white font-bold text-lg pulse">NW</div>
+                <div class="w-12 h-12 rounded-full shadow-md flex items-center justify-center text-white font-bold text-lg pulse" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">NW</div>
                 <div>
-                    <div class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent">NotesWallah</div>
-                    <div class="text-xs text-slate-500">Best Free Notes Hub in the Telegram</div>
+                    <div class="text-xl font-extrabold tracking-tight" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">NotesWallah</div>
+                    <div class="text-xs" style="color: var(--text); opacity: 0.7;">Class 8 Free Notes Hub</div>
                 </div>
             </div>
 
-            <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
-                <a href="#features" class="hover:text-indigo-600 transition">Features</a>
-                <a href="#library" class="hover:text-indigo-600 transition">Library</a>
-                <a href="#stats" class="hover:text-indigo-600 transition">Statistics</a>
-                <a href="#team" class="hover:text-indigo-600 transition">Team</a>
-                <a href="#pricing" class="hover:text-indigo-600 transition">Pricing</a>
-                <a href="#agents" class="hover:text-indigo-600 transition">Join Us</a>
-                <button class="ml-4 px-5 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 text-white shadow hover:opacity-90 channel-btn">Join Free</button>
-                <button id="admin-btn" class="px-3 py-2 rounded-lg bg-slate-800 text-white shadow hover:bg-slate-700 transition">
-                    <i class="fas fa-lock"></i>
+            <div class="flex items-center gap-4">
+                <!-- Mode Toggle -->
+                <div class="mode-toggle">
+                    <button class="mode-btn light" data-mode="light"><i class="fas fa-sun"></i></button>
+                    <button class="mode-btn dark" data-mode="dark"><i class="fas fa-moon"></i></button>
+                    <button class="mode-btn neon active" data-mode="neon"><i class="fas fa-lightbulb"></i></button>
+                </div>
+                
+                <!-- View Toggle -->
+                <div class="view-toggle">
+                    <button class="view-btn desktop active" data-view="desktop"><i class="fas fa-desktop"></i></button>
+                    <button class="view-btn mobile" data-view="mobile"><i class="fas fa-mobile-alt"></i></button>
+                </div>
+
+                <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
+                    <a href="#features" class="hover-opacity-80 transition">Features</a>
+                    <a href="#subjects" class="hover-opacity-80 transition">Subjects</a>
+                    <a href="#syllabus" class="hover-opacity-80 transition">Syllabus</a>
+                    <a href="#team" class="hover-opacity-80 transition">Team</a>
+                    <a href="#join-team" class="hover-opacity-80 transition">Join Us</a>
+                    <button class="ml-4 px-5 py-2 rounded-lg text-white shadow hover:opacity-90 channel-btn" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Join Free</button>
+                    <button id="admin-btn" class="px-3 py-2 rounded-lg text-white shadow transition" style="background-color: var(--text);">
+                        <i class="fas fa-lock"></i>
+                    </button>
+                </nav>
+                
+                <!-- Mobile menu button -->
+                <button id="mobile-menu-button" class="md:hidden">
+                    <i class="fas fa-bars text-xl"></i>
                 </button>
-            </nav>
-            
-            <!-- Mobile menu button -->
-            <button id="mobile-menu-button" class="md:hidden text-slate-700">
-                <i class="fas fa-bars text-xl"></i>
-            </button>
+            </div>
         </div>
         
         <!-- Mobile menu -->
-        <div id="mobile-menu" class="md:hidden hidden px-6 pb-4">
+        <div id="mobile-menu" class="md:hidden hidden px-6 pb-4" style="background-color: var(--card);">
             <div class="flex flex-col space-y-3">
-                <a href="#features" class="hover:text-indigo-600 py-2">Features</a>
-                <a href="#library" class="hover:text-indigo-600 py-2">Library</a>
-                <a href="#stats" class="hover:text-indigo-600 py-2">Statistics</a>
-                <a href="#team" class="hover:text-indigo-600 py-2">Team</a>
-                <a href="#pricing" class="hover:text-indigo-600 py-2">Pricing</a>
-                <a href="#agents" class="hover:text-indigo-600 py-2">Join Us</a>
-                <button class="px-5 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 text-white shadow hover:opacity-90 channel-btn text-center">Join Free</button>
-                <button id="admin-btn-mobile" class="px-5 py-2 rounded-lg bg-slate-800 text-white shadow hover:bg-slate-700 transition text-center">
+                <a href="#features" class="py-2 hover-opacity-80">Features</a>
+                <a href="#subjects" class="py-2 hover-opacity-80">Subjects</a>
+                <a href="#syllabus" class="py-2 hover-opacity-80">Syllabus</a>
+                <a href="#team" class="py-2 hover-opacity-80">Team</a>
+                <a href="#join-team" class="py-2 hover-opacity-80">Join Us</a>
+                <button class="px-5 py-2 rounded-lg text-white shadow hover:opacity-90 channel-btn text-center" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Join Free</button>
+                <button id="admin-btn-mobile" class="px-5 py-2 rounded-lg text-white shadow transition text-center" style="background-color: var(--text);">
                     <i class="fas fa-lock mr-2"></i> Admin
                 </button>
             </div>
@@ -280,27 +473,27 @@
     </header>
 
     <!-- Hero -->
-    <main class="max-w-7xl mx-auto px-6 pt-16 pb-24">
+    <main class="container-limit mx-auto px-6 pt-16 pb-24">
         <section class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-sm font-medium mb-4">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 neon-glow" style="background-color: var(--primary); color: white;">
                     <i class="fas fa-rocket"></i>
-                    <span>Trusted by 10,000+ Students</span>
+                    <span>Exclusively for Class 8 Students</span>
                 </div>
-                <h1 class="text-5xl md:text-6xl font-extrabold leading-tight tracking-tight bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent">All Notes Free Forever ✨</h1>
-                <p class="mt-6 text-lg text-slate-700">Welcome to NotesWallah, the world's most beautiful and powerful free notes platform. Download unlimited study notes, PDFs, and guides directly from our WhatsApp or Telegram channels — no payment, no ads, just pure learning.</p>
+                <h1 class="text-5xl md:text-6xl font-extrabold leading-tight tracking-tight neon-text" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Class 8 Notes Free Forever ✨</h1>
+                <p class="mt-6 text-lg">Welcome to NotesWallah Class 8, the ultimate platform for Class 8 students. Access complete NCERT solutions, chapter notes, sample papers, and revision guides for all subjects - completely free!</p>
 
                 <div class="mt-8 flex flex-col sm:flex-row gap-4">
-                    <button class="channel-btn inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-semibold shadow-lg hover:opacity-90 transition glow">Download Free Notes</button>
-                    <a href="#library" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-slate-300 bg-white text-slate-700 shadow hover:shadow-md transition">Explore Library</a>
+                    <button class="channel-btn inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-white font-semibold shadow-lg hover:opacity-90 transition neon-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Download Free Notes</button>
+                    <a href="#subjects" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border bg-white shadow hover:shadow-md transition" style="background-color: var(--card); color: var(--text); border-color: var(--bg);">Explore Subjects</a>
                 </div>
                 
-                <div class="mt-8 flex items-center gap-6 text-sm text-slate-600">
+                <div class="mt-8 flex items-center gap-6 text-sm">
                     <div class="flex items-center gap-2">
                         <i class="fab fa-whatsapp text-green-500 text-lg"></i>
                         <span>WhatsApp Channel</span>
                     </div>
-                    <div class="h-4 w-px bg-slate-300"></div>
+                    <div class="h-4 w-px" style="background-color: var(--bg);"></div>
                     <div class="flex items-center gap-2">
                         <i class="fab fa-telegram text-blue-500 text-lg"></i>
                         <span>Telegram Channel</span>
@@ -309,330 +502,392 @@
                 
                 <div class="mt-8 grid grid-cols-3 gap-4 text-center">
                     <div>
-                        <div class="text-2xl font-bold text-indigo-600">10K+</div>
-                        <div class="text-xs text-slate-500">Students</div>
+                        <div class="text-2xl font-bold" style="color: var(--primary);">70+</div>
+                        <div class="text-xs" style="color: var(--text); opacity: 0.7;">Class 8 Students</div>
                     </div>
                     <div>
-                        <div class="text-2xl font-bold text-pink-600">500+</div>
-                        <div class="text-xs text-slate-500">Notes</div>
+                        <div class="text-2xl font-bold" style="color: var(--secondary);">100+</div>
+                        <div class="text-xs" style="color: var(--text); opacity: 0.7;">Chapter Notes</div>
                     </div>
                     <div>
-                        <div class="text-2xl font-bold text-blue-600">50+</div>
-                        <div class="text-xs text-slate-500">Teachers</div>
+                        <div class="text-2xl font-bold" style="color: var(--accent);">12+</div>
+                        <div class="text-xs" style="color: var(--text); opacity: 0.7;">Subjects Covered</div>
                     </div>
                 </div>
             </div>
 
             <div class="relative">
-                <div class="rounded-3xl overflow-hidden shadow-2xl ring-2 ring-indigo-100 floating">
-                    <div class="w-full h-96 bg-gradient-to-br from-indigo-400 to-pink-400 flex items-center justify-center text-white text-5xl relative">
+                <div class="rounded-3xl overflow-hidden shadow-2xl ring-2 floating" style="border-color: var(--primary);">
+                    <div class="w-full h-96 flex items-center justify-center text-white text-5xl relative" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                         <i class="fas fa-book-open"></i>
                         <div class="absolute bottom-4 left-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-white text-sm">
-                            <i class="fas fa-download mr-1"></i> Free Access
+                            <i class="fas fa-download mr-1"></i> Class 8 Notes
                         </div>
                     </div>
                 </div>
-                <div class="absolute -bottom-4 -left-4 w-24 h-24 bg-yellow-400 rounded-full opacity-20"></div>
-                <div class="absolute -top-4 -right-4 w-16 h-16 bg-green-400 rounded-full opacity-20"></div>
+                <div class="absolute -bottom-4 -left-4 w-24 h-24 rounded-full opacity-20" style="background-color: var(--accent);"></div>
+                <div class="absolute -top-4 -right-4 w-16 h-16 rounded-full opacity-20" style="background-color: var(--primary);"></div>
             </div>
         </section>
 
         <!-- Features -->
         <section id="features" class="mt-28 text-center">
-            <h2 class="text-3xl font-extrabold tracking-tight">Why Choose NotesWallah?</h2>
-            <p class="mt-2 text-slate-600">Because free knowledge should look and feel amazing.</p>
+            <h2 class="text-3xl font-extrabold tracking-tight">Why NotesWallah for Class 8?</h2>
+            <p class="mt-2">Specialized resources designed specifically for Class 8 CBSE curriculum</p>
 
             <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="p-6 bg-white rounded-2xl shadow hover:shadow-md border border-slate-200 transition transform hover:-translate-y-1">
-                    <div class="text-4xl">💯</div>
-                    <div class="mt-3 font-semibold text-lg">100% Free</div>
-                    <div class="mt-1 text-sm text-slate-600">Every single note, PDF, and quiz is free to download via WhatsApp or Telegram.</div>
+                <div class="subject-card">
+                    <div class="text-4xl">📚</div>
+                    <div class="mt-3 font-semibold text-lg">Complete NCERT Coverage</div>
+                    <div class="mt-1 text-sm">Detailed solutions and notes for all NCERT textbooks - Math, Science, Social Science, English, Computer</div>
                 </div>
-                <div class="p-6 bg-white rounded-2xl shadow hover:shadow-md border border-slate-200 transition transform hover:-translate-y-1">
-                    <div class="text-4xl">🌍</div>
-                    <div class="mt-3 font-semibold text-lg">Premium UI</div>
-                    <div class="mt-1 text-sm text-slate-600">The most beautiful student-friendly platform in the Telegram.</div>
+                <div class="subject-card">
+                    <div class="text-4xl">🎯</div>
+                    <div class="mt-3 font-semibold text-lg">Exam-Focused Material</div>
+                    <div class="mt-1 text-sm">Chapter-wise important questions, sample papers, and previous year question papers</div>
                 </div>
-                <div class="p-6 bg-white rounded-2xl shadow hover:shadow-md border border-slate-200 transition transform hover:-translate-y-1">
-                    <div class="text-4xl">⚡</div>
-                    <div class="mt-3 font-semibold text-lg">Instant Access</div>
-                    <div class="mt-1 text-sm text-slate-600">Click download and choose your preferred channel for instant access.</div>
+                <div class="subject-card">
+                    <div class="text-4xl">🧠</div>
+                    <div class="mt-3 font-semibold text-lg">Easy Understanding</div>
+                    <div class="mt-1 text-sm">Simplified explanations, diagrams, and examples to make learning enjoyable</div>
                 </div>
             </div>
         </section>
 
         <!-- Statistics -->
-        <section id="stats" class="mt-24 bg-gradient-to-r from-indigo-600 to-pink-600 rounded-3xl p-10 text-white">
+        <section class="mt-24 rounded-3xl p-10 text-white" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
             <div class="max-w-4xl mx-auto text-center">
-                <h3 class="text-2xl font-bold">Platform Statistics</h3>
-                <p class="mt-4 text-indigo-100">Our impact in numbers - helping students across the globe</p>
+                <h3 class="text-2xl font-bold">Platform Impact</h3>
+                <p class="mt-4 opacity-90">Helping thousands of Class 8 students across India</p>
                 
                 <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-6">
                     <div class="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20">
-                        <div class="text-3xl font-bold">10,000+</div>
-                        <div class="text-sm text-indigo-100 mt-1">Students Registered</div>
+                        <div class="stats-counter">200+</div>
+                        <div class="text-sm opacity-90 mt-1">Students Registered</div>
                     </div>
                     <div class="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20">
-                        <div class="text-3xl font-bold">500+</div>
-                        <div class="text-sm text-indigo-100 mt-1">Study Materials</div>
+                        <div class="stats-counter">500+</div>
+                        <div class="text-sm opacity-90 mt-1">Study Materials</div>
                     </div>
                     <div class="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20">
-                        <div class="text-3xl font-bold">50+</div>
-                        <div class="text-sm text-indigo-100 mt-1">Expert Teachers</div>
+                        <div class="stats-counter">5+</div>
+                        <div class="text-sm opacity-90 mt-1">AI Tools</div>
                     </div>
                     <div class="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20">
-                        <div class="text-3xl font-bold">24/7</div>
-                        <div class="text-sm text-indigo-100 mt-1">Support Available</div>
+                        <div class="stats-counter">08/7</div>
+                        <div class="text-sm opacity-90 mt-1">Support Available</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Library -->
-        <section id="library" class="mt-24">
-            <h3 class="text-2xl font-bold text-center">Library Highlights</h3>
-            <p class="text-slate-600 text-center mt-2">Explore our most popular study materials</p>
-            <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Note Card 1 -->
-                <div class="bg-white p-5 rounded-2xl shadow-md hover:shadow-lg transition border border-slate-200 transform hover:-translate-y-1">
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-pink-500 to-amber-500 text-white flex items-center justify-center font-bold">S</div>
-                        <div>
-                            <div class="font-semibold">Chapter 1: Key Concepts</div>
-                            <div class="text-xs text-slate-500">Science • 6 pages</div>
-                        </div>
+        <!-- Subjects -->
+        <section id="subjects" class="mt-24">
+            <h3 class="text-2xl font-bold text-center">Class 8 Subjects</h3>
+            <p class="text-center mt-2">Complete study materials for all Class 8 subjects</p>
+            <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Subject Cards -->
+                <div class="subject-card text-center">
+                    <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <i class="fas fa-calculator"></i>
                     </div>
-                    <div class="mt-4 flex items-center gap-2">
-                        <button class="channel-btn flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 text-white text-sm font-semibold shadow hover:opacity-90">Download Free</button>
-                    </div>
+                    <h4 class="font-bold text-lg">Mathematics</h4>
+                    <p class="text-sm mt-2">Rational Numbers, Algebra, Geometry, Mensuration</p>
+                    <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 channel-btn" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
                 </div>
                 
-                <!-- Note Card 2 -->
-                <div class="bg-white p-5 rounded-2xl shadow-md hover:shadow-lg transition border border-slate-200 transform hover:-translate-y-1">
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 text-white flex items-center justify-center font-bold">M</div>
-                        <div>
-                            <div class="font-semibold">Chapter 2: Key Concepts</div>
-                            <div class="text-xs text-slate-500">Maths • 7 pages</div>
-                        </div>
+                <div class="subject-card text-center">
+                    <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <i class="fas fa-flask"></i>
                     </div>
-                    <div class="mt-4 flex items-center gap-2">
-                        <button class="channel-btn flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 text-white text-sm font-semibold shadow hover:opacity-90">Download Free</button>
-                    </div>
+                    <h4 class="font-bold text-lg">Science</h4>
+                    <p class="text-sm mt-2">Crop Production, Microorganisms, Force, Light</p>
+                    <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 channel-btn" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
                 </div>
                 
-                <!-- Note Card 3 -->
-                <div class="bg-white p-5 rounded-2xl shadow-md hover:shadow-lg transition border border-slate-200 transform hover:-translate-y-1">
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-green-500 to-emerald-500 text-white flex items-center justify-center font-bold">H</div>
-                        <div>
-                            <div class="font-semibold">Chapter 3: Key Concepts</div>
-                            <div class="text-xs text-slate-500">History • 8 pages</div>
-                        </div>
+                <div class="subject-card text-center">
+                    <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <i class="fas fa-globe-asia"></i>
                     </div>
-                    <div class="mt-4 flex items-center gap-2">
-                        <button class="channel-btn flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 text-white text-sm font-semibold shadow hover:opacity-90">Download Free</button>
-                    </div>
+                    <h4 class="font-bold text-lg">Social Science</h4>
+                    <p class="text-sm mt-2">History, Geography, Civics, Economics</p>
+                    <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 channel-btn" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
                 </div>
                 
-                <!-- Note Card 4 -->
-                <div class="bg-white p-5 rounded-2xl shadow-md hover:shadow-lg transition border border-slate-200 transform hover:-translate-y-1">
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-violet-500 text-white flex items-center justify-center font-bold">P</div>
-                        <div>
-                            <div class="font-semibold">Chapter 4: Key Concepts</div>
-                            <div class="text-xs text-slate-500">Physics • 9 pages</div>
-                        </div>
+                <div class="subject-card text-center">
+                    <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <i class="fas fa-book"></i>
                     </div>
-                    <div class="mt-4 flex items-center gap-2">
-                        <button class="channel-btn flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 text-white text-sm font-semibold shadow hover:opacity-90">Download Free</button>
-                    </div>
+                    <h4 class="font-bold text-lg">English</h4>
+                    <p class="text-sm mt-2">Honeydew, It So Happened, Grammar, Writing</p>
+                    <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 channel-btn" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
                 </div>
                 
-                <!-- Note Card 5 -->
-                <div class="bg-white p-5 rounded-2xl shadow-md hover:shadow-lg transition border border-slate-200 transform hover:-translate-y-1">
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-amber-500 to-orange-500 text-white flex items-center justify-center font-bold">C</div>
-                        <div>
-                            <div class="font-semibold">Chapter 5: Key Concepts</div>
-                            <div class="text-xs text-slate-500">Chemistry • 10 pages</div>
-                        </div>
+                <div class="subject-card text-center">
+                    <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <i class="fas fa-language"></i>
                     </div>
-                    <div class="mt-4 flex items-center gap-2">
-                        <button class="channel-btn flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 text-white text-sm font-semibold shadow hover:opacity-90">Download Free</button>
-                    </div>
+                    <h4 class="font-bold text-lg">AI Mastermind</h4>
+                    <p class="text-sm mt-2">Free AI Courses</p>
+                    <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 channel-btn" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
                 </div>
                 
-                <!-- Note Card 6 -->
-                <div class="bg-white p-5 rounded-2xl shadow-md hover:shadow-lg transition border border-slate-200 transform hover:-translate-y-1">
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-red-500 to-pink-500 text-white flex items-center justify-center font-bold">B</div>
-                        <div>
-                            <div class="font-semibold">Chapter 6: Key Concepts</div>
-                            <div class="text-xs text-slate-500">Biology • 11 pages</div>
-                        </div>
+                <div class="subject-card text-center">
+                    <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <i class="fas fa-laptop-code"></i>
                     </div>
-                    <div class="mt-4 flex items-center gap-2">
-                        <button class="channel-btn flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 text-white text-sm font-semibold shadow hover:opacity-90">Download Free</button>
+                    <h4 class="font-bold text-lg">Computer</h4>
+                    <p class="text-sm mt-2">Computer Systems, Networking, MS Office</p>
+                    <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 channel-btn" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
+                </div>
+                
+                <div class="subject-card text-center">
+                    <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <i class="fas fa-paint-brush"></i>
                     </div>
+                    <h4 class="font-bold text-lg">Motivational Videos</h4>
+                    <p class="text-sm mt-2">Khan Sir Videos,Alakh Sir Videos,Many More</p>
+                    <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 channel-btn" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
+                </div>
+                
+                <div class="subject-card text-center">
+                    <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <h4 class="font-bold text-lg">Extra Knoledge</h4>
+                    <p class="text-sm mt-2">HTML,Visual Basic,CSS,Many More</p>
+                    <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 channel-btn" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
                 </div>
             </div>
-            
-            <div class="mt-10 text-center">
-                <button class="px-6 py-3 bg-white border border-slate-300 text-slate-700 rounded-lg shadow hover:shadow-md transition font-medium">
-                    View All Study Materials
-                </button>
+        </section>
+
+        <!-- Syllabus -->
+        <section id="syllabus" class="mt-24">
+            <div class="subject-card">
+                <h3 class="text-2xl font-bold text-center mb-8">Class 8 Complete Syllabus</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-bold text-lg mb-4" style="color: var(--primary);">Mathematics Syllabus</h4>
+                        <ul class="space-y-2 text-sm">
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>Rational Numbers</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>Linear Equations in One Variable</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>Understanding Quadrilaterals</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>Practical Geometry</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>Data Handling</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>Squares and Square Roots</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>Cubes and Cube Roots</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>Comparing Quantities</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-lg mb-4" style="color: var(--primary);">Science Syllabus</h4>
+                        <ul class="space-y-2 text-sm">
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>Crop Production and Management</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>Microorganisms: Friend and Foe</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>Synthetic Fibres and Plastics</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>Materials: Metals and Non-Metals</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>Coal and Petroleum</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>Combustion and Flame</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>Conservation of Plants and Animals</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>Cell - Structure and Functions</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-8 text-center">
+                    <button class="px-6 py-3 rounded-lg text-white font-semibold shadow hover:opacity-90 channel-btn" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        Download Complete Syllabus PDF
+                    </button>
+                </div>
             </div>
         </section>
 
         <!-- Team -->
-        <section id="team" class="mt-24 bg-gradient-to-r from-indigo-50 to-pink-50 p-10 rounded-3xl shadow-inner">
-            <h3 class="text-2xl font-bold text-center">Meet Our Team Community</h3>
+        <section id="team" class="mt-24">
+            <h3 class="text-2xl font-bold text-center">Meet Our Team</h3>
+            <p class="text-center mt-2">Dedicated educators creating the best Class 8 resources</p>
+            
             <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Team Card 1 -->
-                <div class="bg-white p-5 rounded-2xl shadow border border-slate-200 flex items-center gap-4 hover:shadow-md transition transform hover:-translate-y-1">
-                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center text-white font-bold text-lg">A</div>
-                    <div>
-                        <div class="font-semibold">IMON</div>
-                        <div class="text-sm text-slate-500">TECH & CHAIRMAN</div>
+                <div class="subject-card text-center">
+                    <div class="w-20 h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        IM
                     </div>
+                    <h4 class="font-bold text-lg">IMON</h4>
+                    <div class="text-sm mt-1" style="color: var(--primary);">TECH & CHAIRMAN</div>
+                    <p class="text-sm mt-2">Leading the technical development and strategic direction of NotesWallah</p>
                 </div>
                 
                 <!-- Team Card 2 -->
-                <div class="bg-white p-5 rounded-2xl shadow border border-slate-200 flex items-center gap-4 hover:shadow-md transition transform hover:-translate-y-1">
-                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white font-bold text-lg">R</div>
-                    <div>
-                        <div class="font-semibold">ADRI KANRI</div>
-                        <div class="text-sm text-slate-500">TECH AND CEO</div>
+                <div class="subject-card text-center">
+                    <div class="w-20 h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        AK
                     </div>
+                    <h4 class="font-bold text-lg">ADRI KANRI</h4>
+                    <div class="text-sm mt-1" style="color: var(--primary);">TECH AND CEO</div>
+                    <p class="text-sm mt-2">Overseeing platform operations and technological innovation</p>
                 </div>
                 
                 <!-- Team Card 3 -->
-                <div class="bg-white p-5 rounded-2xl shadow border border-slate-200 flex items-center gap-4 hover:shadow-md transition transform hover:-translate-y-1">
-                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center text-white font-bold text-lg">S</div>
-                    <div>
-                        <div class="font-semibold">SRAJANI HEMBRAM</div>
-                        <div class="text-sm text-slate-500">NOTES PROVIDER AND SECURITY</div>
+                <div class="subject-card text-center">
+                    <div class="w-20 h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        SH
                     </div>
+                    <h4 class="font-bold text-lg">SRAJANI HEMBRAM</h4>
+                    <div class="text-sm mt-1" style="color: var(--primary);">NOTES PROVIDER AND SECURITY</div>
+                    <p class="text-sm mt-2">Creating high-quality educational content and ensuring platform security</p>
                 </div>
                 
                 <!-- Team Card 4 -->
-                <div class="bg-white p-5 rounded-2xl shadow border border-slate-200 flex items-center gap-4 hover:shadow-md transition transform hover:-translate-y-1">
-                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center text-white font-bold text-lg">R</div>
-                    <div>
-                        <div class="font-semibold">EXPERTS</div>
-                        <div class="text-sm text-slate-500">MORE THAN 5+</div>
+                <div class="subject-card text-center">
+                    <div class="w-20 h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        EX
                     </div>
+                    <h4 class="font-bold text-lg">EXPERT AI</h4>
+                    <div class="text-sm mt-1" style="color: var(--primary);">NOTES MAKING EXPERTS</div>
+                    <p class="text-sm mt-2">5+ advanced tools specializing in Class 8 curriculum</p>
                 </div>
             </div>
         </section>
 
-        <!-- Pricing -->
-        <section id="pricing" class="mt-24 text-center">
-            <h3 class="text-2xl font-bold">Pricing</h3>
-            <p class="text-slate-600 mt-2">No money, no premium wall — everything is 100% free forever.</p>
-
-            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Pricing Card 1 -->
-                <div class="p-6 rounded-2xl shadow bg-gradient-to-br from-indigo-50 to-white border border-indigo-200 transform hover:-translate-y-1 transition">
-                    <div class="flex items-center gap-3">
-                        <div class="font-semibold text-lg">Student</div>
-                        <div class="ml-auto text-xs px-2 py-1 rounded-full bg-indigo-600 text-white">Top Choice</div>
-                    </div>
-                    <div class="mt-4 text-3xl font-extrabold text-indigo-600">Free</div>
-                    <ul class="mt-4 space-y-2 text-sm text-slate-600">
-                        <li>✔ Unlimited Notes</li>
-                        <li>✔ Download via WhatsApp/Telegram</li>
-                        <li>✔ No Ads</li>
-                    </ul>
-                    <div class="mt-6">
-                        <button class="channel-btn w-full px-4 py-3 rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-semibold shadow hover:opacity-90">Join Free</button>
-                    </div>
-                </div>
+        <!-- Join Team Section -->
+        <section id="join-team" class="mt-24">
+            <div class="subject-card">
+                <h3 class="text-2xl font-bold text-center mb-2">Join Our Team</h3>
+                <p class="text-center mb-8">Become part of our mission to provide free education to Class 8 students</p>
                 
-                <!-- Pricing Card 2 -->
-                <div class="p-6 rounded-2xl shadow bg-white border border-slate-200 transform hover:-translate-y-1 transition">
-                    <div class="flex items-center gap-3">
-                        <div class="font-semibold text-lg">Teacher</div>
-                    </div>
-                    <div class="mt-4 text-3xl font-extrabold text-indigo-600">Free</div>
-                    <ul class="mt-4 space-y-2 text-sm text-slate-600">
-                        <li>✔ Upload Notes</li>
-                        <li>✔ Free Dashboard</li>
-                        <li>✔ Community Access</li>
-                    </ul>
-                    <div class="mt-6">
-                        <button class="channel-btn w-full px-4 py-3 rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-semibold shadow hover:opacity-90">Join Free</button>
-                    </div>
-                </div>
-                
-                <!-- Pricing Card 3 -->
-                <div class="p-6 rounded-2xl shadow bg-white border border-slate-200 transform hover:-translate-y-1 transition">
-                    <div class="flex items-center gap-3">
-                        <div class="font-semibold text-lg">School</div>
-                    </div>
-                    <div class="mt-4 text-3xl font-extrabold text-indigo-600">Free</div>
-                    <ul class="mt-4 space-y-2 text-sm text-slate-600">
-                        <li>✔ Multi-class Support</li>
-                        <li>✔ Free Resources</li>
-                        <li>✔ No Charges Ever</li>
-                    </ul>
-                    <div class="mt-6">
-                        <button class="channel-btn w-full px-4 py-3 rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-semibold shadow hover:opacity-90">Join Free</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Technical Agents Section -->
-        <section id="agents" class="mt-24 bg-gradient-to-r from-slate-800 to-slate-900 rounded-3xl p-10 text-white">
-            <div class="max-w-4xl mx-auto text-center">
-                <h3 class="text-2xl font-bold">Join Our Technical Team</h3>
-                <p class="mt-4 text-slate-300">We're looking for technical experts to help us build and maintain our platform</p>
-                
-                <div class="mt-8 bg-slate-700/50 p-8 rounded-2xl backdrop-blur-sm border border-slate-600">
-                    <div class="flex flex-col md:flex-row gap-8 items-center">
-                        <div class="flex-1 text-left">
-                            <h4 class="text-xl font-bold mb-4">We Need Technical Agents!</h4>
-                            <p class="text-slate-300 mb-4">As NotesWallah grows, we need talented technical people to handle our platform infrastructure, development, and maintenance.</p>
-                            <ul class="space-y-2 text-slate-300 mb-6">
-                                <li class="flex items-start gap-2">
-                                    <i class="fas fa-check text-green-400 mt-1"></i>
-                                    <span>Work with cutting-edge technologies</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <i class="fas fa-check text-green-400 mt-1"></i>
-                                    <span>Contribute to a platform serving thousands of students</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <i class="fas fa-check text-green-400 mt-1"></i>
-                                    <span>Flexible remote work opportunities</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <i class="fas fa-check text-green-400 mt-1"></i>
-                                    <span>Join a passionate team of educators and technologists</span>
-                                </li>
-                            </ul>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <div class="team-role-card text-center">
+                        <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                            <i class="fas fa-pencil-alt"></i>
                         </div>
-                        
-                        <div class="bg-gradient-to-br from-indigo-600 to-pink-600 p-6 rounded-2xl shadow-lg">
-                            <div class="text-center">
-                                <i class="fas fa-laptop-code text-4xl mb-4"></i>
-                                <h5 class="font-bold text-lg mb-2">Become a Technical Agent</h5>
-                                <p class="text-sm mb-4 text-indigo-100">Fill out our application form to join our technical team</p>
-                                <a href="https://forms.gle/5ARLquGAcudZwbub9" target="_blank" class="inline-block px-6 py-3 bg-white text-indigo-600 font-semibold rounded-lg hover:bg-slate-100 transition shadow">Apply Now</a>
-                            </div>
-                        </div>
+                        <h4 class="font-bold text-lg">Content Creator</h4>
+                        <p class="text-sm mt-2">Create study materials, notes, and solutions for Class 8 subjects</p>
+                        <ul class="text-xs mt-3 space-y-1 text-left">
+                            <li class="flex items-start gap-1">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>Create chapter notes</span>
+                            </li>
+                            <li class="flex items-start gap-1">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>Develop practice questions</span>
+                            </li>
+                            <li class="flex items-start gap-1">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>Design diagrams and illustrations</span>
+                            </li>
+                        </ul>
                     </div>
+                    
+                    <div class="team-role-card text-center">
+                        <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <h4 class="font-bold text-lg">Subject Expert</h4>
+                        <p class="text-sm mt-2">Review and verify educational content for accuracy and quality</p>
+                        <ul class="text-xs mt-3 space-y-1 text-left">
+                            <li class="flex items-start gap-1">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>Verify content accuracy</span>
+                            </li>
+                            <li class="flex items-start gap-1">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>Suggest improvements</span>
+                            </li>
+                            <li class="flex items-start gap-1">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>Ensure curriculum alignment</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="team-role-card text-center">
+                        <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <h4 class="font-bold text-lg">Tech Volunteer</h4>
+                        <p class="text-sm mt-2">Help us build and maintain the platform with your technical skills</p>
+                        <ul class="text-xs mt-3 space-y-1 text-left">
+                            <li class="flex items-start gap-1">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>Web development</span>
+                            </li>
+                            <li class="flex items-start gap-1">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>UI/UX design</span>
+                            </li>
+                            <li class="flex items-start gap-1">
+                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                <span>Platform maintenance</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button id="join-team-btn" class="px-6 py-3 rounded-lg text-white font-semibold shadow hover:opacity-90 transition" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        Apply to Join Our Team
+                    </button>
+                    <p class="text-sm mt-3">Help us make quality education accessible to every Class 8 student</p>
                 </div>
             </div>
         </section>
 
         <!-- Channels Section -->
-        <section class="mt-24 bg-gradient-to-r from-indigo-600 to-pink-600 rounded-3xl p-10 text-white">
+        <section class="mt-24 rounded-3xl p-10 text-white" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
             <div class="max-w-4xl mx-auto text-center">
                 <h3 class="text-2xl font-bold">Join Our Free Channels</h3>
-                <p class="mt-4 text-indigo-100">Get instant access to all our free notes, PDFs, and study materials through your preferred platform</p>
+                <p class="mt-4 opacity-90">Get instant access to all Class 8 notes, PDFs, and study materials</p>
                 
                 <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
                     <a href="https://whatsapp.com/channel/0029VbBV0ri65yDH94E0Zr2c" target="_blank" class="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition flex flex-col items-center gap-4 transform hover:-translate-y-1">
@@ -641,7 +896,7 @@
                         </div>
                         <div>
                             <div class="font-bold text-lg">WhatsApp Channel</div>
-                            <div class="text-sm text-indigo-100 mt-1">Get updates directly on WhatsApp</div>
+                            <div class="text-sm opacity-90 mt-1">Get updates directly on WhatsApp</div>
                         </div>
                         <div class="mt-2 px-4 py-2 bg-white text-indigo-600 rounded-lg font-semibold text-sm">Join Now</div>
                     </a>
@@ -652,7 +907,7 @@
                         </div>
                         <div>
                             <div class="font-bold text-lg">Telegram Channel</div>
-                            <div class="text-sm text-indigo-100 mt-1">Join our Telegram community</div>
+                            <div class="text-sm opacity-90 mt-1">Join our Telegram community</div>
                         </div>
                         <div class="mt-2 px-4 py-2 bg-white text-indigo-600 rounded-lg font-semibold text-sm">Join Now</div>
                     </a>
@@ -661,19 +916,19 @@
         </section>
 
         <!-- Footer -->
-        <footer class="mt-28 border-t pt-10 pb-14 text-sm text-slate-600 bg-gradient-to-r from-white to-slate-50">
-            <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+        <footer class="mt-28 border-t pt-10 pb-14 text-sm" style="border-color: var(--bg);">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
-                    <div class="font-extrabold text-lg bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent">NotesWallah</div>
-                    <div class="mt-2">© <span id="current-year">2024</span> NotesWallah — Free Knowledge For All.</div>
+                    <div class="font-extrabold text-lg" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">NotesWallah Class 8</div>
+                    <div class="mt-2">© <span id="current-year">2024</span> NotesWallah — Free Class 8 Notes For All.</div>
                     <div class="mt-4 flex gap-3">
-                        <a href="#" class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 hover:bg-indigo-600 hover:text-white transition">
+                        <a href="#" class="w-8 h-8 rounded-full flex items-center justify-center transition hover:opacity-80" style="background-color: var(--bg);">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="#" class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 hover:bg-indigo-600 hover:text-white transition">
+                        <a href="#" class="w-8 h-8 rounded-full flex items-center justify-center transition hover:opacity-80" style="background-color: var(--bg);">
                             <i class="fab fa-twitter"></i>
                         </a>
-                        <a href="#" class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 hover:bg-indigo-600 hover:text-white transition">
+                        <a href="#" class="w-8 h-8 rounded-full flex items-center justify-center transition hover:opacity-80" style="background-color: var(--bg);">
                             <i class="fab fa-instagram"></i>
                         </a>
                     </div>
@@ -681,23 +936,24 @@
                 <div>
                     <div class="font-semibold">Quick Links</div>
                     <ul class="mt-2 space-y-1">
-                        <li><a href="#features" class="hover:text-indigo-600">Features</a></li>
-                        <li><a href="#library" class="hover:text-indigo-600">Library</a></li>
-                        <li><a href="#team" class="hover:text-indigo-600">Team</a></li>
-                        <li><a href="#agents" class="hover:text-indigo-600">Join Our Team</a></li>
+                        <li><a href="#features" class="hover:opacity-80">Features</a></li>
+                        <li><a href="#subjects" class="hover:opacity-80">Subjects</a></li>
+                        <li><a href="#syllabus" class="hover:opacity-80">Syllabus</a></li>
+                        <li><a href="#team" class="hover:opacity-80">Our Team</a></li>
+                        <li><a href="#join-team" class="hover:opacity-80">Join Us</a></li>
                     </ul>
                 </div>
                 <div>
                     <div class="font-semibold">Our Channels</div>
                     <ul class="mt-2 space-y-1">
-                        <li><a href="https://whatsapp.com/channel/0029VbBV0ri65yDH94E0Zr2c" target="_blank" class="text-green-600 font-semibold">WhatsApp Channel</a></li>
-                        <li><a href="https://t.me/noteswallahfree" target="_blank" class="text-blue-600 font-semibold">Telegram Channel</a></li>
+                        <li><a href="https://whatsapp.com/channel/0029VbBV0ri65yDH94E0Zr2c" target="_blank" class="text-green-500 font-semibold hover:opacity-80">WhatsApp Channel</a></li>
+                        <li><a href="https://t.me/noteswallahfree" target="_blank" class="text-blue-500 font-semibold hover:opacity-80">Telegram Channel</a></li>
                     </ul>
                 </div>
                 <div>
                     <div class="font-semibold">Contact</div>
                     <div class="mt-2">noteswallah08@gmail.com</div>
-                    <button id="admin-btn-footer" class="mt-4 px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition text-sm">
+                    <button id="admin-btn-footer" class="mt-4 px-4 py-2 rounded-lg text-white transition text-sm hover:opacity-90" style="background-color: var(--text);">
                         <i class="fas fa-lock mr-2"></i> Admin Access
                     </button>
                 </div>
@@ -708,6 +964,53 @@
     <script>
         // Initialize user data storage
         let users = JSON.parse(localStorage.getItem('noteswallah_users')) || [];
+        
+        // Mode Toggle Functionality
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const mode = this.getAttribute('data-mode');
+                
+                // Remove active class from all mode buttons
+                document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Remove all mode classes from body
+                document.body.classList.remove('light-mode', 'dark-mode', 'neon-mode');
+                // Add selected mode
+                document.body.classList.add(`${mode}-mode`);
+                
+                // Save preference to localStorage
+                localStorage.setItem('noteswallah_mode', mode);
+            });
+        });
+        
+        // View Toggle Functionality
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const view = this.getAttribute('data-view');
+                
+                // Remove active class from all view buttons
+                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Remove all view classes from body
+                document.body.classList.remove('desktop-view', 'mobile-view');
+                // Add selected view
+                document.body.classList.add(`${view}-view`);
+                
+                // Save preference to localStorage
+                localStorage.setItem('noteswallah_view', view);
+            });
+        });
+        
+        // Load saved preferences
+        const savedMode = localStorage.getItem('noteswallah_mode') || 'neon';
+        const savedView = localStorage.getItem('noteswallah_view') || 'desktop';
+        
+        document.querySelector(`.mode-btn.${savedMode}`).click();
+        document.querySelector(`.view-btn.${savedView}`).click();
         
         // Mobile menu toggle
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
@@ -760,7 +1063,7 @@
 
         // Login modal functionality
         const loginModal = document.getElementById('login-modal');
-        const closeLoginButtons = document.querySelectorAll('#close-login-modal, #close-login-modal-2');
+        const closeLoginButtons = document.querySelectorAll('#close-login-modal');
         
         // Close login modal when close buttons are clicked
         closeLoginButtons.forEach(button => {
@@ -782,7 +1085,7 @@
             
             const name = document.getElementById('student-name').value;
             const email = document.getElementById('student-email').value;
-            const education = document.getElementById('education-level').value;
+            const school = document.getElementById('school-name').value;
             const contactType = document.getElementById('contact-type').value;
             const contactInfo = document.getElementById('contact-info').value;
             
@@ -791,7 +1094,7 @@
                 id: Date.now(),
                 name,
                 email,
-                education,
+                school,
                 contactType,
                 contactInfo,
                 registrationDate: new Date().toISOString()
@@ -807,7 +1110,31 @@
             loginModal.classList.remove('active');
             
             // Show success message
-            alert('Registration successful! You can now access all our free notes.');
+            alert('Registration successful! You can now access all Class 8 notes.');
+        });
+
+        // Team modal functionality
+        const teamModal = document.getElementById('team-modal');
+        const joinTeamBtn = document.getElementById('join-team-btn');
+        const closeTeamButtons = document.querySelectorAll('#close-team-modal, #close-team-modal-2');
+        
+        // Open team modal when join team button is clicked
+        joinTeamBtn.addEventListener('click', function() {
+            teamModal.classList.add('active');
+        });
+        
+        // Close team modal when close buttons are clicked
+        closeTeamButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                teamModal.classList.remove('active');
+            });
+        });
+        
+        // Close team modal when clicking outside the modal content
+        teamModal.addEventListener('click', function(e) {
+            if (e.target === teamModal) {
+                teamModal.classList.remove('active');
+            }
         });
 
         // Admin modal functionality
@@ -880,7 +1207,7 @@
                 row.innerHTML = `
                     <td class="py-2 px-4 border-b">${user.name}</td>
                     <td class="py-2 px-4 border-b">${user.email}</td>
-                    <td class="py-2 px-4 border-b">${user.education}</td>
+                    <td class="py-2 px-4 border-b">${user.school}</td>
                     <td class="py-2 px-4 border-b">${user.contactType}</td>
                     <td class="py-2 px-4 border-b">${user.contactInfo}</td>
                     <td class="py-2 px-4 border-b">${new Date(user.registrationDate).toLocaleDateString()}</td>
@@ -937,15 +1264,15 @@
         // Export data functionality
         document.getElementById('export-data').addEventListener('click', function() {
             const csvContent = "data:text/csv;charset=utf-8," 
-                + "Name,Email,Education,Contact Type,Contact Info,Registration Date\n"
+                + "Name,Email,School,Contact Type,Contact Info,Registration Date\n"
                 + users.map(user => 
-                    `"${user.name}","${user.email}","${user.education}","${user.contactType}","${user.contactInfo}","${user.registrationDate}"`
+                    `"${user.name}","${user.email}","${user.school}","${user.contactType}","${user.contactInfo}","${user.registrationDate}"`
                 ).join("\n");
             
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
             link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "noteswallah_users.csv");
+            link.setAttribute("download", "noteswallah_class8_users.csv");
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
