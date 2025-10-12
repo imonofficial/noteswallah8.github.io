@@ -6,7 +6,6 @@
     <title>NotesWallah - Class 8 Free Notes</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
@@ -64,7 +63,7 @@
             text-shadow: 0 0 5px var(--primary), 0 0 10px var(--primary);
         }
         
-        .channel-modal, .login-modal, .admin-modal, .team-modal, .notes-modal {
+        .channel-modal, .team-modal, .notes-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -76,7 +75,7 @@
             justify-content: center;
             align-items: center;
         }
-        .channel-modal.active, .login-modal.active, .admin-modal.active, .team-modal.active, .notes-modal.active {
+        .channel-modal.active, .team-modal.active, .notes-modal.active {
             display: flex;
         }
         
@@ -97,14 +96,6 @@
             100% { transform: scale(1); }
         }
         
-        .desktop-view .container-limit {
-            max-width: 1280px;
-        }
-        
-        .mobile-view .container-limit {
-            max-width: 480px;
-        }
-        
         .subject-card {
             background: var(--card);
             border-radius: 1rem;
@@ -122,7 +113,7 @@
             border: 1px solid var(--primary);
         }
         
-        .mode-toggle, .view-toggle {
+        .mode-toggle {
             background: var(--card);
             border-radius: 0.5rem;
             padding: 0.5rem;
@@ -130,7 +121,7 @@
             gap: 0.25rem;
         }
         
-        .mode-btn, .view-btn {
+        .mode-btn {
             padding: 0.5rem 1rem;
             border-radius: 0.375rem;
             font-size: 0.875rem;
@@ -139,7 +130,7 @@
             cursor: pointer;
         }
         
-        .mode-btn.active, .view-btn.active {
+        .mode-btn.active {
             background: var(--primary);
             color: white;
         }
@@ -178,66 +169,41 @@
             transform: translateY(-5px);
             border-color: var(--primary);
         }
+        
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            .container-limit {
+                max-width: 100%;
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .stats-counter {
+                font-size: 1.75rem;
+            }
+            
+            .subject-card {
+                padding: 1rem;
+            }
+            
+            .team-role-card {
+                padding: 1rem;
+            }
+            
+            .notes-option-card {
+                padding: 1.5rem;
+            }
+        }
     </style>
 </head>
-<body class="neon-mode desktop-view min-h-screen">
-    <!-- Login Modal -->
-    <div id="login-modal" class="login-modal active">
-        <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl" style="background-color: var(--card); color: var(--text);">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-bold">Welcome to NotesWallah Class 8</h3>
-                <button id="close-login-modal" class="text-slate-500 hover:text-slate-700">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-            <p class="mb-6">Please register to access our free Class 8 notes library</p>
-            
-            <form id="login-form" class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium mb-1">Full Name</label>
-                    <input type="text" id="student-name" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" style="background-color: var(--card); color: var(--text);">
-                </div>
-                
-                <div>
-                    <label class="block text-sm font-medium mb-1">Email Address</label>
-                    <input type="email" id="student-email" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" style="background-color: var(--card); color: var(--text);">
-                </div>
-                
-                <div>
-                    <label class="block text-sm font-medium mb-1">School Name</label>
-                    <input type="text" id="school-name" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" style="background-color: var(--card); color: var(--text);">
-                </div>
-                
-                <div>
-                    <label class="block text-sm font-medium mb-1">Contact Information</label>
-                    <div class="flex gap-2">
-                        <select id="contact-type" required class="w-1/3 px-2 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" style="background-color: var(--card); color: var(--text);">
-                            <option value="whatsapp">WhatsApp</option>
-                            <option value="telegram">Telegram</option>
-                        </select>
-                        <input type="text" id="contact-info" required class="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="Phone or username" style="background-color: var(--card); color: var(--text);">
-                    </div>
-                </div>
-                
-                <div class="flex items-center">
-                    <input type="checkbox" id="agree-terms" required class="h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
-                    <label for="agree-terms" class="ml-2 block text-sm">
-                        I agree to the <a href="#" class="text-indigo-600 hover:text-indigo-500">Terms & Conditions</a>
-                    </label>
-                </div>
-                
-                <button type="submit" class="w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-semibold rounded-lg shadow hover:opacity-90 transition">Register & Access Notes</button>
-            </form>
-            
-            <div class="mt-6 text-center">
-                <p class="text-sm">This platform is exclusively for Class 8 students</p>
-            </div>
-        </div>
-    </div>
-
+<body class="neon-mode min-h-screen">
     <!-- Notes Access Modal -->
     <div id="notes-modal" class="notes-modal">
-        <div class="bg-white rounded-2xl p-8 max-w-2xl w-full mx-4 shadow-2xl" style="background-color: var(--card); color: var(--text);">
+        <div class="bg-white rounded-2xl p-4 md:p-8 max-w-2xl w-full mx-4 shadow-2xl" style="background-color: var(--card); color: var(--text);">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-bold">Access Class 8 Notes</h3>
                 <button id="close-notes-modal" class="text-slate-500 hover:text-slate-700">
@@ -248,7 +214,7 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="notes-option-card">
-                    <div class="w-20 h-20 rounded-full mx-auto flex items-center justify-center text-white text-3xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                         <i class="fab fa-google-drive"></i>
                     </div>
                     <h4 class="font-bold text-lg mb-2">Google Drive</h4>
@@ -259,7 +225,7 @@
                 </div>
                 
                 <div class="notes-option-card">
-                    <div class="w-20 h-20 rounded-full mx-auto flex items-center justify-center text-white text-3xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                         <i class="fas fa-comments"></i>
                     </div>
                     <h4 class="font-bold text-lg mb-2">Join Channels</h4>
@@ -278,7 +244,7 @@
 
     <!-- Channel Selection Modal -->
     <div id="channel-modal" class="channel-modal">
-        <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl" style="background-color: var(--card); color: var(--text);">
+        <div class="bg-white rounded-2xl p-4 md:p-8 max-w-md w-full mx-4 shadow-2xl" style="background-color: var(--card); color: var(--text);">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-bold">Choose Your Channel</h3>
                 <button id="close-modal" class="text-slate-500 hover:text-slate-700">
@@ -289,8 +255,8 @@
             
             <div class="space-y-4">
                 <a href="https://whatsapp.com/channel/0029VbBV0ri65yDH94E0Zr2c" target="_blank" class="flex items-center gap-4 p-4 border border-slate-200 rounded-xl hover:bg-green-50 hover:border-green-200 transition">
-                    <div class="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center text-white">
-                        <i class="fab fa-whatsapp text-xl"></i>
+                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-green-500 flex items-center justify-center text-white">
+                        <i class="fab fa-whatsapp text-lg md:text-xl"></i>
                     </div>
                     <div class="flex-1">
                         <div class="font-semibold">WhatsApp Channel</div>
@@ -300,8 +266,8 @@
                 </a>
                 
                 <a href="https://t.me/noteswallahfree" target="_blank" class="flex items-center gap-4 p-4 border border-slate-200 rounded-xl hover:bg-blue-50 hover:border-blue-200 transition">
-                    <div class="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white">
-                        <i class="fab fa-telegram text-xl"></i>
+                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-500 flex items-center justify-center text-white">
+                        <i class="fab fa-telegram text-lg md:text-xl"></i>
                     </div>
                     <div class="flex-1">
                         <div class="font-semibold">Telegram Channel</div>
@@ -319,7 +285,7 @@
 
     <!-- Join Team Modal -->
     <div id="team-modal" class="team-modal">
-        <div class="bg-white rounded-2xl p-8 max-w-2xl w-full mx-4 shadow-2xl" style="background-color: var(--card); color: var(--text);">
+        <div class="bg-white rounded-2xl p-4 md:p-8 max-w-2xl w-full mx-4 shadow-2xl" style="background-color: var(--card); color: var(--text);">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-bold">Join Our Team</h3>
                 <button id="close-team-modal" class="text-slate-500 hover:text-slate-700">
@@ -395,85 +361,13 @@
         </div>
     </div>
 
-    <!-- Admin Modal -->
-    <div id="admin-modal" class="admin-modal">
-        <div class="bg-white rounded-2xl p-8 max-w-6xl w-full mx-4 shadow-2xl max-h-[90vh] overflow-y-auto" style="background-color: var(--card); color: var(--text);">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-bold">Admin Dashboard</h3>
-                <button id="close-admin-modal" class="text-slate-500 hover:text-slate-700">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-            
-            <div id="admin-login" class="space-y-4">
-                <p class="mb-6">Enter admin password to access user data</p>
-                <div>
-                    <label class="block text-sm font-medium mb-1">Admin Password</label>
-                    <input type="password" id="admin-password" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" style="background-color: var(--card); color: var(--text);">
-                </div>
-                <button id="admin-login-btn" class="w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-semibold rounded-lg shadow hover:opacity-90 transition">Access Dashboard</button>
-            </div>
-            
-            <div id="admin-dashboard" class="hidden">
-                <div class="flex justify-between items-center mb-6">
-                    <h4 class="text-lg font-bold">User Statistics</h4>
-                    <button id="export-data" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">Export Data</button>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-                    <div class="p-4 rounded-lg text-center" style="background-color: var(--card);">
-                        <div class="text-2xl font-bold" style="color: var(--primary);" id="total-users">0</div>
-                        <div class="text-sm">Total Users</div>
-                    </div>
-                    <div class="p-4 rounded-lg text-center" style="background-color: var(--card);">
-                        <div class="text-2xl font-bold" style="color: var(--primary);" id="whatsapp-users">0</div>
-                        <div class="text-sm">WhatsApp Users</div>
-                    </div>
-                    <div class="p-4 rounded-lg text-center" style="background-color: var(--card);">
-                        <div class="text-2xl font-bold" style="color: var(--primary);" id="telegram-users">0</div>
-                        <div class="text-sm">Telegram Users</div>
-                    </div>
-                    <div class="p-4 rounded-lg text-center" style="background-color: var(--card);">
-                        <div class="text-2xl font-bold" style="color: var(--primary);" id="today-users">0</div>
-                        <div class="text-sm">Today's Registrations</div>
-                    </div>
-                </div>
-                
-                <div class="mb-8">
-                    <canvas id="user-chart" height="100"></canvas>
-                </div>
-                
-                <div>
-                    <h4 class="text-lg font-bold mb-4">User Details</h4>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full border border-slate-200" style="background-color: var(--card);">
-                            <thead>
-                                <tr style="background-color: var(--bg);">
-                                    <th class="py-2 px-4 border-b text-left">Name</th>
-                                    <th class="py-2 px-4 border-b text-left">Email</th>
-                                    <th class="py-2 px-4 border-b text-left">School</th>
-                                    <th class="py-2 px-4 border-b text-left">Contact Type</th>
-                                    <th class="py-2 px-4 border-b text-left">Contact Info</th>
-                                    <th class="py-2 px-4 border-b text-left">Registration Date</th>
-                                </tr>
-                            </thead>
-                            <tbody id="user-table-body">
-                                <!-- User data will be populated here -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Navigation -->
     <header class="backdrop-blur sticky top-0 z-50 border-b shadow-sm" style="background-color: var(--card); border-color: var(--bg);">
-        <div class="container-limit mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="container-limit mx-auto px-4 md:px-6 py-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-12 h-12 rounded-full shadow-md flex items-center justify-center text-white font-bold text-lg pulse" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">NW</div>
+                <div class="w-10 h-10 md:w-12 md:h-12 rounded-full shadow-md flex items-center justify-center text-white font-bold text-lg pulse" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">NW</div>
                 <div>
-                    <div class="text-xl font-extrabold tracking-tight" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">NotesWallah</div>
+                    <div class="text-lg md:text-xl font-extrabold tracking-tight" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">NotesWallah</div>
                     <div class="text-xs" style="color: var(--text); opacity: 0.7;">Class 8 Free Notes Hub</div>
                 </div>
             </div>
@@ -485,12 +379,6 @@
                     <button class="mode-btn dark" data-mode="dark"><i class="fas fa-moon"></i></button>
                     <button class="mode-btn neon active" data-mode="neon"><i class="fas fa-lightbulb"></i></button>
                 </div>
-                
-                <!-- View Toggle -->
-                <div class="view-toggle">
-                    <button class="view-btn desktop active" data-view="desktop"><i class="fas fa-desktop"></i></button>
-                    <button class="view-btn mobile" data-view="mobile"><i class="fas fa-mobile-alt"></i></button>
-                </div>
 
                 <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
                     <a href="#features" class="hover-opacity-80 transition">Features</a>
@@ -499,9 +387,6 @@
                     <a href="#team" class="hover-opacity-80 transition">Team</a>
                     <a href="#join-team" class="hover-opacity-80 transition">Join Us</a>
                     <button class="ml-4 px-5 py-2 rounded-lg text-white shadow hover:opacity-90 notes-access-btn" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Get Notes</button>
-                    <button id="admin-btn" class="px-3 py-2 rounded-lg text-white shadow transition" style="background-color: var(--text);">
-                        <i class="fas fa-lock"></i>
-                    </button>
                 </nav>
                 
                 <!-- Mobile menu button -->
@@ -512,7 +397,7 @@
         </div>
         
         <!-- Mobile menu -->
-        <div id="mobile-menu" class="md:hidden hidden px-6 pb-4" style="background-color: var(--card);">
+        <div id="mobile-menu" class="md:hidden hidden px-4 md:px-6 pb-4" style="background-color: var(--card);">
             <div class="flex flex-col space-y-3">
                 <a href="#features" class="py-2 hover-opacity-80">Features</a>
                 <a href="#subjects" class="py-2 hover-opacity-80">Subjects</a>
@@ -520,30 +405,27 @@
                 <a href="#team" class="py-2 hover-opacity-80">Team</a>
                 <a href="#join-team" class="py-2 hover-opacity-80">Join Us</a>
                 <button class="px-5 py-2 rounded-lg text-white shadow hover:opacity-90 notes-access-btn text-center" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Get Notes</button>
-                <button id="admin-btn-mobile" class="px-5 py-2 rounded-lg text-white shadow transition text-center" style="background-color: var(--text);">
-                    <i class="fas fa-lock mr-2"></i> Admin
-                </button>
             </div>
         </div>
     </header>
 
     <!-- Hero -->
-    <main class="container-limit mx-auto px-6 pt-16 pb-24">
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    <main class="container-limit mx-auto px-4 md:px-6 pt-12 md:pt-16 pb-16 md:pb-24">
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
             <div>
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 neon-glow" style="background-color: var(--primary); color: white;">
                     <i class="fas fa-rocket"></i>
                     <span>Exclusively for Class 8 Students</span>
                 </div>
-                <h1 class="text-5xl md:text-6xl font-extrabold leading-tight tracking-tight neon-text" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Class 8 Notes Free Forever ✨</h1>
-                <p class="mt-6 text-lg">Welcome to NotesWallah Class 8, the ultimate platform for Class 8 students. Access complete NCERT solutions, chapter notes, sample papers, and revision guides for all subjects - completely free!</p>
+                <h1 class="hero-title text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight neon-text" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Class 8 Notes Free Forever ✨</h1>
+                <p class="mt-4 md:mt-6 text-base md:text-lg">Welcome to NotesWallah Class 8, the ultimate platform for Class 8 students. Access complete NCERT solutions, chapter notes, sample papers, and revision guides for all subjects - completely free!</p>
 
-                <div class="mt-8 flex flex-col sm:flex-row gap-4">
+                <div class="mt-6 md:mt-8 flex flex-col sm:flex-row gap-4">
                     <button class="notes-access-btn inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-white font-semibold shadow-lg hover:opacity-90 transition neon-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Download Free Notes</button>
                     <a href="#subjects" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border bg-white shadow hover:shadow-md transition" style="background-color: var(--card); color: var(--text); border-color: var(--bg);">Explore Subjects</a>
                 </div>
                 
-                <div class="mt-8 flex items-center gap-6 text-sm">
+                <div class="mt-6 md:mt-8 flex items-center gap-4 md:gap-6 text-sm flex-wrap">
                     <div class="flex items-center gap-2">
                         <i class="fab fa-whatsapp text-green-500 text-lg"></i>
                         <span>WhatsApp Channel</span>
@@ -560,42 +442,42 @@
                     </div>
                 </div>
                 
-                <div class="mt-8 grid grid-cols-3 gap-4 text-center">
+                <div class="mt-6 md:mt-8 grid grid-cols-3 gap-4 text-center">
                     <div>
-                        <div class="text-2xl font-bold" style="color: var(--primary);">5K+</div>
+                        <div class="text-xl md:text-2xl font-bold" style="color: var(--primary);">5K+</div>
                         <div class="text-xs" style="color: var(--text); opacity: 0.7;">Class 8 Students</div>
                     </div>
                     <div>
-                        <div class="text-2xl font-bold" style="color: var(--secondary);">200+</div>
+                        <div class="text-xl md:text-2xl font-bold" style="color: var(--secondary);">200+</div>
                         <div class="text-xs" style="color: var(--text); opacity: 0.7;">Chapter Notes</div>
                     </div>
                     <div>
-                        <div class="text-2xl font-bold" style="color: var(--accent);">12+</div>
+                        <div class="text-xl md:text-2xl font-bold" style="color: var(--accent);">12+</div>
                         <div class="text-xs" style="color: var(--text); opacity: 0.7;">Subjects Covered</div>
                     </div>
                 </div>
             </div>
 
-            <div class="relative">
+            <div class="relative mt-8 md:mt-0">
                 <div class="rounded-3xl overflow-hidden shadow-2xl ring-2 floating" style="border-color: var(--primary);">
-                    <div class="w-full h-96 flex items-center justify-center text-white text-5xl relative" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <div class="w-full h-64 md:h-80 lg:h-96 flex items-center justify-center text-white text-4xl md:text-5xl relative" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                         <i class="fas fa-book-open"></i>
                         <div class="absolute bottom-4 left-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-white text-sm">
                             <i class="fas fa-download mr-1"></i> Class 8 Notes
                         </div>
                     </div>
                 </div>
-                <div class="absolute -bottom-4 -left-4 w-24 h-24 rounded-full opacity-20" style="background-color: var(--accent);"></div>
-                <div class="absolute -top-4 -right-4 w-16 h-16 rounded-full opacity-20" style="background-color: var(--primary);"></div>
+                <div class="absolute -bottom-4 -left-4 w-20 h-20 md:w-24 md:h-24 rounded-full opacity-20" style="background-color: var(--accent);"></div>
+                <div class="absolute -top-4 -right-4 w-12 h-12 md:w-16 md:h-16 rounded-full opacity-20" style="background-color: var(--primary);"></div>
             </div>
         </section>
 
         <!-- Features -->
-        <section id="features" class="mt-28 text-center">
-            <h2 class="text-3xl font-extrabold tracking-tight">Why NotesWallah for Class 8?</h2>
+        <section id="features" class="mt-20 md:mt-28 text-center">
+            <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Why NotesWallah for Class 8?</h2>
             <p class="mt-2">Specialized resources designed specifically for Class 8 CBSE curriculum</p>
 
-            <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="mt-8 md:mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                 <div class="subject-card">
                     <div class="text-4xl">📚</div>
                     <div class="mt-3 font-semibold text-lg">Complete NCERT Coverage</div>
@@ -615,25 +497,25 @@
         </section>
 
         <!-- Statistics -->
-        <section class="mt-24 rounded-3xl p-10 text-white" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+        <section class="mt-20 md:mt-24 rounded-3xl p-6 md:p-10 text-white" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
             <div class="max-w-4xl mx-auto text-center">
-                <h3 class="text-2xl font-bold">Platform Impact</h3>
+                <h3 class="text-xl md:text-2xl font-bold">Platform Impact</h3>
                 <p class="mt-4 opacity-90">Helping thousands of Class 8 students across India</p>
                 
-                <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <div class="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20">
+                <div class="mt-6 md:mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                    <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20">
                         <div class="stats-counter">10,000+</div>
                         <div class="text-sm opacity-90 mt-1">Students Registered</div>
                     </div>
-                    <div class="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20">
+                    <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20">
                         <div class="stats-counter">500+</div>
                         <div class="text-sm opacity-90 mt-1">Study Materials</div>
                     </div>
-                    <div class="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20">
+                    <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20">
                         <div class="stats-counter">50+</div>
                         <div class="text-sm opacity-90 mt-1">Expert Teachers</div>
                     </div>
-                    <div class="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20">
+                    <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20">
                         <div class="stats-counter">24/7</div>
                         <div class="text-sm opacity-90 mt-1">Support Available</div>
                     </div>
@@ -642,13 +524,13 @@
         </section>
 
         <!-- Subjects -->
-        <section id="subjects" class="mt-24">
-            <h3 class="text-2xl font-bold text-center">Class 8 Subjects</h3>
+        <section id="subjects" class="mt-20 md:mt-24">
+            <h3 class="text-xl md:text-2xl font-bold text-center">Class 8 Subjects</h3>
             <p class="text-center mt-2">Complete study materials for all Class 8 subjects</p>
-            <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="mt-6 md:mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 <!-- Subject Cards -->
                 <div class="subject-card text-center">
-                    <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                         <i class="fas fa-calculator"></i>
                     </div>
                     <h4 class="font-bold text-lg">Mathematics</h4>
@@ -657,7 +539,7 @@
                 </div>
                 
                 <div class="subject-card text-center">
-                    <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                         <i class="fas fa-flask"></i>
                     </div>
                     <h4 class="font-bold text-lg">Science</h4>
@@ -666,7 +548,7 @@
                 </div>
                 
                 <div class="subject-card text-center">
-                    <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                         <i class="fas fa-globe-asia"></i>
                     </div>
                     <h4 class="font-bold text-lg">Social Science</h4>
@@ -675,7 +557,7 @@
                 </div>
                 
                 <div class="subject-card text-center">
-                    <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                         <i class="fas fa-book"></i>
                     </div>
                     <h4 class="font-bold text-lg">English</h4>
@@ -684,28 +566,49 @@
                 </div>
                 
                 <div class="subject-card text-center">
-                    <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                         <i class="fas fa-language"></i>
-                    
+                    </div>
+                    <h4 class="font-bold text-lg">Hindi</h4>
+                    <p class="text-sm mt-2">Vasant, Durva, Grammar, Writing Skills</p>
+                    <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 notes-access-btn" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
                 </div>
                 
+                <div class="subject-card text-center">
+                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
                     <h4 class="font-bold text-lg">Computer</h4>
                     <p class="text-sm mt-2">Computer Systems, Networking, MS Office</p>
                     <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 notes-access-btn" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
                 </div>
                 
+                <div class="subject-card text-center">
+                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h4 class="font-bold text-lg">Sanskrit</h4>
+                    <p class="text-sm mt-2">Ruchira, Grammar, Translation, Writing</p>
+                    <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 notes-access-btn" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
+                </div>
                 
-                
-                
+                <div class="subject-card text-center">
+                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <h4 class="font-bold text-lg">Health & PE</h4>
+                    <p class="text-sm mt-2">Physical Education, Health, Yoga, Sports</p>
+                    <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 notes-access-btn" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
+                </div>
             </div>
         </section>
 
         <!-- Syllabus -->
-        <section id="syllabus" class="mt-24">
+        <section id="syllabus" class="mt-20 md:mt-24">
             <div class="subject-card">
-                <h3 class="text-2xl font-bold text-center mb-8">Class 8 Complete Syllabus</h3>
+                <h3 class="text-xl md:text-2xl font-bold text-center mb-6 md:mb-8">Class 8 Complete Syllabus</h3>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                     <div>
                         <h4 class="font-bold text-lg mb-4" style="color: var(--primary);">Mathematics Syllabus</h4>
                         <ul class="space-y-2 text-sm">
@@ -783,7 +686,7 @@
                     </div>
                 </div>
                 
-                <div class="mt-8 text-center">
+                <div class="mt-6 md:mt-8 text-center">
                     <button class="notes-access-btn px-6 py-3 rounded-lg text-white font-semibold shadow hover:opacity-90" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                         Download Complete Syllabus PDF
                     </button>
@@ -792,14 +695,14 @@
         </section>
 
         <!-- Team -->
-        <section id="team" class="mt-24">
-            <h3 class="text-2xl font-bold text-center">Meet Our Team</h3>
+        <section id="team" class="mt-20 md:mt-24">
+            <h3 class="text-xl md:text-2xl font-bold text-center">Meet Our Team</h3>
             <p class="text-center mt-2">Dedicated educators creating the best Class 8 resources</p>
             
-            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="mt-6 md:mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 <!-- Team Card 1 -->
                 <div class="subject-card text-center">
-                    <div class="w-20 h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                         IM
                     </div>
                     <h4 class="font-bold text-lg">IMON</h4>
@@ -809,7 +712,7 @@
                 
                 <!-- Team Card 2 -->
                 <div class="subject-card text-center">
-                    <div class="w-20 h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                         AK
                     </div>
                     <h4 class="font-bold text-lg">ADRI KANRI</h4>
@@ -819,7 +722,7 @@
                 
                 <!-- Team Card 3 -->
                 <div class="subject-card text-center">
-                    <div class="w-20 h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                         SH
                     </div>
                     <h4 class="font-bold text-lg">SRAJANI HEMBRAM</h4>
@@ -829,7 +732,7 @@
                 
                 <!-- Team Card 4 -->
                 <div class="subject-card text-center">
-                    <div class="w-20 h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                         EX
                     </div>
                     <h4 class="font-bold text-lg">EXPERT TEAM</h4>
@@ -840,14 +743,14 @@
         </section>
 
         <!-- Join Team Section -->
-        <section id="join-team" class="mt-24">
+        <section id="join-team" class="mt-20 md:mt-24">
             <div class="subject-card">
-                <h3 class="text-2xl font-bold text-center mb-2">Join Our Team</h3>
-                <p class="text-center mb-8">Become part of our mission to provide free education to Class 8 students</p>
+                <h3 class="text-xl md:text-2xl font-bold text-center mb-2">Join Our Team</h3>
+                <p class="text-center mb-6 md:mb-8">Become part of our mission to provide free education to Class 8 students</p>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
                     <div class="team-role-card text-center">
-                        <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                             <i class="fas fa-pencil-alt"></i>
                         </div>
                         <h4 class="font-bold text-lg">Content Creator</h4>
@@ -869,7 +772,7 @@
                     </div>
                     
                     <div class="team-role-card text-center">
-                        <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                             <i class="fas fa-user-graduate"></i>
                         </div>
                         <h4 class="font-bold text-lg">Subject Expert</h4>
@@ -891,7 +794,7 @@
                     </div>
                     
                     <div class="team-role-card text-center">
-                        <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-white text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                             <i class="fas fa-laptop-code"></i>
                         </div>
                         <h4 class="font-bold text-lg">Tech Volunteer</h4>
@@ -923,15 +826,15 @@
         </section>
 
         <!-- Channels Section -->
-        <section class="mt-24 rounded-3xl p-10 text-white" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+        <section class="mt-20 md:mt-24 rounded-3xl p-6 md:p-10 text-white" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
             <div class="max-w-4xl mx-auto text-center">
-                <h3 class="text-2xl font-bold">Join Our Free Channels</h3>
+                <h3 class="text-xl md:text-2xl font-bold">Join Our Free Channels</h3>
                 <p class="mt-4 opacity-90">Get instant access to all Class 8 notes, PDFs, and study materials</p>
                 
-                <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <a href="https://whatsapp.com/channel/0029VbBV0ri65yDH94E0Zr2c" target="_blank" class="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition flex flex-col items-center gap-4 transform hover:-translate-y-1">
-                        <div class="w-16 h-16 rounded-full bg-green-500 flex items-center justify-center text-white">
-                            <i class="fab fa-whatsapp text-2xl"></i>
+                <div class="mt-6 md:mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                    <a href="https://whatsapp.com/channel/0029VbBV0ri65yDH94E0Zr2c" target="_blank" class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition flex flex-col items-center gap-4 transform hover:-translate-y-1">
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-green-500 flex items-center justify-center text-white">
+                            <i class="fab fa-whatsapp text-xl md:text-2xl"></i>
                         </div>
                         <div>
                             <div class="font-bold text-lg">WhatsApp Channel</div>
@@ -940,9 +843,9 @@
                         <div class="mt-2 px-4 py-2 bg-white text-indigo-600 rounded-lg font-semibold text-sm">Join Now</div>
                     </a>
                     
-                    <a href="https://t.me/noteswallahfree" target="_blank" class="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition flex flex-col items-center gap-4 transform hover:-translate-y-1">
-                        <div class="w-16 h-16 rounded-full bg-blue-500 flex items-center justify-center text-white">
-                            <i class="fab fa-telegram text-2xl"></i>
+                    <a href="https://t.me/noteswallahfree" target="_blank" class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition flex flex-col items-center gap-4 transform hover:-translate-y-1">
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-blue-500 flex items-center justify-center text-white">
+                            <i class="fab fa-telegram text-xl md:text-2xl"></i>
                         </div>
                         <div>
                             <div class="font-bold text-lg">Telegram Channel</div>
@@ -955,8 +858,8 @@
         </section>
 
         <!-- Footer -->
-        <footer class="mt-28 border-t pt-10 pb-14 text-sm" style="border-color: var(--bg);">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <footer class="mt-20 md:mt-28 border-t pt-8 md:pt-10 pb-10 md:pb-14 text-sm" style="border-color: var(--bg);">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8">
                 <div>
                     <div class="font-extrabold text-lg" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">NotesWallah Class 8</div>
                     <div class="mt-2">© <span id="current-year">2024</span> NotesWallah — Free Class 8 Notes For All.</div>
@@ -993,18 +896,12 @@
                 <div>
                     <div class="font-semibold">Contact</div>
                     <div class="mt-2">noteswallah08@gmail.com</div>
-                    <button id="admin-btn-footer" class="mt-4 px-4 py-2 rounded-lg text-white transition text-sm hover:opacity-90" style="background-color: var(--text);">
-                        <i class="fas fa-lock mr-2"></i> Admin Access
-                    </button>
                 </div>
             </div>
         </footer>
     </main>
 
     <script>
-        // Initialize user data storage
-        let users = JSON.parse(localStorage.getItem('noteswallah_users')) || [];
-        
         // Mode Toggle Functionality
         document.querySelectorAll('.mode-btn').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -1025,32 +922,9 @@
             });
         });
         
-        // View Toggle Functionality
-        document.querySelectorAll('.view-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const view = this.getAttribute('data-view');
-                
-                // Remove active class from all view buttons
-                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
-                // Add active class to clicked button
-                this.classList.add('active');
-                
-                // Remove all view classes from body
-                document.body.classList.remove('desktop-view', 'mobile-view');
-                // Add selected view
-                document.body.classList.add(`${view}-view`);
-                
-                // Save preference to localStorage
-                localStorage.setItem('noteswallah_view', view);
-            });
-        });
-        
-        // Load saved preferences
+        // Load saved mode preference
         const savedMode = localStorage.getItem('noteswallah_mode') || 'neon';
-        const savedView = localStorage.getItem('noteswallah_view') || 'desktop';
-        
         document.querySelector(`.mode-btn.${savedMode}`).click();
-        document.querySelector(`.view-btn.${savedView}`).click();
         
         // Mobile menu toggle
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
@@ -1128,58 +1002,6 @@
             }
         });
 
-        // Login modal functionality
-        const loginModal = document.getElementById('login-modal');
-        const closeLoginButtons = document.querySelectorAll('#close-login-modal');
-        
-        // Close login modal when close buttons are clicked
-        closeLoginButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                loginModal.classList.remove('active');
-            });
-        });
-        
-        // Close login modal when clicking outside the modal content
-        loginModal.addEventListener('click', function(e) {
-            if (e.target === loginModal) {
-                loginModal.classList.remove('active');
-            }
-        });
-        
-        // Handle login form submission
-        document.getElementById('login-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('student-name').value;
-            const email = document.getElementById('student-email').value;
-            const school = document.getElementById('school-name').value;
-            const contactType = document.getElementById('contact-type').value;
-            const contactInfo = document.getElementById('contact-info').value;
-            
-            // Create user object
-            const user = {
-                id: Date.now(),
-                name,
-                email,
-                school,
-                contactType,
-                contactInfo,
-                registrationDate: new Date().toISOString()
-            };
-            
-            // Add to users array
-            users.push(user);
-            
-            // Save to localStorage
-            localStorage.setItem('noteswallah_users', JSON.stringify(users));
-            
-            // Close modal
-            loginModal.classList.remove('active');
-            
-            // Show success message
-            alert('Registration successful! You can now access all Class 8 notes.');
-        });
-
         // Team modal functionality
         const teamModal = document.getElementById('team-modal');
         const joinTeamBtn = document.getElementById('join-team-btn');
@@ -1202,147 +1024,6 @@
             if (e.target === teamModal) {
                 teamModal.classList.remove('active');
             }
-        });
-
-        // Admin modal functionality
-        const adminModal = document.getElementById('admin-modal');
-        const adminButtons = document.querySelectorAll('#admin-btn, #admin-btn-mobile, #admin-btn-footer');
-        const closeAdminButton = document.getElementById('close-admin-modal');
-        const adminLoginBtn = document.getElementById('admin-login-btn');
-        const adminDashboard = document.getElementById('admin-dashboard');
-        const adminLogin = document.getElementById('admin-login');
-        
-        // Open admin modal when admin buttons are clicked
-        adminButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                adminModal.classList.add('active');
-            });
-        });
-        
-        // Close admin modal
-        closeAdminButton.addEventListener('click', function() {
-            adminModal.classList.remove('active');
-        });
-        
-        // Close admin modal when clicking outside the modal content
-        adminModal.addEventListener('click', function(e) {
-            if (e.target === adminModal) {
-                adminModal.classList.remove('active');
-            }
-        });
-        
-        // Handle admin login
-        adminLoginBtn.addEventListener('click', function() {
-            const password = document.getElementById('admin-password').value;
-            
-            if (password === 'IMON@2012') {
-                adminLogin.classList.add('hidden');
-                adminDashboard.classList.remove('hidden');
-                loadAdminData();
-            } else {
-                alert('Incorrect password!');
-            }
-        });
-        
-        // Load admin data
-        function loadAdminData() {
-            // Update counters
-            document.getElementById('total-users').textContent = users.length;
-            
-            const whatsappUsers = users.filter(user => user.contactType === 'whatsapp').length;
-            const telegramUsers = users.filter(user => user.contactType === 'telegram').length;
-            
-            document.getElementById('whatsapp-users').textContent = whatsappUsers;
-            document.getElementById('telegram-users').textContent = telegramUsers;
-            
-            // Calculate today's registrations
-            const today = new Date().toDateString();
-            const todayUsers = users.filter(user => {
-                const userDate = new Date(user.registrationDate).toDateString();
-                return userDate === today;
-            }).length;
-            
-            document.getElementById('today-users').textContent = todayUsers;
-            
-            // Populate user table
-            const tableBody = document.getElementById('user-table-body');
-            tableBody.innerHTML = '';
-            
-            users.forEach(user => {
-                const row = document.createElement('tr');
-                row.className = 'hover:bg-slate-50';
-                row.innerHTML = `
-                    <td class="py-2 px-4 border-b">${user.name}</td>
-                    <td class="py-2 px-4 border-b">${user.email}</td>
-                    <td class="py-2 px-4 border-b">${user.school}</td>
-                    <td class="py-2 px-4 border-b">${user.contactType}</td>
-                    <td class="py-2 px-4 border-b">${user.contactInfo}</td>
-                    <td class="py-2 px-4 border-b">${new Date(user.registrationDate).toLocaleDateString()}</td>
-                `;
-                tableBody.appendChild(row);
-            });
-            
-            // Create chart
-            const ctx = document.getElementById('user-chart').getContext('2d');
-            
-            // Group users by registration date
-            const userCountByDate = {};
-            users.forEach(user => {
-                const date = new Date(user.registrationDate).toLocaleDateString();
-                userCountByDate[date] = (userCountByDate[date] || 0) + 1;
-            });
-            
-            const labels = Object.keys(userCountByDate).slice(-7); // Last 7 days
-            const data = labels.map(label => userCountByDate[label]);
-            
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'User Registrations',
-                        data: data,
-                        borderColor: '#4f46e5',
-                        backgroundColor: 'rgba(79, 70, 229, 0.1)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                stepSize: 1
-                            }
-                        }
-                    }
-                }
-            });
-        }
-        
-        // Export data functionality
-        document.getElementById('export-data').addEventListener('click', function() {
-            const csvContent = "data:text/csv;charset=utf-8," 
-                + "Name,Email,School,Contact Type,Contact Info,Registration Date\n"
-                + users.map(user => 
-                    `"${user.name}","${user.email}","${user.school}","${user.contactType}","${user.contactInfo}","${user.registrationDate}"`
-                ).join("\n");
-            
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "noteswallah_class8_users.csv");
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
         });
     </script>
 </body>
