@@ -63,7 +63,7 @@
             text-shadow: 0 0 5px var(--primary), 0 0 10px var(--primary);
         }
         
-        .channel-modal, .team-modal, .notes-modal {
+        .channel-modal, .team-modal, .notes-modal, .policy-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -75,7 +75,7 @@
             justify-content: center;
             align-items: center;
         }
-        .channel-modal.active, .team-modal.active, .notes-modal.active {
+        .channel-modal.active, .team-modal.active, .notes-modal.active, .policy-modal.active {
             display: flex;
         }
         
@@ -198,9 +198,152 @@
                 padding: 1.5rem;
             }
         }
+        
+        /* Particle background effect */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            background-color: var(--primary);
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+        
+        /* Policy modal specific styles */
+        .policy-content {
+            max-height: 70vh;
+            overflow-y: auto;
+            padding-right: 1rem;
+        }
+        
+        /* Blur effect when policy modal is active */
+        .blur-background {
+            filter: blur(5px);
+            pointer-events: none;
+            user-select: none;
+        }
+        
+        /* Floating animation for elements */
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Shimmer effect */
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
     </style>
 </head>
 <body class="neon-mode min-h-screen">
+    <!-- Privacy Policy Modal -->
+    <div id="policy-modal" class="policy-modal active">
+        <div class="bg-white rounded-2xl p-4 md:p-8 max-w-4xl w-full mx-4 shadow-2xl" style="background-color: var(--card); color: var(--text);">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold gradient-text">NotesWallah Privacy Policy</h3>
+                <div class="w-12 h-12 rounded-full flex items-center justify-center text-white" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+            </div>
+            
+            <div class="policy-content mb-6 text-sm">
+                <p class="text-center font-semibold mb-4">Effective Date: October 8, 2025</p>
+                
+                <h4 class="font-bold text-lg mt-4 mb-2 gradient-text">1. Introduction</h4>
+                <p>Welcome to NotesWallah, a student-centric educational platform developed and maintained by a consortium of dedicated scholars. This Privacy Policy delineates our protocols regarding the collection, utilization, and safeguarding of information when you engage with our digital ecosystem.</p>
+                <p>Our mission is to democratize education through the provision of freely accessible academic resources, while maintaining the highest standards of data protection and user privacy.</p>
+                
+                <h4 class="font-bold text-lg mt-4 mb-2 gradient-text">2. Intellectual Property Framework</h4>
+                <p>All proprietary tools, pedagogical materials, and digital assets disseminated through this platform constitute original intellectual property developed exclusively for non-commercial educational utilization.</p>
+                <ul class="list-disc pl-5 mt-2 space-y-1">
+                    <li>Unauthorized reproduction, modification, distribution, or commercial exploitation of our resources is expressly prohibited without prior written authorization.</li>
+                    <li>Infringements of our intellectual property rights will result in immediate revocation of access privileges and may incur legal repercussions, including copyright enforcement actions.</li>
+                    <li>Our organization maintains complete autonomy and is not institutionally affiliated with any educational establishment or corporate entity.</li>
+                    <li>Content is licensed for personal educational utilization under the principles of open knowledge sharing and academic integrity.</li>
+                </ul>
+                
+                <h4 class="font-bold text-lg mt-4 mb-2 gradient-text">3. Information Collection Protocols</h4>
+                <p>In accordance with our security framework, we may collect limited personal identifiers for verification and protective measures:</p>
+                <ul class="list-disc pl-5 mt-2 space-y-1">
+                    <li><strong>Identifiable Information:</strong> Full name as provided by the user</li>
+                    <li><strong>Contact Data:</strong> Valid email address for communication and verification purposes</li>
+                </ul>
+                <p class="mt-2"><strong>Data Minimization Principle:</strong> We adhere to the principle of data minimization, collecting only information essential for platform security and user verification. No automated data harvesting occurs without explicit user consent.</p>
+                
+                <h4 class="font-bold text-lg mt-4 mb-2 gradient-text">4. Purpose Specification</h4>
+                <p>Collected information serves exclusively the following legitimate purposes:</p>
+                <ul class="list-disc pl-5 mt-2 space-y-1">
+                    <li><strong>Security Infrastructure:</strong> Protection of our digital assets, including Google Drive repositories and educational tools</li>
+                    <li><strong>Access Control:</strong> Prevention of unauthorized system infiltration and cyber threats</li>
+                    <li><strong>User Authentication:</strong> Verification of legitimate student status and platform membership</li>
+                </ul>
+                <p class="mt-2">We explicitly refrain from user tracking, behavioral monitoring, or any form of commercial data exploitation.</p>
+                
+                <h4 class="font-bold text-lg mt-4 mb-2 gradient-text">5. Data Protection Mechanisms</h4>
+                <p>Our organization implements industry-standard security protocols to ensure the confidentiality and integrity of user data. All collected information is stored within encrypted environments and undergoes scheduled secure deletion once its designated purpose has been fulfilled.</p>
+                <p>We maintain rigorous security measures for all integrated third-party systems, including Google Drive infrastructure, to prevent unauthorized access attempts.</p>
+                
+                <h4 class="font-bold text-lg mt-4 mb-2 gradient-text">6. Non-Profit Status Declaration</h4>
+                <p>NotesWallah operates as a non-commercial educational initiative managed exclusively by students. Our platform generates no revenue, displays no advertisements, and imposes no financial obligations on users. All resources are provided gratuitously in the spirit of academic collaboration.</p>
+                
+                <h4 class="font-bold text-lg mt-4 mb-2 gradient-text">7. Third-Party Integrations</h4>
+                <p>Our platform may incorporate links to external digital environments (e.g., Google Drive). We expressly disclaim responsibility for the privacy practices or content governance of these external platforms. Users are advised to review the respective privacy policies of these third-party services prior to engagement.</p>
+                
+                <h4 class="font-bold text-lg mt-4 mb-2 gradient-text">8. Policy Modification Protocol</h4>
+                <p>This Privacy Policy constitutes a dynamic document that may undergo periodic revisions to reflect evolving legal requirements and platform enhancements. Substantive amendments will be communicated through platform notifications and updated effective dates. Continued utilization of our services following policy modifications constitutes acceptance of the revised terms.</p>
+                
+                <h4 class="font-bold text-lg mt-4 mb-2 gradient-text">9. Contact Channels</h4>
+                <p>For inquiries regarding this Privacy Policy, data access requests, or deletion petitions, please utilize the following communication channels:</p>
+                <ul class="list-disc pl-5 mt-2 space-y-1">
+                    <li><strong>Primary Email:</strong> nwxpvtech@gmail.com</li>
+                    <li><strong>Official Communications:</strong> notewallah.india.official@gmail.com</li>
+                    <li><strong>Telegram Channel:</strong> @noteswallah08</li>
+                </ul>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button id="accept-policy" class="px-6 py-3 rounded-lg text-white font-semibold shadow-lg hover:opacity-90 transition neon-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <i class="fas fa-check-circle mr-2"></i> Accept Policy & Continue
+                </button>
+                <button id="decline-policy" class="px-6 py-3 rounded-lg font-semibold shadow hover:opacity-90 transition" style="background-color: var(--card); color: var(--text); border: 1px solid var(--bg);">
+                    <i class="fas fa-times-circle mr-2"></i> Decline & Exit
+                </button>
+            </div>
+            
+            <div class="mt-4 text-center text-sm">
+                <p>By accepting, you acknowledge that you have read and understood our Privacy Policy</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Notes Access Modal -->
     <div id="notes-modal" class="notes-modal">
         <div class="bg-white rounded-2xl p-4 md:p-8 max-w-2xl w-full mx-4 shadow-2xl" style="background-color: var(--card); color: var(--text);">
@@ -214,7 +357,7 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="notes-option-card">
-                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                         <i class="fab fa-google-drive"></i>
                     </div>
                     <h4 class="font-bold text-lg mb-2">Google Drive</h4>
@@ -225,7 +368,7 @@
                 </div>
                 
                 <div class="notes-option-card">
-                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                         <i class="fas fa-comments"></i>
                     </div>
                     <h4 class="font-bold text-lg mb-2">Join Channels</h4>
@@ -361,515 +504,549 @@
         </div>
     </div>
 
-    <!-- Navigation -->
-    <header class="backdrop-blur sticky top-0 z-50 border-b shadow-sm" style="background-color: var(--card); border-color: var(--bg);">
-        <div class="container-limit mx-auto px-4 md:px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 md:w-12 md:h-12 rounded-full shadow-md flex items-center justify-center text-white font-bold text-lg pulse" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">NW</div>
-                <div>
-                    <div class="text-lg md:text-xl font-extrabold tracking-tight" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">NotesWallah</div>
-                    <div class="text-xs" style="color: var(--text); opacity: 0.7;">Class 8 Free Notes Hub</div>
-                </div>
-            </div>
-
-            <div class="flex items-center gap-4">
-                <!-- Mode Toggle -->
-                <div class="mode-toggle">
-                    <button class="mode-btn light" data-mode="light"><i class="fas fa-sun"></i></button>
-                    <button class="mode-btn dark" data-mode="dark"><i class="fas fa-moon"></i></button>
-                    <button class="mode-btn neon active" data-mode="neon"><i class="fas fa-lightbulb"></i></button>
-                </div>
-
-                <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
-                    <a href="#features" class="hover-opacity-80 transition">Features</a>
-                    <a href="#subjects" class="hover-opacity-80 transition">Subjects</a>
-                    <a href="#syllabus" class="hover-opacity-80 transition">Syllabus</a>
-                    <a href="#team" class="hover-opacity-80 transition">Team</a>
-                    <a href="#join-team" class="hover-opacity-80 transition">Join Us</a>
-                    <button class="ml-4 px-5 py-2 rounded-lg text-white shadow hover:opacity-90 notes-access-btn" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Get Notes</button>
-                </nav>
-                
-                <!-- Mobile menu button -->
-                <button id="mobile-menu-button" class="md:hidden">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-            </div>
-        </div>
-        
-        <!-- Mobile menu -->
-        <div id="mobile-menu" class="md:hidden hidden px-4 md:px-6 pb-4" style="background-color: var(--card);">
-            <div class="flex flex-col space-y-3">
-                <a href="#features" class="py-2 hover-opacity-80">Features</a>
-                <a href="#subjects" class="py-2 hover-opacity-80">Subjects</a>
-                <a href="#syllabus" class="py-2 hover-opacity-80">Syllabus</a>
-                <a href="#team" class="py-2 hover-opacity-80">Team</a>
-                <a href="#join-team" class="py-2 hover-opacity-80">Join Us</a>
-                <button class="px-5 py-2 rounded-lg text-white shadow hover:opacity-90 notes-access-btn text-center" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Get Notes</button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Hero -->
-    <main class="container-limit mx-auto px-4 md:px-6 pt-12 md:pt-16 pb-16 md:pb-24">
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-            <div>
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 neon-glow" style="background-color: var(--primary); color: white;">
-                    <i class="fas fa-rocket"></i>
-                    <span>Exclusively for Class 8 Students</span>
-                </div>
-                <h1 class="hero-title text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight neon-text" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Class 8 Notes Free Forever ✨</h1>
-                <p class="mt-4 md:mt-6 text-base md:text-lg">Welcome to NotesWallah Class 8, the ultimate platform for Class 8 students. Access complete NCERT solutions, chapter notes, sample papers, and revision guides for all subjects - completely free!</p>
-
-                <div class="mt-6 md:mt-8 flex flex-col sm:flex-row gap-4">
-                    <button class="notes-access-btn inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-white font-semibold shadow-lg hover:opacity-90 transition neon-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Download Free Notes</button>
-                    <a href="#subjects" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border bg-white shadow hover:shadow-md transition" style="background-color: var(--card); color: var(--text); border-color: var(--bg);">Explore Subjects</a>
-                </div>
-                
-                <div class="mt-6 md:mt-8 flex items-center gap-4 md:gap-6 text-sm flex-wrap">
-                    <div class="flex items-center gap-2">
-                        <i class="fab fa-whatsapp text-green-500 text-lg"></i>
-                        <span>WhatsApp Channel</span>
-                    </div>
-                    <div class="h-4 w-px" style="background-color: var(--bg);"></div>
-                    <div class="flex items-center gap-2">
-                        <i class="fab fa-telegram text-blue-500 text-lg"></i>
-                        <span>Telegram Channel</span>
-                    </div>
-                    <div class="h-4 w-px" style="background-color: var(--bg);"></div>
-                    <div class="flex items-center gap-2">
-                        <i class="fab fa-google-drive text-red-500 text-lg"></i>
-                        <span>Google Drive</span>
-                    </div>
-                </div>
-                
-                <div class="mt-6 md:mt-8 grid grid-cols-3 gap-4 text-center">
+    <!-- Main Content (will be blurred until policy accepted) -->
+    <div id="main-content" class="blur-background">
+        <!-- Navigation -->
+        <header class="backdrop-blur sticky top-0 z-50 border-b shadow-sm" style="background-color: var(--card); border-color: var(--bg);">
+            <div class="container-limit mx-auto px-4 md:px-6 py-4 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-full shadow-md flex items-center justify-center text-white font-bold text-lg pulse" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">NW</div>
                     <div>
-                        <div class="text-xl md:text-2xl font-bold" style="color: var(--primary);">5K+</div>
-                        <div class="text-xs" style="color: var(--text); opacity: 0.7;">Class 8 Students</div>
-                    </div>
-                    <div>
-                        <div class="text-xl md:text-2xl font-bold" style="color: var(--secondary);">200+</div>
-                        <div class="text-xs" style="color: var(--text); opacity: 0.7;">Chapter Notes</div>
-                    </div>
-                    <div>
-                        <div class="text-xl md:text-2xl font-bold" style="color: var(--accent);">12+</div>
-                        <div class="text-xs" style="color: var(--text); opacity: 0.7;">Subjects Covered</div>
+                        <div class="text-lg md:text-xl font-extrabold tracking-tight gradient-text">NotesWallah</div>
+                        <div class="text-xs" style="color: var(--text); opacity: 0.7;">Class 8 Free Notes Hub</div>
                     </div>
                 </div>
-            </div>
 
-            <div class="relative mt-8 md:mt-0">
-                <div class="rounded-3xl overflow-hidden shadow-2xl ring-2 floating" style="border-color: var(--primary);">
-                    <div class="w-full h-64 md:h-80 lg:h-96 flex items-center justify-center text-white text-4xl md:text-5xl relative" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
-                        <i class="fas fa-book-open"></i>
-                        <div class="absolute bottom-4 left-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-white text-sm">
-                            <i class="fas fa-download mr-1"></i> Class 8 Notes
-                        </div>
+                <div class="flex items-center gap-4">
+                    <!-- Mode Toggle -->
+                    <div class="mode-toggle">
+                        <button class="mode-btn light" data-mode="light"><i class="fas fa-sun"></i></button>
+                        <button class="mode-btn dark" data-mode="dark"><i class="fas fa-moon"></i></button>
+                        <button class="mode-btn neon active" data-mode="neon"><i class="fas fa-lightbulb"></i></button>
                     </div>
-                </div>
-                <div class="absolute -bottom-4 -left-4 w-20 h-20 md:w-24 md:h-24 rounded-full opacity-20" style="background-color: var(--accent);"></div>
-                <div class="absolute -top-4 -right-4 w-12 h-12 md:w-16 md:h-16 rounded-full opacity-20" style="background-color: var(--primary);"></div>
-            </div>
-        </section>
 
-        <!-- Features -->
-        <section id="features" class="mt-20 md:mt-28 text-center">
-            <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Why NotesWallah for Class 8?</h2>
-            <p class="mt-2">Specialized resources designed specifically for Class 8 CBSE curriculum</p>
-
-            <div class="mt-8 md:mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                <div class="subject-card">
-                    <div class="text-4xl">📚</div>
-                    <div class="mt-3 font-semibold text-lg">Complete NCERT Coverage</div>
-                    <div class="mt-1 text-sm">Detailed solutions and notes for all NCERT textbooks - Math, Science, Social Science, English, Hindi</div>
-                </div>
-                <div class="subject-card">
-                    <div class="text-4xl">🎯</div>
-                    <div class="mt-3 font-semibold text-lg">Exam-Focused Material</div>
-                    <div class="mt-1 text-sm">Chapter-wise important questions, sample papers, and previous year question papers</div>
-                </div>
-                <div class="subject-card">
-                    <div class="text-4xl">🧠</div>
-                    <div class="mt-3 font-semibold text-lg">Easy Understanding</div>
-                    <div class="mt-1 text-sm">Simplified explanations, diagrams, and examples to make learning enjoyable</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Statistics -->
-        <section class="mt-20 md:mt-24 rounded-3xl p-6 md:p-10 text-white" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
-            <div class="max-w-4xl mx-auto text-center">
-                <h3 class="text-xl md:text-2xl font-bold">Platform Impact</h3>
-                <p class="mt-4 opacity-90">Helping thousands of Class 8 students across India</p>
-                
-                <div class="mt-6 md:mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-                    <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20">
-                        <div class="stats-counter">100+</div>
-                        <div class="text-sm opacity-90 mt-1">Students Registered</div>
-                    </div>
-                    <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20">
-                        <div class="stats-counter">500+</div>
-                        <div class="text-sm opacity-90 mt-1">Study Materials</div>
-                    </div>
-                   
-                    <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20">
-                        <div class="stats-counter">8X7</div>
-                        <div class="text-sm opacity-90 mt-1">Support Available</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Subjects -->
-        <section id="subjects" class="mt-20 md:mt-24">
-            <h3 class="text-xl md:text-2xl font-bold text-center">Class 8 Subjects</h3>
-            <p class="text-center mt-2">Complete study materials for all Class 8 subjects</p>
-            <div class="mt-6 md:mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                <!-- Subject Cards -->
-                <div class="subject-card text-center">
-                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
-                        <i class="fas fa-calculator"></i>
-                    </div>
-                    <h4 class="font-bold text-lg">Mathematics</h4>
-                    <p class="text-sm mt-2">Rational Numbers, Algebra, Geometry, Mensuration</p>
-                    <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 notes-access-btn" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
-                </div>
-                
-                <div class="subject-card text-center">
-                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
-                        <i class="fas fa-flask"></i>
-                    </div>
-                    <h4 class="font-bold text-lg">Science</h4>
-                    <p class="text-sm mt-2">Crop Production, Microorganisms, Force, Light</p>
-                    <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 notes-access-btn" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
-                </div>
-                
-                <div class="subject-card text-center">
-                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
-                        <i class="fas fa-globe-asia"></i>
-                    </div>
-                    <h4 class="font-bold text-lg">Social Science</h4>
-                    <p class="text-sm mt-2">History, Geography, Civics, Economics</p>
-                    <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 notes-access-btn" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
-                </div>
-                
-                <div class="subject-card text-center">
-                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
-                        <i class="fas fa-book"></i>
-                    </div>
-                    <h4 class="font-bold text-lg">English</h4>
-                    <p class="text-sm mt-2">Honeydew, It So Happened, Grammar, Writing</p>
-                    <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 notes-access-btn" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
-                </div>
-                
-                
-                <div class="subject-card text-center">
-                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
-                        <i class="fas fa-laptop-code"></i>
-                    </div>
-                    <h4 class="font-bold text-lg">Computer</h4>
-                    <p class="text-sm mt-2">Computer Systems, Networking, MS Office</p>
-                    <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 notes-access-btn" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
-                </div>
-                
-               
-                
-                
-            </div>
-        </section>
-
-        <!-- Syllabus -->
-        <section id="syllabus" class="mt-20 md:mt-24">
-            <div class="subject-card">
-                <h3 class="text-xl md:text-2xl font-bold text-center mb-6 md:mb-8">Class 8 Complete Syllabus</h3>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-                    <div>
-                        <h4 class="font-bold text-lg mb-4" style="color: var(--primary);">Mathematics Syllabus</h4>
-                        <ul class="space-y-2 text-sm">
-                            <li class="flex items-start gap-2">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>Rational Numbers</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>Linear Equations in One Variable</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>Understanding Quadrilaterals</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>Practical Geometry</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>Data Handling</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>Squares and Square Roots</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>Cubes and Cube Roots</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>Comparing Quantities</span>
-                            </li>
-                        </ul>
-                    </div>
+                    <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
+                        <a href="#features" class="hover-opacity-80 transition">Features</a>
+                        <a href="#subjects" class="hover-opacity-80 transition">Subjects</a>
+                        <a href="#syllabus" class="hover-opacity-80 transition">Syllabus</a>
+                        <a href="#team" class="hover-opacity-80 transition">Team</a>
+                        <a href="#join-team" class="hover-opacity-80 transition">Join Us</a>
+                        <button class="ml-4 px-5 py-2 rounded-lg text-white shadow hover:opacity-90 notes-access-btn shimmer" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Get Notes</button>
+                    </nav>
                     
-                    <div>
-                        <h4 class="font-bold text-lg mb-4" style="color: var(--primary);">Science Syllabus</h4>
-                        <ul class="space-y-2 text-sm">
-                            <li class="flex items-start gap-2">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>Crop Production and Management</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>Microorganisms: Friend and Foe</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>Synthetic Fibres and Plastics</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>Materials: Metals and Non-Metals</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>Coal and Petroleum</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>Combustion and Flame</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>Conservation of Plants and Animals</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>Cell - Structure and Functions</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="mt-6 md:mt-8 text-center">
-                    <button class="notes-access-btn px-6 py-3 rounded-lg text-white font-semibold shadow hover:opacity-90" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
-                        Download Complete Syllabus PDF
+                    <!-- Mobile menu button -->
+                    <button id="mobile-menu-button" class="md:hidden">
+                        <i class="fas fa-bars text-xl"></i>
                     </button>
                 </div>
             </div>
-        </section>
-
-        <!-- Team -->
-        <section id="team" class="mt-20 md:mt-24">
-            <h3 class="text-xl md:text-2xl font-bold text-center">Meet Our Team</h3>
-            <p class="text-center mt-2">Dedicated educators creating the best Class 8 resources</p>
             
-            <div class="mt-6 md:mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                <!-- Team Card 1 -->
-                <div class="subject-card text-center">
-                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
-                        IM
-                    </div>
-                    <h4 class="font-bold text-lg">IMON</h4>
-                    <div class="text-sm mt-1" style="color: var(--primary);">TECH & CHAIRMAN</div>
-                    <p class="text-sm mt-2">Leading the technical development and strategic direction of NotesWallah</p>
-                </div>
-                
-                <!-- Team Card 2 -->
-                <div class="subject-card text-center">
-                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
-                        AK
-                    </div>
-                    <h4 class="font-bold text-lg">ADRI KANRI</h4>
-                    <div class="text-sm mt-1" style="color: var(--primary);">TECH AND CEO</div>
-                    <p class="text-sm mt-2">Overseeing platform operations and technological innovation</p>
-                </div>
-                
-                
-                    
-                
-                <!-- Team Card 4 -->
-                <div class="subject-card text-center">
-                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
-                        EX
-                    </div>
-                    <h4 class="font-bold text-lg">EXPERT TEAM</h4>
-                    <div class="text-sm mt-1" style="color: var(--primary);">SUBJECT MATTER EXPERTS</div>
-                    <p class="text-sm mt-2">5+ experienced educators specializing in Class 8 curriculum</p>
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="md:hidden hidden px-4 md:px-6 pb-4" style="background-color: var(--card);">
+                <div class="flex flex-col space-y-3">
+                    <a href="#features" class="py-2 hover-opacity-80">Features</a>
+                    <a href="#subjects" class="py-2 hover-opacity-80">Subjects</a>
+                    <a href="#syllabus" class="py-2 hover-opacity-80">Syllabus</a>
+                    <a href="#team" class="py-2 hover-opacity-80">Team</a>
+                    <a href="#join-team" class="py-2 hover-opacity-80">Join Us</a>
+                    <button class="px-5 py-2 rounded-lg text-white shadow hover:opacity-90 notes-access-btn text-center shimmer" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Get Notes</button>
                 </div>
             </div>
-        </section>
+        </header>
 
-        <!-- Join Team Section -->
-        <section id="join-team" class="mt-20 md:mt-24">
-            <div class="subject-card">
-                <h3 class="text-xl md:text-2xl font-bold text-center mb-2">Join Our Team</h3>
-                <p class="text-center mb-6 md:mb-8">Become part of our mission to provide free education to Class 8 students</p>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
-                    <div class="team-role-card text-center">
-                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
-                            <i class="fas fa-pencil-alt"></i>
-                        </div>
-                        <h4 class="font-bold text-lg">Content Creator</h4>
-                        <p class="text-sm mt-2">Create study materials, notes, and solutions for Class 8 subjects</p>
-                        <ul class="text-xs mt-3 space-y-1 text-left">
-                            <li class="flex items-start gap-1">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>Create chapter notes</span>
-                            </li>
-                            <li class="flex items-start gap-1">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>Develop practice questions</span>
-                            </li>
-                            <li class="flex items-start gap-1">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>Design diagrams and illustrations</span>
-                            </li>
-                        </ul>
+        <!-- Hero -->
+        <main class="container-limit mx-auto px-4 md:px-6 pt-12 md:pt-16 pb-16 md:pb-24">
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 neon-glow" style="background-color: var(--primary); color: white;">
+                        <i class="fas fa-rocket"></i>
+                        <span>Exclusively for Class 8 Students</span>
+                    </div>
+                    <h1 class="hero-title text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight neon-text gradient-text">Class 8 Notes Free Forever ✨</h1>
+                    <p class="mt-4 md:mt-6 text-base md:text-lg">Welcome to NotesWallah Class 8, the ultimate platform for Class 8 students. Access complete NCERT solutions, chapter notes, sample papers, and revision guides for all subjects - completely free!</p>
+
+                    <div class="mt-6 md:mt-8 flex flex-col sm:flex-row gap-4">
+                        <button class="notes-access-btn inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-white font-semibold shadow-lg hover:opacity-90 transition neon-glow shimmer" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Download Free Notes</button>
+                        <a href="#subjects" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border bg-white shadow hover:shadow-md transition" style="background-color: var(--card); color: var(--text); border-color: var(--bg);">Explore Subjects</a>
                     </div>
                     
-                    <div class="team-role-card text-center">
-                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
-                            <i class="fas fa-user-graduate"></i>
+                    <div class="mt-6 md:mt-8 flex items-center gap-4 md:gap-6 text-sm flex-wrap">
+                        <div class="flex items-center gap-2">
+                            <i class="fab fa-whatsapp text-green-500 text-lg"></i>
+                            <span>WhatsApp Channel</span>
                         </div>
-                        <h4 class="font-bold text-lg">Subject Expert</h4>
-                        <p class="text-sm mt-2">Review and verify educational content for accuracy and quality</p>
-                        <ul class="text-xs mt-3 space-y-1 text-left">
-                            <li class="flex items-start gap-1">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>Verify content accuracy</span>
-                            </li>
-                            <li class="flex items-start gap-1">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>Suggest improvements</span>
-                            </li>
-                            <li class="flex items-start gap-1">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>Ensure curriculum alignment</span>
-                            </li>
-                        </ul>
+                        <div class="h-4 w-px" style="background-color: var(--bg);"></div>
+                        <div class="flex items-center gap-2">
+                            <i class="fab fa-telegram text-blue-500 text-lg"></i>
+                            <span>Telegram Channel</span>
+                        </div>
+                        <div class="h-4 w-px" style="background-color: var(--bg);"></div>
+                        <div class="flex items-center gap-2">
+                            <i class="fab fa-google-drive text-red-500 text-lg"></i>
+                            <span>Google Drive</span>
+                        </div>
                     </div>
                     
-                    <div class="team-role-card text-center">
-                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <div class="mt-6 md:mt-8 grid grid-cols-3 gap-4 text-center">
+                        <div>
+                            <div class="text-xl md:text-2xl font-bold" style="color: var(--primary);">5K+</div>
+                            <div class="text-xs" style="color: var(--text); opacity: 0.7;">Class 8 Students</div>
+                        </div>
+                        <div>
+                            <div class="text-xl md:text-2xl font-bold" style="color: var(--secondary);">200+</div>
+                            <div class="text-xs" style="color: var(--text); opacity: 0.7;">Chapter Notes</div>
+                        </div>
+                        <div>
+                            <div class="text-xl md:text-2xl font-bold" style="color: var(--accent);">12+</div>
+                            <div class="text-xs" style="color: var(--text); opacity: 0.7;">Subjects Covered</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative mt-8 md:mt-0">
+                    <div class="rounded-3xl overflow-hidden shadow-2xl ring-2 floating" style="border-color: var(--primary);">
+                        <div class="w-full h-64 md:h-80 lg:h-96 flex items-center justify-center text-white text-4xl md:text-5xl relative" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                            <i class="fas fa-book-open"></i>
+                            <div class="absolute bottom-4 left-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-white text-sm">
+                                <i class="fas fa-download mr-1"></i> Class 8 Notes
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute -bottom-4 -left-4 w-20 h-20 md:w-24 md:h-24 rounded-full opacity-20" style="background-color: var(--accent);"></div>
+                    <div class="absolute -top-4 -right-4 w-12 h-12 md:w-16 md:h-16 rounded-full opacity-20" style="background-color: var(--primary);"></div>
+                </div>
+            </section>
+
+            <!-- Features -->
+            <section id="features" class="mt-20 md:mt-28 text-center">
+                <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight gradient-text">Why NotesWallah for Class 8?</h2>
+                <p class="mt-2">Specialized resources designed specifically for Class 8 CBSE curriculum</p>
+
+                <div class="mt-8 md:mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                    <div class="subject-card">
+                        <div class="text-4xl">📚</div>
+                        <div class="mt-3 font-semibold text-lg">Complete NCERT Coverage</div>
+                        <div class="mt-1 text-sm">Detailed solutions and notes for all NCERT textbooks - Math, Science, Social Science, English, Hindi</div>
+                    </div>
+                    <div class="subject-card">
+                        <div class="text-4xl">🎯</div>
+                        <div class="mt-3 font-semibold text-lg">Exam-Focused Material</div>
+                        <div class="mt-1 text-sm">Chapter-wise important questions, sample papers, and previous year question papers</div>
+                    </div>
+                    <div class="subject-card">
+                        <div class="text-4xl">🧠</div>
+                        <div class="mt-3 font-semibold text-lg">Easy Understanding</div>
+                        <div class="mt-1 text-sm">Simplified explanations, diagrams, and examples to make learning enjoyable</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Statistics -->
+            <section class="mt-20 md:mt-24 rounded-3xl p-6 md:p-10 text-white" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h3 class="text-xl md:text-2xl font-bold">Platform Impact</h3>
+                    <p class="mt-4 opacity-90">Helping thousands of Class 8 students across India</p>
+                    
+                    <div class="mt-6 md:mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                        <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20">
+                            <div class="stats-counter">100+</div>
+                            <div class="text-sm opacity-90 mt-1">Students Registered</div>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20">
+                            <div class="stats-counter">500+</div>
+                            <div class="text-sm opacity-90 mt-1">Study Materials</div>
+                        </div>
+                    
+                        <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20">
+                            <div class="stats-counter">8X7</div>
+                            <div class="text-sm opacity-90 mt-1">Support Available</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Subjects -->
+            <section id="subjects" class="mt-20 md:mt-24">
+                <h3 class="text-xl md:text-2xl font-bold text-center gradient-text">Class 8 Subjects</h3>
+                <p class="text-center mt-2">Complete study materials for all Class 8 subjects</p>
+                <div class="mt-6 md:mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                    <!-- Subject Cards -->
+                    <div class="subject-card text-center">
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <h4 class="font-bold text-lg">Mathematics</h4>
+                        <p class="text-sm mt-2">Rational Numbers, Algebra, Geometry, Mensuration</p>
+                        <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 notes-access-btn shimmer" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
+                    </div>
+                    
+                    <div class="subject-card text-center">
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <h4 class="font-bold text-lg">Science</h4>
+                        <p class="text-sm mt-2">Crop Production, Microorganisms, Force, Light</p>
+                        <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 notes-access-btn shimmer" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
+                    </div>
+                    
+                    <div class="subject-card text-center">
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                            <i class="fas fa-globe-asia"></i>
+                        </div>
+                        <h4 class="font-bold text-lg">Social Science</h4>
+                        <p class="text-sm mt-2">History, Geography, Civics, Economics</p>
+                        <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 notes-access-btn shimmer" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
+                    </div>
+                    
+                    <div class="subject-card text-center">
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h4 class="font-bold text-lg">English</h4>
+                        <p class="text-sm mt-2">Honeydew, It So Happened, Grammar, Writing</p>
+                        <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 notes-access-btn shimmer" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
+                    </div>
+                    
+                    
+                    <div class="subject-card text-center">
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                             <i class="fas fa-laptop-code"></i>
                         </div>
-                        <h4 class="font-bold text-lg">Tech Volunteer</h4>
-                        <p class="text-sm mt-2">Help us build and maintain the platform with your technical skills</p>
-                        <ul class="text-xs mt-3 space-y-1 text-left">
-                            <li class="flex items-start gap-1">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>Web development</span>
-                            </li>
-                            <li class="flex items-start gap-1">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>UI/UX design</span>
-                            </li>
-                            <li class="flex items-start gap-1">
-                                <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
-                                <span>Platform maintenance</span>
-                            </li>
+                        <h4 class="font-bold text-lg">Computer</h4>
+                        <p class="text-sm mt-2">Computer Systems, Networking, MS Office</p>
+                        <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 notes-access-btn shimmer" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
+                    </div>
+                    
+                
+                    
+                    
+                </div>
+            </section>
+
+            <!-- Syllabus -->
+            <section id="syllabus" class="mt-20 md:mt-24">
+                <div class="subject-card">
+                    <h3 class="text-xl md:text-2xl font-bold text-center mb-6 md:mb-8 gradient-text">Class 8 Complete Syllabus</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                        <div>
+                            <h4 class="font-bold text-lg mb-4" style="color: var(--primary);">Mathematics Syllabus</h4>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-start gap-2">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>Rational Numbers</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>Linear Equations in One Variable</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>Understanding Quadrilaterals</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>Practical Geometry</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>Data Handling</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>Squares and Square Roots</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>Cubes and Cube Roots</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>Comparing Quantities</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-bold text-lg mb-4" style="color: var(--primary);">Science Syllabus</h4>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-start gap-2">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>Crop Production and Management</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>Microorganisms: Friend and Foe</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>Synthetic Fibres and Plastics</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>Materials: Metals and Non-Metals</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>Coal and Petroleum</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>Combustion and Flame</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>Conservation of Plants and Animals</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>Cell - Structure and Functions</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 md:mt-8 text-center">
+                        <button class="notes-access-btn px-6 py-3 rounded-lg text-white font-semibold shadow hover:opacity-90 shimmer" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                            Download Complete Syllabus PDF
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Team -->
+            <section id="team" class="mt-20 md:mt-24">
+                <h3 class="text-xl md:text-2xl font-bold text-center gradient-text">Meet Our Team</h3>
+                <p class="text-center mt-2">Dedicated educators creating the best Class 8 resources</p>
+                
+                <div class="mt-6 md:mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                    <!-- Team Card 1 -->
+                    <div class="subject-card text-center">
+                        <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                            IM
+                        </div>
+                        <h4 class="font-bold text-lg">IMON</h4>
+                        <div class="text-sm mt-1" style="color: var(--primary);">TECH & CHAIRMAN</div>
+                        <p class="text-sm mt-2">Leading the technical development and strategic direction of NotesWallah</p>
+                    </div>
+                    
+                    <!-- Team Card 2 -->
+                    <div class="subject-card text-center">
+                        <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                            AK
+                        </div>
+                        <h4 class="font-bold text-lg">ADRI KANRI</h4>
+                        <div class="text-sm mt-1" style="color: var(--primary);">TECH AND CEO</div>
+                        <p class="text-sm mt-2">Overseeing platform operations and technological innovation</p>
+                    </div>
+                    
+                    
+                        
+                    
+                    <!-- Team Card 4 -->
+                    <div class="subject-card text-center">
+                        <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                            EX
+                        </div>
+                        <h4 class="font-bold text-lg">EXPERT TEAM</h4>
+                        <div class="text-sm mt-1" style="color: var(--primary);">SUBJECT MATTER EXPERTS</div>
+                        <p class="text-sm mt-2">5+ experienced educators specializing in Class 8 curriculum</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Join Team Section -->
+            <section id="join-team" class="mt-20 md:mt-24">
+                <div class="subject-card">
+                    <h3 class="text-xl md:text-2xl font-bold text-center mb-2 gradient-text">Join Our Team</h3>
+                    <p class="text-center mb-6 md:mb-8">Become part of our mission to provide free education to Class 8 students</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
+                        <div class="team-role-card text-center">
+                            <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                                <i class="fas fa-pencil-alt"></i>
+                            </div>
+                            <h4 class="font-bold text-lg">Content Creator</h4>
+                            <p class="text-sm mt-2">Create study materials, notes, and solutions for Class 8 subjects</p>
+                            <ul class="text-xs mt-3 space-y-1 text-left">
+                                <li class="flex items-start gap-1">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>Create chapter notes</span>
+                                </li>
+                                <li class="flex items-start gap-1">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>Develop practice questions</span>
+                                </li>
+                                <li class="flex items-start gap-1">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>Design diagrams and illustrations</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="team-role-card text-center">
+                            <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <h4 class="font-bold text-lg">Subject Expert</h4>
+                            <p class="text-sm mt-2">Review and verify educational content for accuracy and quality</p>
+                            <ul class="text-xs mt-3 space-y-1 text-left">
+                                <li class="flex items-start gap-1">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>Verify content accuracy</span>
+                                </li>
+                                <li class="flex items-start gap-1">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>Suggest improvements</span>
+                                </li>
+                                <li class="flex items-start gap-1">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>Ensure curriculum alignment</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="team-role-card text-center">
+                            <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                            <h4 class="font-bold text-lg">Tech Volunteer</h4>
+                            <p class="text-sm mt-2">Help us build and maintain the platform with your technical skills</p>
+                            <ul class="text-xs mt-3 space-y-1 text-left">
+                                <li class="flex items-start gap-1">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>Web development</span>
+                                </li>
+                                <li class="flex items-start gap-1">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>UI/UX design</span>
+                                </li>
+                                <li class="flex items-start gap-1">
+                                    <i class="fas fa-check mt-1" style="color: var(--primary);"></i>
+                                    <span>Platform maintenance</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button id="join-team-btn" class="px-6 py-3 rounded-lg text-white font-semibold shadow hover:opacity-90 transition shimmer" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                            Apply to Join Our Team
+                        </button>
+                        <p class="text-sm mt-3">Help us make quality education accessible to every Class 8 student</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Channels Section -->
+            <section class="mt-20 md:mt-24 rounded-3xl p-6 md:p-10 text-white" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h3 class="text-xl md:text-2xl font-bold">Join Our Free Channels</h3>
+                    <p class="mt-4 opacity-90">Get instant access to all Class 8 notes, PDFs, and study materials</p>
+                    
+                    <div class="mt-6 md:mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                        <a href="https://whatsapp.com/channel/0029VbBV0ri65yDH94E0Zr2c" target="_blank" class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition flex flex-col items-center gap-4 transform hover:-translate-y-1">
+                            <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-green-500 flex items-center justify-center text-white">
+                                <i class="fab fa-whatsapp text-xl md:text-2xl"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-lg">WhatsApp Channel</div>
+                                <div class="text-sm opacity-90 mt-1">Get updates directly on WhatsApp</div>
+                            </div>
+                            <div class="mt-2 px-4 py-2 bg-white text-indigo-600 rounded-lg font-semibold text-sm">Join Now</div>
+                        </a>
+                        
+                        <a href="https://t.me/noteswallahfree" target="_blank" class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition flex flex-col items-center gap-4 transform hover:-translate-y-1">
+                            <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-blue-500 flex items-center justify-center text-white">
+                                <i class="fab fa-telegram text-xl md:text-2xl"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-lg">Telegram Channel</div>
+                                <div class="text-sm opacity-90 mt-1">Join our Telegram community</div>
+                            </div>
+                            <div class="mt-2 px-4 py-2 bg-white text-indigo-600 rounded-lg font-semibold text-sm">Join Now</div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="mt-20 md:mt-28 border-t pt-8 md:pt-10 pb-10 md:pb-14 text-sm" style="border-color: var(--bg);">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8">
+                    <div>
+                        <div class="font-extrabold text-lg gradient-text">NotesWallah Class 8</div>
+                        <div class="mt-2">© <span id="current-year">2024</span> NotesWallah — Free Class 8 Notes For All.</div>
+                        <div class="mt-4 flex gap-3">
+                            <a href="#" class="w-8 h-8 rounded-full flex items-center justify-center transition hover:opacity-80" style="background-color: var(--bg);">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="w-8 h-8 rounded-full flex items-center justify-center transition hover:opacity-80" style="background-color: var(--bg);">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="w-8 h-8 rounded-full flex items-center justify-center transition hover:opacity-80" style="background-color: var(--bg);">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="font-semibold">Quick Links</div>
+                        <ul class="mt-2 space-y-1">
+                            <li><a href="#features" class="hover:opacity-80">Features</a></li>
+                            <li><a href="#subjects" class="hover:opacity-80">Subjects</a></li>
+                            <li><a href="#syllabus" class="hover:opacity-80">Syllabus</a></li>
+                            <li><a href="#team" class="hover:opacity-80">Our Team</a></li>
+                            <li><a href="#join-team" class="hover:opacity-80">Join Us</a></li>
                         </ul>
                     </div>
-                </div>
-                
-                <div class="text-center">
-                    <button id="join-team-btn" class="px-6 py-3 rounded-lg text-white font-semibold shadow hover:opacity-90 transition" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
-                        Apply to Join Our Team
-                    </button>
-                    <p class="text-sm mt-3">Help us make quality education accessible to every Class 8 student</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Channels Section -->
-        <section class="mt-20 md:mt-24 rounded-3xl p-6 md:p-10 text-white" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
-            <div class="max-w-4xl mx-auto text-center">
-                <h3 class="text-xl md:text-2xl font-bold">Join Our Free Channels</h3>
-                <p class="mt-4 opacity-90">Get instant access to all Class 8 notes, PDFs, and study materials</p>
-                
-                <div class="mt-6 md:mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                    <a href="https://whatsapp.com/channel/0029VbBV0ri65yDH94E0Zr2c" target="_blank" class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition flex flex-col items-center gap-4 transform hover:-translate-y-1">
-                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-green-500 flex items-center justify-center text-white">
-                            <i class="fab fa-whatsapp text-xl md:text-2xl"></i>
-                        </div>
-                        <div>
-                            <div class="font-bold text-lg">WhatsApp Channel</div>
-                            <div class="text-sm opacity-90 mt-1">Get updates directly on WhatsApp</div>
-                        </div>
-                        <div class="mt-2 px-4 py-2 bg-white text-indigo-600 rounded-lg font-semibold text-sm">Join Now</div>
-                    </a>
-                    
-                    <a href="https://t.me/noteswallahfree" target="_blank" class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition flex flex-col items-center gap-4 transform hover:-translate-y-1">
-                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-blue-500 flex items-center justify-center text-white">
-                            <i class="fab fa-telegram text-xl md:text-2xl"></i>
-                        </div>
-                        <div>
-                            <div class="font-bold text-lg">Telegram Channel</div>
-                            <div class="text-sm opacity-90 mt-1">Join our Telegram community</div>
-                        </div>
-                        <div class="mt-2 px-4 py-2 bg-white text-indigo-600 rounded-lg font-semibold text-sm">Join Now</div>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="mt-20 md:mt-28 border-t pt-8 md:pt-10 pb-10 md:pb-14 text-sm" style="border-color: var(--bg);">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8">
-                <div>
-                    <div class="font-extrabold text-lg" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">NotesWallah Class 8</div>
-                    <div class="mt-2">© <span id="current-year">2024</span> NotesWallah — Free Class 8 Notes For All.</div>
-                    <div class="mt-4 flex gap-3">
-                        <a href="#" class="w-8 h-8 rounded-full flex items-center justify-center transition hover:opacity-80" style="background-color: var(--bg);">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="w-8 h-8 rounded-full flex items-center justify-center transition hover:opacity-80" style="background-color: var(--bg);">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="w-8 h-8 rounded-full flex items-center justify-center transition hover:opacity-80" style="background-color: var(--bg);">
-                            <i class="fab fa-instagram"></i>
-                        </a>
+                    <div>
+                        <div class="font-semibold">Our Channels</div>
+                        <ul class="mt-2 space-y-1">
+                            <li><a href="https://whatsapp.com/channel/0029VbBV0ri65yDH94E0Zr2c" target="_blank" class="text-green-500 font-semibold hover:opacity-80">WhatsApp Channel</a></li>
+                            <li><a href="https://t.me/noteswallahfree" target="_blank" class="text-blue-500 font-semibold hover:opacity-80">Telegram Channel</a></li>
+                            <li><a href="https://drive.google.com/drive/folders/1S3g_38zNJMS0Ip8973oSkBkyBOMJHcEQ?usp=sharing" target="_blank" class="text-red-500 font-semibold hover:opacity-80">Google Drive</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="font-semibold">Contact</div>
+                        <div class="mt-2">noteswallah08@gmail.com</div>
                     </div>
                 </div>
-                <div>
-                    <div class="font-semibold">Quick Links</div>
-                    <ul class="mt-2 space-y-1">
-                        <li><a href="#features" class="hover:opacity-80">Features</a></li>
-                        <li><a href="#subjects" class="hover:opacity-80">Subjects</a></li>
-                        <li><a href="#syllabus" class="hover:opacity-80">Syllabus</a></li>
-                        <li><a href="#team" class="hover:opacity-80">Our Team</a></li>
-                        <li><a href="#join-team" class="hover:opacity-80">Join Us</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <div class="font-semibold">Our Channels</div>
-                    <ul class="mt-2 space-y-1">
-                        <li><a href="https://whatsapp.com/channel/0029VbBV0ri65yDH94E0Zr2c" target="_blank" class="text-green-500 font-semibold hover:opacity-80">WhatsApp Channel</a></li>
-                        <li><a href="https://t.me/noteswallahfree" target="_blank" class="text-blue-500 font-semibold hover:opacity-80">Telegram Channel</a></li>
-                        <li><a href="https://drive.google.com/drive/folders/1S3g_38zNJMS0Ip8973oSkBkyBOMJHcEQ?usp=sharing" target="_blank" class="text-red-500 font-semibold hover:opacity-80">Google Drive</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <div class="font-semibold">Contact</div>
-                    <div class="mt-2">noteswallah08@gmail.com</div>
-                </div>
-            </div>
-        </footer>
-    </main>
+            </footer>
+        </main>
+    </div>
 
     <script>
+        // Privacy Policy Functionality
+        const policyModal = document.getElementById('policy-modal');
+        const mainContent = document.getElementById('main-content');
+        const acceptPolicyBtn = document.getElementById('accept-policy');
+        const declinePolicyBtn = document.getElementById('decline-policy');
+        
+        // Check if user has already accepted the policy
+        if (localStorage.getItem('noteswallah_policy_accepted') === 'true') {
+            policyModal.classList.remove('active');
+            mainContent.classList.remove('blur-background');
+        } else {
+            policyModal.classList.add('active');
+            mainContent.classList.add('blur-background');
+        }
+        
+        // Accept policy
+        acceptPolicyBtn.addEventListener('click', function() {
+            localStorage.setItem('noteswallah_policy_accepted', 'true');
+            policyModal.classList.remove('active');
+            mainContent.classList.remove('blur-background');
+            
+            // Create particle effect
+            createParticles();
+        });
+        
+        // Decline policy
+        declinePolicyBtn.addEventListener('click', function() {
+            // Redirect to a different page or show a message
+            alert('You must accept our Privacy Policy to use NotesWallah. Please refresh the page to accept the policy.');
+        });
+        
         // Mode Toggle Functionality
         document.querySelectorAll('.mode-btn').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -993,6 +1170,43 @@
                 teamModal.classList.remove('active');
             }
         });
+        
+        // Create particle effect function
+        function createParticles() {
+            const particlesContainer = document.createElement('div');
+            particlesContainer.classList.add('particles');
+            document.body.appendChild(particlesContainer);
+            
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size
+                const size = Math.random() * 10 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Random animation
+                const duration = Math.random() * 20 + 10;
+                particle.style.animation = `float ${duration}s ease-in-out infinite`;
+                
+                // Random delay
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Initialize particles if policy is already accepted
+        if (localStorage.getItem('noteswallah_policy_accepted') === 'true') {
+            createParticles();
+        }
     </script>
 </body>
 </html>
