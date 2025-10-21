@@ -63,7 +63,7 @@
             text-shadow: 0 0 5px var(--primary), 0 0 10px var(--primary);
         }
         
-        .channel-modal, .team-modal, .notes-modal, .policy-modal {
+        .channel-modal, .team-modal, .notes-modal, .policy-modal, .verify-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -75,7 +75,7 @@
             justify-content: center;
             align-items: center;
         }
-        .channel-modal.active, .team-modal.active, .notes-modal.active, .policy-modal.active {
+        .channel-modal.active, .team-modal.active, .notes-modal.active, .policy-modal.active, .verify-modal.active {
             display: flex;
         }
         
@@ -261,17 +261,72 @@
             0% { background-position: -200% 0; }
             100% { background-position: 200% 0; }
         }
+        
+        /* RGB Animation for verification modal */
+        @keyframes rgb-border {
+            0% { border-color: #ff0000; box-shadow: 0 0 20px #ff0000; }
+            25% { border-color: #00ff00; box-shadow: 0 0 20px #00ff00; }
+            50% { border-color: #0000ff; box-shadow: 0 0 20px #0000ff; }
+            75% { border-color: #ffff00; box-shadow: 0 0 20px #ffff00; }
+            100% { border-color: #ff00ff; box-shadow: 0 0 20px #ff00ff; }
+        }
+        
+        .rgb-modal {
+            animation: rgb-border 3s linear infinite;
+            border-width: 3px;
+            border-style: solid;
+        }
+        
+        /* Email verification specific styles */
+        .pe_verify_email {
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            background: var(--card);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .pe_verify_email iframe {
+            width: 100% !important;
+            border: none !important;
+        }
     </style>
 </head>
 <body class="neon-mode min-h-screen">
+    <!-- Email Verification Modal -->
+    <div id="verify-modal" class="verify-modal active">
+        <div class="bg-white rounded-2xl p-4 md:p-8 max-w-2xl w-full mx-4 shadow-2xl rgb-modal" style="background-color: var(--card); color: var(--text);">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold gradient-text">Verify Your Email</h3>
+                <div class="w-12 h-12 rounded-full flex items-center justify-center text-white" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <i class="fas fa-envelope"></i>
+                </div>
+            </div>
+            
+            <div class="text-center mb-6">
+                <p class="text-lg">You need to verify your email to access all Class 8 notes and materials</p>
+                <p class="text-sm mt-2">This helps us ensure our resources reach real students</p>
+            </div>
+            
+            <!-- Phone.Email Verification Widget -->
+            <div class="pe_verify_email" data-client-id="14784152020933100862">
+                <script src="https://www.phone.email/verify_email_v1.js" async></script>
+            </div>
+            
+            <div class="mt-6 text-center text-sm">
+                <p>By verifying, you agree to our <a href="#" id="show-policy-link" class="underline">Privacy Policy</a></p>
+            </div>
+        </div>
+    </div>
+
     <!-- Privacy Policy Modal -->
-    <div id="policy-modal" class="policy-modal active">
+    <div id="policy-modal" class="policy-modal">
         <div class="bg-white rounded-2xl p-4 md:p-8 max-w-4xl w-full mx-4 shadow-2xl" style="background-color: var(--card); color: var(--text);">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-2xl font-bold gradient-text">NotesWallah Privacy Policy</h3>
-                <div class="w-12 h-12 rounded-full flex items-center justify-center text-white" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
-                    <i class="fas fa-shield-alt"></i>
-                </div>
+                <button id="close-policy-modal" class="text-slate-500 hover:text-slate-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
             </div>
             
             <div class="policy-content mb-6 text-sm">
@@ -330,16 +385,9 @@
             </div>
             
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <button id="accept-policy" class="px-6 py-3 rounded-lg text-white font-semibold shadow-lg hover:opacity-90 transition neon-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
-                    <i class="fas fa-check-circle mr-2"></i> Accept Policy & Continue
+                <button id="close-policy-modal-2" class="px-6 py-3 rounded-lg text-white font-semibold shadow-lg hover:opacity-90 transition neon-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <i class="fas fa-check-circle mr-2"></i> Close Policy
                 </button>
-                <button id="decline-policy" class="px-6 py-3 rounded-lg font-semibold shadow hover:opacity-90 transition" style="background-color: var(--card); color: var(--text); border: 1px solid var(--bg);">
-                    <i class="fas fa-times-circle mr-2"></i> Decline & Exit
-                </button>
-            </div>
-            
-            <div class="mt-4 text-center text-sm">
-                <p>By accepting, you acknowledge that you have read and understood our Privacy Policy</p>
             </div>
         </div>
     </div>
@@ -504,7 +552,7 @@
         </div>
     </div>
 
-    <!-- Main Content (will be blurred until policy accepted) -->
+    <!-- Main Content (will be blurred until email verified) -->
     <div id="main-content" class="blur-background">
         <!-- Navigation -->
         <header class="backdrop-blur sticky top-0 z-50 border-b shadow-sm" style="background-color: var(--card); border-color: var(--bg);">
@@ -1016,35 +1064,61 @@
     </div>
 
     <script>
-        // Privacy Policy Functionality
-        const policyModal = document.getElementById('policy-modal');
-        const mainContent = document.getElementById('main-content');
-        const acceptPolicyBtn = document.getElementById('accept-policy');
-        const declinePolicyBtn = document.getElementById('decline-policy');
-        
-        // Check if user has already accepted the policy
-        if (localStorage.getItem('noteswallah_policy_accepted') === 'true') {
-            policyModal.classList.remove('active');
-            mainContent.classList.remove('blur-background');
-        } else {
-            policyModal.classList.add('active');
-            mainContent.classList.add('blur-background');
-        }
-        
-        // Accept policy
-        acceptPolicyBtn.addEventListener('click', function() {
-            localStorage.setItem('noteswallah_policy_accepted', 'true');
-            policyModal.classList.remove('active');
+        // Email verification functionality
+        function phoneEmailReceiver(userObj){
+            var user_json_url = userObj.user_json_url;
+
+            // Store verification status
+            localStorage.setItem('noteswallah_email_verified', 'true');
+            
+            // Hide verification modal and remove blur
+            verifyModal.classList.remove('active');
             mainContent.classList.remove('blur-background');
             
             // Create particle effect
             createParticles();
+            
+            // Show success message
+            alert('Email Verification Successful!\nYou now have full access to NotesWallah Class 8 materials.');
+        }
+        
+        // Email Verification Modal Functionality
+        const verifyModal = document.getElementById('verify-modal');
+        const mainContent = document.getElementById('main-content');
+        
+        // Check if user has already verified their email
+        if (localStorage.getItem('noteswallah_email_verified') === 'true') {
+            verifyModal.classList.remove('active');
+            mainContent.classList.remove('blur-background');
+            createParticles();
+        } else {
+            verifyModal.classList.add('active');
+            mainContent.classList.add('blur-background');
+        }
+        
+        // Privacy Policy Modal Functionality
+        const policyModal = document.getElementById('policy-modal');
+        const showPolicyLink = document.getElementById('show-policy-link');
+        const closePolicyButtons = document.querySelectorAll('#close-policy-modal, #close-policy-modal-2');
+        
+        // Show privacy policy modal when link is clicked
+        showPolicyLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            policyModal.classList.add('active');
         });
         
-        // Decline policy
-        declinePolicyBtn.addEventListener('click', function() {
-            // Redirect to a different page or show a message
-            alert('You must accept our Privacy Policy to use NotesWallah. Please refresh the page to accept the policy.');
+        // Close privacy policy modal when close buttons are clicked
+        closePolicyButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                policyModal.classList.remove('active');
+            });
+        });
+        
+        // Close privacy policy modal when clicking outside the modal content
+        policyModal.addEventListener('click', function(e) {
+            if (e.target === policyModal) {
+                policyModal.classList.remove('active');
+            }
         });
         
         // Mode Toggle Functionality
@@ -1102,6 +1176,11 @@
         // Open notes modal when any notes access button is clicked
         notesAccessButtons.forEach(button => {
             button.addEventListener('click', function() {
+                // Check if user is verified
+                if (localStorage.getItem('noteswallah_email_verified') !== 'true') {
+                    verifyModal.classList.add('active');
+                    return;
+                }
                 notesModal.classList.add('active');
             });
         });
@@ -1128,6 +1207,11 @@
         // Open modal when any channel button is clicked
         channelButtons.forEach(button => {
             button.addEventListener('click', function() {
+                // Check if user is verified
+                if (localStorage.getItem('noteswallah_email_verified') !== 'true') {
+                    verifyModal.classList.add('active');
+                    return;
+                }
                 notesModal.classList.remove('active');
                 modal.classList.add('active');
             });
@@ -1154,6 +1238,11 @@
         
         // Open team modal when join team button is clicked
         joinTeamBtn.addEventListener('click', function() {
+            // Check if user is verified
+            if (localStorage.getItem('noteswallah_email_verified') !== 'true') {
+                verifyModal.classList.add('active');
+                return;
+            }
             teamModal.classList.add('active');
         });
         
@@ -1201,11 +1290,6 @@
                 
                 particlesContainer.appendChild(particle);
             }
-        }
-        
-        // Initialize particles if policy is already accepted
-        if (localStorage.getItem('noteswallah_policy_accepted') === 'true') {
-            createParticles();
         }
     </script>
 </body>
