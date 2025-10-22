@@ -63,7 +63,7 @@
             text-shadow: 0 0 5px var(--primary), 0 0 10px var(--primary);
         }
         
-        .channel-modal, .team-modal, .notes-modal, .policy-modal, .verify-modal {
+        .channel-modal, .team-modal, .notes-modal, .policy-modal, .verify-modal, .lectures-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -75,7 +75,7 @@
             justify-content: center;
             align-items: center;
         }
-        .channel-modal.active, .team-modal.active, .notes-modal.active, .policy-modal.active, .verify-modal.active {
+        .channel-modal.active, .team-modal.active, .notes-modal.active, .policy-modal.active, .verify-modal.active, .lectures-modal.active {
             display: flex;
         }
         
@@ -290,22 +290,45 @@
             width: 100% !important;
             border: none !important;
         }
+        
+        /* Lecture options styling */
+        .lecture-option {
+            background: var(--card);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .lecture-option:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+        
+        .powered-by {
+            font-size: 0.75rem;
+            color: var(--text);
+            opacity: 0.7;
+            margin-top: 0.5rem;
+        }
     </style>
 </head>
 <body class="neon-mode min-h-screen">
     <!-- Email Verification Modal -->
-    <div id="verify-modal" class="verify-modal active">
+    <div id="verify-modal" class="verify-modal">
         <div class="bg-white rounded-2xl p-4 md:p-8 max-w-2xl w-full mx-4 shadow-2xl rgb-modal" style="background-color: var(--card); color: var(--text);">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold gradient-text">Verify Your Email</h3>
-                <div class="w-12 h-12 rounded-full flex items-center justify-center text-white" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
-                    <i class="fas fa-envelope"></i>
-                </div>
+                <h3 class="text-2xl font-bold gradient-text">Verify Your Email (Optional)</h3>
+                <button id="close-verify-modal" class="text-slate-500 hover:text-slate-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
             </div>
             
             <div class="text-center mb-6">
-                <p class="text-lg">You need to verify your email to access all Class 8 notes and materials</p>
-                <p class="text-sm mt-2">This helps us ensure our resources reach real students</p>
+                <p class="text-lg">Email verification helps us provide personalized updates and secure your account</p>
+                <p class="text-sm mt-2">This is completely optional - you can skip and continue to access all materials</p>
             </div>
             
             <!-- Phone.Email Verification Widget -->
@@ -315,6 +338,55 @@
             
             <div class="mt-6 text-center text-sm">
                 <p>By verifying, you agree to our <a href="#" id="show-policy-link" class="underline">Privacy Policy</a></p>
+            </div>
+            
+            <div class="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
+                <button id="skip-verification" class="px-6 py-3 rounded-lg font-semibold shadow hover:opacity-90 transition" style="background-color: var(--card); color: var(--text); border: 1px solid var(--bg);">
+                    <i class="fas fa-forward mr-2"></i> Skip & Continue
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Free Lectures Modal -->
+    <div id="lectures-modal" class="lectures-modal">
+        <div class="bg-white rounded-2xl p-4 md:p-8 max-w-2xl w-full mx-4 shadow-2xl" style="background-color: var(--card); color: var(--text);">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold">Free Lecture Videos</h3>
+                <button id="close-lectures-modal" class="text-slate-500 hover:text-slate-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <p class="mb-6 text-center">Choose your batch to access free lecture videos</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="lecture-option">
+                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <h4 class="font-bold text-lg mb-2">Umang 2026</h4>
+                    <p class="text-sm mb-4">Complete lecture series for Class 8 students</p>
+                    <a href="https://studyspark.site/?batch=677929e692a5a811765a3658" target="_blank" class="inline-block w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-lg shadow hover:opacity-90 transition">
+                        Access Umang 2026
+                    </a>
+                    <div class="powered-by">Powered by Study Spark</div>
+                </div>
+                
+                <div class="lecture-option">
+                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h4 class="font-bold text-lg mb-2">Umang 2.0</h4>
+                    <p class="text-sm mb-4">Advanced lecture series with practice sessions</p>
+                    <a href="https://studyspark.site/?batch=681f3d4bf8b5acbf8e6c11e6" target="_blank" class="inline-block w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-semibold rounded-lg shadow hover:opacity-90 transition">
+                        Access Umang 2.0
+                    </a>
+                    <div class="powered-by">Powered by Study Spark</div>
+                </div>
+            </div>
+            
+            <div class="mt-6 text-center">
+                <button id="close-lectures-modal-2" class="text-sm text-slate-500 hover:text-slate-700">Close</button>
             </div>
         </div>
     </div>
@@ -394,7 +466,7 @@
 
     <!-- Notes Access Modal -->
     <div id="notes-modal" class="notes-modal">
-        <div class="bg-white rounded-2xl p-4 md:p-8 max-w-2xl w-full mx-4 shadow-2xl" style="background-color: var(--card); color: var(--text);">
+        <div class="bg-white rounded-2xl p-4 md:p-8 max-w-3xl w-full mx-4 shadow-2xl" style="background-color: var(--card); color: var(--text);">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-bold">Access Class 8 Notes</h3>
                 <button id="close-notes-modal" class="text-slate-500 hover:text-slate-700">
@@ -423,6 +495,28 @@
                     <p class="text-sm mb-4">Get regular updates and notifications on WhatsApp or Telegram</p>
                     <button class="channel-btn w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-semibold rounded-lg shadow hover:opacity-90 transition">
                         Join Our Channels
+                    </button>
+                </div>
+                
+                <div class="notes-option-card">
+                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h4 class="font-bold text-lg mb-2">Free Lecture Videos</h4>
+                    <p class="text-sm mb-4">Access free video lectures for all Class 8 subjects</p>
+                    <button class="lectures-btn w-full py-3 px-4 bg-gradient-to-r from-green-600 to-purple-600 text-white font-semibold rounded-lg shadow hover:opacity-90 transition">
+                        Watch Lectures
+                    </button>
+                </div>
+                
+                <div class="notes-option-card">
+                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h4 class="font-bold text-lg mb-2">Verify Email (Optional)</h4>
+                    <p class="text-sm mb-4">Get personalized updates and secure your account</p>
+                    <button class="verify-btn w-full py-3 px-4 bg-gradient-to-r from-yellow-600 to-orange-600 text-white font-semibold rounded-lg shadow hover:opacity-90 transition">
+                        Verify Email
                     </button>
                 </div>
             </div>
@@ -552,8 +646,8 @@
         </div>
     </div>
 
-    <!-- Main Content (will be blurred until email verified) -->
-    <div id="main-content" class="blur-background">
+    <!-- Main Content -->
+    <div id="main-content">
         <!-- Navigation -->
         <header class="backdrop-blur sticky top-0 z-50 border-b shadow-sm" style="background-color: var(--card); border-color: var(--bg);">
             <div class="container-limit mx-auto px-4 md:px-6 py-4 flex items-center justify-between">
@@ -771,6 +865,40 @@
                 </div>
             </section>
 
+            <!-- Free Lectures Section -->
+            <section id="lectures" class="mt-20 md:mt-24">
+                <div class="subject-card">
+                    <h3 class="text-xl md:text-2xl font-bold text-center mb-6 md:mb-8 gradient-text">Free Lecture Videos</h3>
+                    <p class="text-center mb-6">Access high-quality video lectures for all Class 8 subjects</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                        <div class="lecture-option">
+                            <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                                <i class="fas fa-play-circle"></i>
+                            </div>
+                            <h4 class="font-bold text-lg mb-2">Umang 2026</h4>
+                            <p class="text-sm mb-4">Complete lecture series for Class 8 students covering all subjects with detailed explanations</p>
+                            <a href="https://studyspark.site/?batch=677929e692a5a811765a3658" target="_blank" class="inline-block w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-lg shadow hover:opacity-90 transition">
+                                Access Umang 2026
+                            </a>
+                            <div class="powered-by">Powered by Study Spark</div>
+                        </div>
+                        
+                        <div class="lecture-option">
+                            <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <h4 class="font-bold text-lg mb-2">Umang 2.0</h4>
+                            <p class="text-sm mb-4">Advanced lecture series with practice sessions, doubt solving, and exam preparation tips</p>
+                            <a href="https://studyspark.site/?batch=681f3d4bf8b5acbf8e6c11e6" target="_blank" class="inline-block w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-semibold rounded-lg shadow hover:opacity-90 transition">
+                                Access Umang 2.0
+                            </a>
+                            <div class="powered-by">Powered by Study Spark</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Syllabus -->
             <section id="syllabus" class="mt-20 md:mt-24">
                 <div class="subject-card">
@@ -888,10 +1016,18 @@
                         <p class="text-sm mt-2">Overseeing platform operations and technological innovation</p>
                     </div>
                     
-                    
+                    <!-- Team Card 4 -->
+                    <div class="subject-card text-center">
+                        <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                            BK
+                        </div>
+                        <h4 class="font-bold text-lg">BASKAR</h4>
+                        <div class="text-sm mt-1" style="color: var(--primary);">SUPPORT MANAGEMENT</div>
+                        <p class="text-sm mt-2">Overseeing platform Support and Feedback Department</p>
+                    </div>
                         
                     
-                    <!-- Team Card 4 -->
+                    <!-- Team Card 5 -->
                     <div class="subject-card text-center">
                         <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                             EX
@@ -1056,7 +1192,7 @@
                     </div>
                     <div>
                         <div class="font-semibold">Contact</div>
-                        <div class="mt-2">noteswallah08@gmail.com</div>
+                        <div class="mt-2">nw.teamhelp@gmail.com</div>
                     </div>
                 </div>
             </footer>
@@ -1071,30 +1207,71 @@
             // Store verification status
             localStorage.setItem('noteswallah_email_verified', 'true');
             
-            // Hide verification modal and remove blur
+            // Hide verification modal
             verifyModal.classList.remove('active');
-            mainContent.classList.remove('blur-background');
             
             // Create particle effect
             createParticles();
             
             // Show success message
-            alert('Email Verification Successful!\nYou now have full access to NotesWallah Class 8 materials.');
+            alert('Email Verification Successful!\nThank you for verifying your email.');
         }
         
         // Email Verification Modal Functionality
         const verifyModal = document.getElementById('verify-modal');
-        const mainContent = document.getElementById('main-content');
+        const closeVerifyBtn = document.getElementById('close-verify-modal');
+        const skipVerificationBtn = document.getElementById('skip-verification');
+        const verifyButtons = document.querySelectorAll('.verify-btn');
         
-        // Check if user has already verified their email
-        if (localStorage.getItem('noteswallah_email_verified') === 'true') {
+        // Open verification modal when verify buttons are clicked
+        verifyButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                verifyModal.classList.add('active');
+            });
+        });
+        
+        // Close verification modal when close button is clicked
+        closeVerifyBtn.addEventListener('click', function() {
             verifyModal.classList.remove('active');
-            mainContent.classList.remove('blur-background');
-            createParticles();
-        } else {
-            verifyModal.classList.add('active');
-            mainContent.classList.add('blur-background');
-        }
+        });
+        
+        // Skip verification when skip button is clicked
+        skipVerificationBtn.addEventListener('click', function() {
+            verifyModal.classList.remove('active');
+        });
+        
+        // Close verification modal when clicking outside the modal content
+        verifyModal.addEventListener('click', function(e) {
+            if (e.target === verifyModal) {
+                verifyModal.classList.remove('active');
+            }
+        });
+        
+        // Free Lectures Modal Functionality
+        const lecturesModal = document.getElementById('lectures-modal');
+        const closeLecturesButtons = document.querySelectorAll('#close-lectures-modal, #close-lectures-modal-2');
+        const lecturesButtons = document.querySelectorAll('.lectures-btn');
+        
+        // Open lectures modal when lectures buttons are clicked
+        lecturesButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                lecturesModal.classList.add('active');
+            });
+        });
+        
+        // Close lectures modal when close buttons are clicked
+        closeLecturesButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                lecturesModal.classList.remove('active');
+            });
+        });
+        
+        // Close lectures modal when clicking outside the modal content
+        lecturesModal.addEventListener('click', function(e) {
+            if (e.target === lecturesModal) {
+                lecturesModal.classList.remove('active');
+            }
+        });
         
         // Privacy Policy Modal Functionality
         const policyModal = document.getElementById('policy-modal');
@@ -1176,11 +1353,6 @@
         // Open notes modal when any notes access button is clicked
         notesAccessButtons.forEach(button => {
             button.addEventListener('click', function() {
-                // Check if user is verified
-                if (localStorage.getItem('noteswallah_email_verified') !== 'true') {
-                    verifyModal.classList.add('active');
-                    return;
-                }
                 notesModal.classList.add('active');
             });
         });
@@ -1207,11 +1379,6 @@
         // Open modal when any channel button is clicked
         channelButtons.forEach(button => {
             button.addEventListener('click', function() {
-                // Check if user is verified
-                if (localStorage.getItem('noteswallah_email_verified') !== 'true') {
-                    verifyModal.classList.add('active');
-                    return;
-                }
                 notesModal.classList.remove('active');
                 modal.classList.add('active');
             });
@@ -1238,11 +1405,6 @@
         
         // Open team modal when join team button is clicked
         joinTeamBtn.addEventListener('click', function() {
-            // Check if user is verified
-            if (localStorage.getItem('noteswallah_email_verified') !== 'true') {
-                verifyModal.classList.add('active');
-                return;
-            }
             teamModal.classList.add('active');
         });
         
@@ -1291,6 +1453,9 @@
                 particlesContainer.appendChild(particle);
             }
         }
+        
+        // Initialize particles on page load
+        createParticles();
     </script>
 </body>
 </html>
