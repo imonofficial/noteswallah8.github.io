@@ -23,59 +23,68 @@
             background-color: var(--bg);
             color: var(--text);
             transition: all 0.3s ease;
+            overflow-x: hidden;
         }
         
-        /* Light Mode */
-        .light-mode {
-            --primary: #667eea;
-            --secondary: #764ba2;
-            --accent: #f093fb;
-            --text: #2d3748;
-            --bg: #f7fafc;
-            --card: #ffffff;
-        }
-        
-        /* Dark Mode */
-        .dark-mode {
-            --primary: #8b5cf6;
-            --secondary: #6366f1;
-            --accent: #a78bfa;
-            --text: #e2e8f0;
-            --bg: #0f172a;
-            --card: #1e293b;
-        }
-        
-        /* Neon Mode */
-        .neon-mode {
-            --primary: #00ffcc;
-            --secondary: #ff00ff;
-            --accent: #ffff00;
+        /* RGB Mode */
+        .rgb-mode {
+            --primary: #ff0080;
+            --secondary: #8000ff;
+            --accent: #00ffff;
             --text: #ffffff;
             --bg: #0a0a0a;
             --card: #1a1a1a;
         }
         
-        .neon-glow {
+        .rgb-glow {
             box-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary), 0 0 40px var(--primary);
         }
         
-        .neon-text {
+        .rgb-text {
             text-shadow: 0 0 5px var(--primary), 0 0 10px var(--primary);
         }
         
-        .channel-modal, .team-modal, .notes-modal, .policy-modal, .verify-modal, .lectures-modal {
+        /* RGB Animation for background */
+        @keyframes rgb-background {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .rgb-background {
+            background: linear-gradient(-45deg, #ff0080, #8000ff, #00ffff, #ffff00);
+            background-size: 400% 400%;
+            animation: rgb-background 15s ease infinite;
+        }
+        
+        /* RGB Animation for elements */
+        @keyframes rgb-border {
+            0% { border-color: #ff0080; box-shadow: 0 0 20px #ff0080; }
+            25% { border-color: #8000ff; box-shadow: 0 0 20px #8000ff; }
+            50% { border-color: #00ffff; box-shadow: 0 0 20px #00ffff; }
+            75% { border-color: #ffff00; box-shadow: 0 0 20px #ffff00; }
+            100% { border-color: #ff0080; box-shadow: 0 0 20px #ff0080; }
+        }
+        
+        .rgb-border {
+            animation: rgb-border 3s linear infinite;
+            border-width: 2px;
+            border-style: solid;
+        }
+        
+        .channel-modal, .team-modal, .notes-modal, .policy-modal, .lectures-modal, .verify-modal {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.8);
             z-index: 100;
             justify-content: center;
             align-items: center;
         }
-        .channel-modal.active, .team-modal.active, .notes-modal.active, .policy-modal.active, .verify-modal.active, .lectures-modal.active {
+        .channel-modal.active, .team-modal.active, .notes-modal.active, .policy-modal.active, .lectures-modal.active, .verify-modal.active {
             display: flex;
         }
         
@@ -109,30 +118,8 @@
             box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
         }
         
-        .neon-mode .subject-card {
+        .rgb-mode .subject-card {
             border: 1px solid var(--primary);
-        }
-        
-        .mode-toggle {
-            background: var(--card);
-            border-radius: 0.5rem;
-            padding: 0.5rem;
-            display: flex;
-            gap: 0.25rem;
-        }
-        
-        .mode-btn {
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-        
-        .mode-btn.active {
-            background: var(--primary);
-            color: white;
         }
         
         .team-role-card {
@@ -224,13 +211,6 @@
             padding-right: 1rem;
         }
         
-        /* Blur effect when policy modal is active */
-        .blur-background {
-            filter: blur(5px);
-            pointer-events: none;
-            user-select: none;
-        }
-        
         /* Floating animation for elements */
         .float-animation {
             animation: float 6s ease-in-out infinite;
@@ -260,21 +240,6 @@
         @keyframes shimmer {
             0% { background-position: -200% 0; }
             100% { background-position: 200% 0; }
-        }
-        
-        /* RGB Animation for verification modal */
-        @keyframes rgb-border {
-            0% { border-color: #ff0000; box-shadow: 0 0 20px #ff0000; }
-            25% { border-color: #00ff00; box-shadow: 0 0 20px #00ff00; }
-            50% { border-color: #0000ff; box-shadow: 0 0 20px #0000ff; }
-            75% { border-color: #ffff00; box-shadow: 0 0 20px #ffff00; }
-            100% { border-color: #ff00ff; box-shadow: 0 0 20px #ff00ff; }
-        }
-        
-        .rgb-modal {
-            animation: rgb-border 3s linear infinite;
-            border-width: 3px;
-            border-style: solid;
         }
         
         /* Email verification specific styles */
@@ -313,14 +278,74 @@
             opacity: 0.7;
             margin-top: 0.5rem;
         }
+        
+        /* Study Spark Banner */
+        .studyspark-banner {
+            background: linear-gradient(90deg, #ff0080, #8000ff, #00ffff);
+            background-size: 200% 200%;
+            animation: rgb-background 10s ease infinite;
+            color: white;
+            text-align: center;
+            padding: 8px 0;
+            font-weight: bold;
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 40;
+        }
+        
+        .studyspark-banner a {
+            color: white;
+            text-decoration: underline;
+            font-weight: 800;
+        }
+        
+        /* RGB Button Styles */
+        .rgb-button {
+            background: linear-gradient(90deg, #ff0080, #8000ff, #00ffff);
+            background-size: 200% 200%;
+            animation: rgb-background 5s ease infinite;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .rgb-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* RGB Card Styles */
+        .rgb-card {
+            background: var(--card);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid;
+            animation: rgb-border 5s linear infinite;
+        }
+        
+        .rgb-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
-<body class="neon-mode min-h-screen">
-    <!-- Email Verification Modal -->
+<body class="rgb-mode min-h-screen">
+    <!-- Study Spark Banner -->
+    <div class="studyspark-banner">
+        NotesWallah Special Partners: <a href="https://studyspark.site" target="_blank">Study Spark Lecture Provider</a> - Click to visit website
+    </div>
+
+    <!-- Email Verification Modal (Optional) -->
     <div id="verify-modal" class="verify-modal">
-        <div class="bg-white rounded-2xl p-4 md:p-8 max-w-2xl w-full mx-4 shadow-2xl rgb-modal" style="background-color: var(--card); color: var(--text);">
+        <div class="bg-white rounded-2xl p-4 md:p-8 max-w-2xl w-full mx-4 shadow-2xl rgb-border" style="background-color: var(--card); color: var(--text);">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold gradient-text">Verify Your Email (Optional)</h3>
+                <h3 class="text-2xl font-bold gradient-text rgb-text">Verify Your Email (Optional)</h3>
                 <button id="close-verify-modal" class="text-slate-500 hover:text-slate-700">
                     <i class="fas fa-times text-xl"></i>
                 </button>
@@ -350,7 +375,7 @@
 
     <!-- Free Lectures Modal -->
     <div id="lectures-modal" class="lectures-modal">
-        <div class="bg-white rounded-2xl p-4 md:p-8 max-w-2xl w-full mx-4 shadow-2xl" style="background-color: var(--card); color: var(--text);">
+        <div class="bg-white rounded-2xl p-4 md:p-8 max-w-2xl w-full mx-4 shadow-2xl rgb-border" style="background-color: var(--card); color: var(--text);">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-bold">Free Lecture Videos</h3>
                 <button id="close-lectures-modal" class="text-slate-500 hover:text-slate-700">
@@ -360,26 +385,26 @@
             <p class="mb-6 text-center">Choose your batch to access free lecture videos</p>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="lecture-option">
-                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                <div class="lecture-option rgb-card">
+                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4 float-animation rgb-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                         <i class="fas fa-play-circle"></i>
                     </div>
                     <h4 class="font-bold text-lg mb-2">Umang 2026</h4>
                     <p class="text-sm mb-4">Complete lecture series for Class 8 students</p>
-                    <a href="https://studyspark.site/?batch=677929e692a5a811765a3658" target="_blank" class="inline-block w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-lg shadow hover:opacity-90 transition">
+                    <a href="https://studyspark.site/?batch=677929e692a5a811765a3658" target="_blank" class="inline-block w-full py-3 px-4 rgb-button font-semibold rounded-lg shadow hover:opacity-90 transition">
                         Access Umang 2026
                     </a>
                     <div class="powered-by">Powered by Study Spark</div>
                 </div>
                 
-                <div class="lecture-option">
-                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                <div class="lecture-option rgb-card">
+                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4 float-animation rgb-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                         <i class="fas fa-video"></i>
                     </div>
-                    <h4 class="font-bold text-lg mb-2">Umang 2.0</h4>
+                    <h4 class="font-bold text-lg mb-2">Umang 2.0 2026</h4>
                     <p class="text-sm mb-4">Advanced lecture series with practice sessions</p>
-                    <a href="https://studyspark.site/?batch=681f3d4bf8b5acbf8e6c11e6" target="_blank" class="inline-block w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-semibold rounded-lg shadow hover:opacity-90 transition">
-                        Access Umang 2.0
+                    <a href="https://studyspark.site/?batch=681f3d4bf8b5acbf8e6c11e6" target="_blank" class="inline-block w-full py-3 px-4 rgb-button font-semibold rounded-lg shadow hover:opacity-90 transition">
+                        Access Umang 2.0 2026
                     </a>
                     <div class="powered-by">Powered by Study Spark</div>
                 </div>
@@ -393,7 +418,7 @@
 
     <!-- Privacy Policy Modal -->
     <div id="policy-modal" class="policy-modal">
-        <div class="bg-white rounded-2xl p-4 md:p-8 max-w-4xl w-full mx-4 shadow-2xl" style="background-color: var(--card); color: var(--text);">
+        <div class="bg-white rounded-2xl p-4 md:p-8 max-w-4xl w-full mx-4 shadow-2xl rgb-border" style="background-color: var(--card); color: var(--text);">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-2xl font-bold gradient-text">NotesWallah Privacy Policy</h3>
                 <button id="close-policy-modal" class="text-slate-500 hover:text-slate-700">
@@ -457,7 +482,7 @@
             </div>
             
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <button id="close-policy-modal-2" class="px-6 py-3 rounded-lg text-white font-semibold shadow-lg hover:opacity-90 transition neon-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                <button id="close-policy-modal-2" class="px-6 py-3 rounded-lg rgb-button font-semibold shadow-lg hover:opacity-90 transition">
                     <i class="fas fa-check-circle mr-2"></i> Close Policy
                 </button>
             </div>
@@ -466,7 +491,7 @@
 
     <!-- Notes Access Modal -->
     <div id="notes-modal" class="notes-modal">
-        <div class="bg-white rounded-2xl p-4 md:p-8 max-w-3xl w-full mx-4 shadow-2xl" style="background-color: var(--card); color: var(--text);">
+        <div class="bg-white rounded-2xl p-4 md:p-8 max-w-3xl w-full mx-4 shadow-2xl rgb-border" style="background-color: var(--card); color: var(--text);">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-bold">Access Class 8 Notes</h3>
                 <button id="close-notes-modal" class="text-slate-500 hover:text-slate-700">
@@ -476,49 +501,30 @@
             <p class="mb-6 text-center">Choose how you want to access the Class 8 study materials</p>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="notes-option-card">
-                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                <div class="notes-option-card rgb-card">
+                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4 float-animation rgb-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                         <i class="fab fa-google-drive"></i>
                     </div>
                     <h4 class="font-bold text-lg mb-2">Google Drive</h4>
                     <p class="text-sm mb-4">Direct access to all Class 8 notes, PDFs, and study materials</p>
-                    <a href="https://drive.google.com/drive/folders/1S3g_38zNJMS0Ip8973oSkBkyBOMJHcEQ?usp=sharing" target="_blank" class="inline-block w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-lg shadow hover:opacity-90 transition">
+                    <a href="https://drive.google.com/drive/folders/1S3g_38zNJMS0Ip8973oSkBkyBOMJHcEQ?usp=sharing" target="_blank" class="inline-block w-full py-3 px-4 rgb-button font-semibold rounded-lg shadow hover:opacity-90 transition">
                         Access Google Drive
                     </a>
                 </div>
                 
-                <div class="notes-option-card">
-                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                <div class="notes-option-card rgb-card">
+                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4 float-animation rgb-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                         <i class="fas fa-comments"></i>
                     </div>
                     <h4 class="font-bold text-lg mb-2">Join Channels</h4>
                     <p class="text-sm mb-4">Get regular updates and notifications on WhatsApp or Telegram</p>
-                    <button class="channel-btn w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-semibold rounded-lg shadow hover:opacity-90 transition">
+                    <button class="channel-btn w-full py-3 px-4 rgb-button font-semibold rounded-lg shadow hover:opacity-90 transition">
                         Join Our Channels
                     </button>
                 </div>
                 
-                <div class="notes-option-card">
-                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
-                        <i class="fas fa-video"></i>
-                    </div>
-                    <h4 class="font-bold text-lg mb-2">Free Lecture Videos</h4>
-                    <p class="text-sm mb-4">Access free video lectures for all Class 8 subjects</p>
-                    <button class="lectures-btn w-full py-3 px-4 bg-gradient-to-r from-green-600 to-purple-600 text-white font-semibold rounded-lg shadow hover:opacity-90 transition">
-                        Watch Lectures
-                    </button>
-                </div>
-                
-                <div class="notes-option-card">
-                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <h4 class="font-bold text-lg mb-2">Verify Email (Optional)</h4>
-                    <p class="text-sm mb-4">Get personalized updates and secure your account</p>
-                    <button class="verify-btn w-full py-3 px-4 bg-gradient-to-r from-yellow-600 to-orange-600 text-white font-semibold rounded-lg shadow hover:opacity-90 transition">
-                        Verify Email
-                    </button>
-                </div>
+               
+                 
             </div>
             
             <div class="mt-6 text-center">
@@ -529,7 +535,7 @@
 
     <!-- Channel Selection Modal -->
     <div id="channel-modal" class="channel-modal">
-        <div class="bg-white rounded-2xl p-4 md:p-8 max-w-md w-full mx-4 shadow-2xl" style="background-color: var(--card); color: var(--text);">
+        <div class="bg-white rounded-2xl p-4 md:p-8 max-w-md w-full mx-4 shadow-2xl rgb-border" style="background-color: var(--card); color: var(--text);">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-bold">Choose Your Channel</h3>
                 <button id="close-modal" class="text-slate-500 hover:text-slate-700">
@@ -539,8 +545,8 @@
             <p class="mb-6">Select your preferred platform to access free Class 8 notes</p>
             
             <div class="space-y-4">
-                <a href="https://whatsapp.com/channel/0029VbBV0ri65yDH94E0Zr2c" target="_blank" class="flex items-center gap-4 p-4 border border-slate-200 rounded-xl hover:bg-green-50 hover:border-green-200 transition">
-                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-green-500 flex items-center justify-center text-white">
+                <a href="https://whatsapp.com/channel/0029VbBV0ri65yDH94E0Zr2c" target="_blank" class="flex items-center gap-4 p-4 border border-slate-200 rounded-xl hover:bg-green-50 hover:border-green-200 transition rgb-card">
+                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-green-500 flex items-center justify-center text-white rgb-glow">
                         <i class="fab fa-whatsapp text-lg md:text-xl"></i>
                     </div>
                     <div class="flex-1">
@@ -550,8 +556,8 @@
                     <i class="fas fa-chevron-right text-slate-400"></i>
                 </a>
                 
-                <a href="https://t.me/noteswallahfree" target="_blank" class="flex items-center gap-4 p-4 border border-slate-200 rounded-xl hover:bg-blue-50 hover:border-blue-200 transition">
-                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-500 flex items-center justify-center text-white">
+                <a href="https://t.me/noteswallahfree" target="_blank" class="flex items-center gap-4 p-4 border border-slate-200 rounded-xl hover:bg-blue-50 hover:border-blue-200 transition rgb-card">
+                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-500 flex items-center justify-center text-white rgb-glow">
                         <i class="fab fa-telegram text-lg md:text-xl"></i>
                     </div>
                     <div class="flex-1">
@@ -570,7 +576,7 @@
 
     <!-- Join Team Modal -->
     <div id="team-modal" class="team-modal">
-        <div class="bg-white rounded-2xl p-4 md:p-8 max-w-2xl w-full mx-4 shadow-2xl" style="background-color: var(--card); color: var(--text);">
+        <div class="bg-white rounded-2xl p-4 md:p-8 max-w-2xl w-full mx-4 shadow-2xl rgb-border" style="background-color: var(--card); color: var(--text);">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-bold">Join Our Team</h3>
                 <button id="close-team-modal" class="text-slate-500 hover:text-slate-700">
@@ -580,7 +586,7 @@
             <p class="mb-6">We're looking for passionate individuals to join our mission of providing free education to Class 8 students</p>
             
             <div class="space-y-6">
-                <div class="p-4 border border-slate-200 rounded-xl">
+                <div class="p-4 border border-slate-200 rounded-xl rgb-card">
                     <h4 class="font-semibold text-lg mb-2">Available Positions</h4>
                     <ul class="space-y-2 text-sm">
                         <li class="flex items-start gap-2">
@@ -606,7 +612,7 @@
                     </ul>
                 </div>
                 
-                <div class="p-4 border border-slate-200 rounded-xl">
+                <div class="p-4 border border-slate-200 rounded-xl rgb-card">
                     <h4 class="font-semibold text-lg mb-2">Benefits of Joining</h4>
                     <ul class="space-y-2 text-sm">
                         <li class="flex items-start gap-2">
@@ -633,7 +639,7 @@
                 </div>
                 
                 <div class="text-center">
-                    <a href="https://forms.gle/5ARLquGAcudZwbub9" target="_blank" class="inline-block px-6 py-3 bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-semibold rounded-lg shadow hover:opacity-90 transition">
+                    <a href="https://forms.gle/5ARLquGAcudZwbub9" target="_blank" class="inline-block px-6 py-3 rgb-button font-semibold rounded-lg shadow hover:opacity-90 transition">
                         Apply Now
                     </a>
                     <p class="text-sm mt-2">Fill out our application form to join our team</p>
@@ -649,31 +655,24 @@
     <!-- Main Content -->
     <div id="main-content">
         <!-- Navigation -->
-        <header class="backdrop-blur sticky top-0 z-50 border-b shadow-sm" style="background-color: var(--card); border-color: var(--bg);">
+        <header class="backdrop-blur sticky top-0 z-50 border-b shadow-sm rgb-border" style="background-color: var(--card); border-color: var(--bg);">
             <div class="container-limit mx-auto px-4 md:px-6 py-4 flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-full shadow-md flex items-center justify-center text-white font-bold text-lg pulse" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">NW</div>
+                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-full shadow-md flex items-center justify-center text-white font-bold text-lg pulse rgb-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">NW</div>
                     <div>
-                        <div class="text-lg md:text-xl font-extrabold tracking-tight gradient-text">NotesWallah</div>
+                        <div class="text-lg md:text-xl font-extrabold tracking-tight gradient-text rgb-text">NotesWallah</div>
                         <div class="text-xs" style="color: var(--text); opacity: 0.7;">Class 8 Free Notes Hub</div>
                     </div>
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <!-- Mode Toggle -->
-                    <div class="mode-toggle">
-                        <button class="mode-btn light" data-mode="light"><i class="fas fa-sun"></i></button>
-                        <button class="mode-btn dark" data-mode="dark"><i class="fas fa-moon"></i></button>
-                        <button class="mode-btn neon active" data-mode="neon"><i class="fas fa-lightbulb"></i></button>
-                    </div>
-
                     <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
                         <a href="#features" class="hover-opacity-80 transition">Features</a>
                         <a href="#subjects" class="hover-opacity-80 transition">Subjects</a>
                         <a href="#syllabus" class="hover-opacity-80 transition">Syllabus</a>
                         <a href="#team" class="hover-opacity-80 transition">Team</a>
                         <a href="#join-team" class="hover-opacity-80 transition">Join Us</a>
-                        <button class="ml-4 px-5 py-2 rounded-lg text-white shadow hover:opacity-90 notes-access-btn shimmer" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Get Notes</button>
+                        <button class="ml-4 px-5 py-2 rounded-lg text-white shadow hover:opacity-90 notes-access-btn shimmer rgb-button">Get Notes</button>
                     </nav>
                     
                     <!-- Mobile menu button -->
@@ -684,14 +683,14 @@
             </div>
             
             <!-- Mobile menu -->
-            <div id="mobile-menu" class="md:hidden hidden px-4 md:px-6 pb-4" style="background-color: var(--card);">
+            <div id="mobile-menu" class="md:hidden hidden px-4 md:px-6 pb-4 rgb-border" style="background-color: var(--card);">
                 <div class="flex flex-col space-y-3">
                     <a href="#features" class="py-2 hover-opacity-80">Features</a>
                     <a href="#subjects" class="py-2 hover-opacity-80">Subjects</a>
                     <a href="#syllabus" class="py-2 hover-opacity-80">Syllabus</a>
                     <a href="#team" class="py-2 hover-opacity-80">Team</a>
                     <a href="#join-team" class="py-2 hover-opacity-80">Join Us</a>
-                    <button class="px-5 py-2 rounded-lg text-white shadow hover:opacity-90 notes-access-btn text-center shimmer" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Get Notes</button>
+                    <button class="px-5 py-2 rounded-lg text-white shadow hover:opacity-90 notes-access-btn text-center shimmer rgb-button">Get Notes</button>
                 </div>
             </div>
         </header>
@@ -700,16 +699,16 @@
         <main class="container-limit mx-auto px-4 md:px-6 pt-12 md:pt-16 pb-16 md:pb-24">
             <section class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
                 <div>
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 neon-glow" style="background-color: var(--primary); color: white;">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 rgb-glow" style="background-color: var(--primary); color: white;">
                         <i class="fas fa-rocket"></i>
                         <span>Exclusively for Class 8 Students</span>
                     </div>
-                    <h1 class="hero-title text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight neon-text gradient-text">Class 8 Notes Free Forever ✨</h1>
+                    <h1 class="hero-title text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight rgb-text gradient-text">Class 8 Notes Free Forever ✨</h1>
                     <p class="mt-4 md:mt-6 text-base md:text-lg">Welcome to NotesWallah Class 8, the ultimate platform for Class 8 students. Access complete NCERT solutions, chapter notes, sample papers, and revision guides for all subjects - completely free!</p>
 
                     <div class="mt-6 md:mt-8 flex flex-col sm:flex-row gap-4">
-                        <button class="notes-access-btn inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-white font-semibold shadow-lg hover:opacity-90 transition neon-glow shimmer" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Download Free Notes</button>
-                        <a href="#subjects" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border bg-white shadow hover:shadow-md transition" style="background-color: var(--card); color: var(--text); border-color: var(--bg);">Explore Subjects</a>
+                        <button class="notes-access-btn inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-white font-semibold shadow-lg hover:opacity-90 transition rgb-button shimmer">Download Free Notes</button>
+                        <a href="#subjects" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border bg-white shadow hover:shadow-md transition rgb-card" style="background-color: var(--card); color: var(--text); border-color: var(--bg);">Explore Subjects</a>
                     </div>
                     
                     <div class="mt-6 md:mt-8 flex items-center gap-4 md:gap-6 text-sm flex-wrap">
@@ -746,8 +745,8 @@
                 </div>
 
                 <div class="relative mt-8 md:mt-0">
-                    <div class="rounded-3xl overflow-hidden shadow-2xl ring-2 floating" style="border-color: var(--primary);">
-                        <div class="w-full h-64 md:h-80 lg:h-96 flex items-center justify-center text-white text-4xl md:text-5xl relative" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <div class="rounded-3xl overflow-hidden shadow-2xl ring-2 floating rgb-border" style="border-color: var(--primary);">
+                        <div class="w-full h-64 md:h-80 lg:h-96 flex items-center justify-center text-white text-4xl md:text-5xl relative rgb-background">
                             <i class="fas fa-book-open"></i>
                             <div class="absolute bottom-4 left-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-white text-sm">
                                 <i class="fas fa-download mr-1"></i> Class 8 Notes
@@ -761,21 +760,21 @@
 
             <!-- Features -->
             <section id="features" class="mt-20 md:mt-28 text-center">
-                <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight gradient-text">Why NotesWallah for Class 8?</h2>
+                <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight gradient-text rgb-text">Why NotesWallah for Class 8?</h2>
                 <p class="mt-2">Specialized resources designed specifically for Class 8 CBSE curriculum</p>
 
                 <div class="mt-8 md:mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                    <div class="subject-card">
+                    <div class="subject-card rgb-card">
                         <div class="text-4xl">📚</div>
                         <div class="mt-3 font-semibold text-lg">Complete NCERT Coverage</div>
                         <div class="mt-1 text-sm">Detailed solutions and notes for all NCERT textbooks - Math, Science, Social Science, English, Hindi</div>
                     </div>
-                    <div class="subject-card">
+                    <div class="subject-card rgb-card">
                         <div class="text-4xl">🎯</div>
                         <div class="mt-3 font-semibold text-lg">Exam-Focused Material</div>
                         <div class="mt-1 text-sm">Chapter-wise important questions, sample papers, and previous year question papers</div>
                     </div>
-                    <div class="subject-card">
+                    <div class="subject-card rgb-card">
                         <div class="text-4xl">🧠</div>
                         <div class="mt-3 font-semibold text-lg">Easy Understanding</div>
                         <div class="mt-1 text-sm">Simplified explanations, diagrams, and examples to make learning enjoyable</div>
@@ -784,22 +783,22 @@
             </section>
 
             <!-- Statistics -->
-            <section class="mt-20 md:mt-24 rounded-3xl p-6 md:p-10 text-white" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+            <section class="mt-20 md:mt-24 rounded-3xl p-6 md:p-10 text-white rgb-background">
                 <div class="max-w-4xl mx-auto text-center">
                     <h3 class="text-xl md:text-2xl font-bold">Platform Impact</h3>
                     <p class="mt-4 opacity-90">Helping thousands of Class 8 students across India</p>
                     
                     <div class="mt-6 md:mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-                        <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20">
+                        <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20 rgb-card">
                             <div class="stats-counter">100+</div>
                             <div class="text-sm opacity-90 mt-1">Students Registered</div>
                         </div>
-                        <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20">
+                        <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20 rgb-card">
                             <div class="stats-counter">500+</div>
                             <div class="text-sm opacity-90 mt-1">Study Materials</div>
                         </div>
                     
-                        <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20">
+                        <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20 rgb-card">
                             <div class="stats-counter">8X7</div>
                             <div class="text-sm opacity-90 mt-1">Support Available</div>
                         </div>
@@ -809,90 +808,85 @@
 
             <!-- Subjects -->
             <section id="subjects" class="mt-20 md:mt-24">
-                <h3 class="text-xl md:text-2xl font-bold text-center gradient-text">Class 8 Subjects</h3>
+                <h3 class="text-xl md:text-2xl font-bold text-center gradient-text rgb-text">Class 8 Subjects</h3>
                 <p class="text-center mt-2">Complete study materials for all Class 8 subjects</p>
                 <div class="mt-6 md:mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                     <!-- Subject Cards -->
-                    <div class="subject-card text-center">
-                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <div class="subject-card text-center rgb-card">
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation rgb-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                             <i class="fas fa-calculator"></i>
                         </div>
                         <h4 class="font-bold text-lg">Mathematics</h4>
                         <p class="text-sm mt-2">Rational Numbers, Algebra, Geometry, Mensuration</p>
-                        <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 notes-access-btn shimmer" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
+                        <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 notes-access-btn shimmer rgb-button">Access Notes</button>
                     </div>
                     
-                    <div class="subject-card text-center">
-                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <div class="subject-card text-center rgb-card">
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation rgb-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                             <i class="fas fa-flask"></i>
                         </div>
                         <h4 class="font-bold text-lg">Science</h4>
                         <p class="text-sm mt-2">Crop Production, Microorganisms, Force, Light</p>
-                        <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 notes-access-btn shimmer" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
+                        <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 notes-access-btn shimmer rgb-button">Access Notes</button>
                     </div>
                     
-                    <div class="subject-card text-center">
-                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <div class="subject-card text-center rgb-card">
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation rgb-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                             <i class="fas fa-globe-asia"></i>
                         </div>
                         <h4 class="font-bold text-lg">Social Science</h4>
                         <p class="text-sm mt-2">History, Geography, Civics, Economics</p>
-                        <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 notes-access-btn shimmer" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
+                        <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 notes-access-btn shimmer rgb-button">Access Notes</button>
                     </div>
                     
-                    <div class="subject-card text-center">
-                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <div class="subject-card text-center rgb-card">
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation rgb-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                             <i class="fas fa-book"></i>
                         </div>
                         <h4 class="font-bold text-lg">English</h4>
                         <p class="text-sm mt-2">Honeydew, It So Happened, Grammar, Writing</p>
-                        <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 notes-access-btn shimmer" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
+                        <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 notes-access-btn shimmer rgb-button">Access Notes</button>
                     </div>
                     
-                    
-                    <div class="subject-card text-center">
-                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <div class="subject-card text-center rgb-card">
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation rgb-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                             <i class="fas fa-laptop-code"></i>
                         </div>
                         <h4 class="font-bold text-lg">Computer</h4>
                         <p class="text-sm mt-2">Computer Systems, Networking, MS Office</p>
-                        <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 notes-access-btn shimmer" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">Access Notes</button>
+                        <button class="mt-4 w-full py-2 rounded-lg text-white text-sm font-semibold shadow hover:opacity-90 notes-access-btn shimmer rgb-button">Access Notes</button>
                     </div>
-                    
-                
-                    
-                    
                 </div>
             </section>
 
             <!-- Free Lectures Section -->
             <section id="lectures" class="mt-20 md:mt-24">
-                <div class="subject-card">
-                    <h3 class="text-xl md:text-2xl font-bold text-center mb-6 md:mb-8 gradient-text">Free Lecture Videos</h3>
+                <div class="subject-card rgb-card">
+                    <h3 class="text-xl md:text-2xl font-bold text-center mb-6 md:mb-8 gradient-text rgb-text">Free Lecture Videos</h3>
                     <p class="text-center mb-6">Access high-quality video lectures for all Class 8 subjects</p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-                        <div class="lecture-option">
-                            <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <div class="lecture-option rgb-card">
+                            <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4 float-animation rgb-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                                 <i class="fas fa-play-circle"></i>
                             </div>
                             <h4 class="font-bold text-lg mb-2">Umang 2026</h4>
                             <p class="text-sm mb-4">Complete lecture series for Class 8 students covering all subjects with detailed explanations</p>
-                            <a href="https://studyspark.site/?batch=677929e692a5a811765a3658" target="_blank" class="inline-block w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-lg shadow hover:opacity-90 transition">
+                            <button class="lectures-btn w-full py-3 px-4 rgb-button font-semibold rounded-lg shadow hover:opacity-90 transition">
                                 Access Umang 2026
-                            </a>
+                            </button>
                             <div class="powered-by">Powered by Study Spark</div>
                         </div>
                         
-                        <div class="lecture-option">
-                            <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <div class="lecture-option rgb-card">
+                            <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-2xl md:text-3xl mb-4 float-animation rgb-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                                 <i class="fas fa-video"></i>
                             </div>
-                            <h4 class="font-bold text-lg mb-2">Umang 2.0</h4>
+                            <h4 class="font-bold text-lg mb-2">Umang 2.0 2026</h4>
                             <p class="text-sm mb-4">Advanced lecture series with practice sessions, doubt solving, and exam preparation tips</p>
-                            <a href="https://studyspark.site/?batch=681f3d4bf8b5acbf8e6c11e6" target="_blank" class="inline-block w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-semibold rounded-lg shadow hover:opacity-90 transition">
-                                Access Umang 2.0
-                            </a>
+                            <button class="lectures-btn w-full py-3 px-4 rgb-button font-semibold rounded-lg shadow hover:opacity-90 transition">
+                                Access Umang 2.0 2026
+                            </button>
                             <div class="powered-by">Powered by Study Spark</div>
                         </div>
                     </div>
@@ -901,8 +895,8 @@
 
             <!-- Syllabus -->
             <section id="syllabus" class="mt-20 md:mt-24">
-                <div class="subject-card">
-                    <h3 class="text-xl md:text-2xl font-bold text-center mb-6 md:mb-8 gradient-text">Class 8 Complete Syllabus</h3>
+                <div class="subject-card rgb-card">
+                    <h3 class="text-xl md:text-2xl font-bold text-center mb-6 md:mb-8 gradient-text rgb-text">Class 8 Complete Syllabus</h3>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                         <div>
@@ -983,7 +977,7 @@
                     </div>
                     
                     <div class="mt-6 md:mt-8 text-center">
-                        <button class="notes-access-btn px-6 py-3 rounded-lg text-white font-semibold shadow hover:opacity-90 shimmer" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <button class="notes-access-btn px-6 py-3 rounded-lg text-white font-semibold shadow hover:opacity-90 shimmer rgb-button">
                             Download Complete Syllabus PDF
                         </button>
                     </div>
@@ -992,13 +986,13 @@
 
             <!-- Team -->
             <section id="team" class="mt-20 md:mt-24">
-                <h3 class="text-xl md:text-2xl font-bold text-center gradient-text">Meet Our Team</h3>
+                <h3 class="text-xl md:text-2xl font-bold text-center gradient-text rgb-text">Meet Our Team</h3>
                 <p class="text-center mt-2">Dedicated educators creating the best Class 8 resources</p>
                 
                 <div class="mt-6 md:mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                     <!-- Team Card 1 -->
-                    <div class="subject-card text-center">
-                        <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <div class="subject-card text-center rgb-card">
+                        <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation rgb-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                             IM
                         </div>
                         <h4 class="font-bold text-lg">IMON</h4>
@@ -1007,8 +1001,8 @@
                     </div>
                     
                     <!-- Team Card 2 -->
-                    <div class="subject-card text-center">
-                        <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <div class="subject-card text-center rgb-card">
+                        <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation rgb-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                             AK
                         </div>
                         <h4 class="font-bold text-lg">ADRI KANRI</h4>
@@ -1016,20 +1010,19 @@
                         <p class="text-sm mt-2">Overseeing platform operations and technological innovation</p>
                     </div>
                     
-                    <!-- Team Card 4 -->
-                    <div class="subject-card text-center">
-                        <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <!-- Team Card 3 -->
+                    <div class="subject-card text-center rgb-card">
+                        <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation rgb-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                             BK
                         </div>
                         <h4 class="font-bold text-lg">BASKAR</h4>
                         <div class="text-sm mt-1" style="color: var(--primary);">SUPPORT MANAGEMENT</div>
                         <p class="text-sm mt-2">Overseeing platform Support and Feedback Department</p>
                     </div>
-                        
                     
-                    <!-- Team Card 5 -->
-                    <div class="subject-card text-center">
-                        <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <!-- Team Card 4 -->
+                    <div class="subject-card text-center rgb-card">
+                        <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation rgb-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                             EX
                         </div>
                         <h4 class="font-bold text-lg">EXPERT TEAM</h4>
@@ -1041,13 +1034,13 @@
 
             <!-- Join Team Section -->
             <section id="join-team" class="mt-20 md:mt-24">
-                <div class="subject-card">
-                    <h3 class="text-xl md:text-2xl font-bold text-center mb-2 gradient-text">Join Our Team</h3>
+                <div class="subject-card rgb-card">
+                    <h3 class="text-xl md:text-2xl font-bold text-center mb-2 gradient-text rgb-text">Join Our Team</h3>
                     <p class="text-center mb-6 md:mb-8">Become part of our mission to provide free education to Class 8 students</p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
-                        <div class="team-role-card text-center">
-                            <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <div class="team-role-card text-center rgb-card">
+                            <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation rgb-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                                 <i class="fas fa-pencil-alt"></i>
                             </div>
                             <h4 class="font-bold text-lg">Content Creator</h4>
@@ -1068,8 +1061,8 @@
                             </ul>
                         </div>
                         
-                        <div class="team-role-card text-center">
-                            <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <div class="team-role-card text-center rgb-card">
+                            <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation rgb-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                                 <i class="fas fa-user-graduate"></i>
                             </div>
                             <h4 class="font-bold text-lg">Subject Expert</h4>
@@ -1090,8 +1083,8 @@
                             </ul>
                         </div>
                         
-                        <div class="team-role-card text-center">
-                            <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <div class="team-role-card text-center rgb-card">
+                            <div class="w-14 h-14 md:w-16 md:h-16 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation rgb-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
                                 <i class="fas fa-laptop-code"></i>
                             </div>
                             <h4 class="font-bold text-lg">Tech Volunteer</h4>
@@ -1114,7 +1107,7 @@
                     </div>
                     
                     <div class="text-center">
-                        <button id="join-team-btn" class="px-6 py-3 rounded-lg text-white font-semibold shadow hover:opacity-90 transition shimmer" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <button id="join-team-btn" class="px-6 py-3 rounded-lg text-white font-semibold shadow hover:opacity-90 transition shimmer rgb-button">
                             Apply to Join Our Team
                         </button>
                         <p class="text-sm mt-3">Help us make quality education accessible to every Class 8 student</p>
@@ -1123,14 +1116,14 @@
             </section>
 
             <!-- Channels Section -->
-            <section class="mt-20 md:mt-24 rounded-3xl p-6 md:p-10 text-white" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+            <section class="mt-20 md:mt-24 rounded-3xl p-6 md:p-10 text-white rgb-background">
                 <div class="max-w-4xl mx-auto text-center">
                     <h3 class="text-xl md:text-2xl font-bold">Join Our Free Channels</h3>
                     <p class="mt-4 opacity-90">Get instant access to all Class 8 notes, PDFs, and study materials</p>
                     
                     <div class="mt-6 md:mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                        <a href="https://whatsapp.com/channel/0029VbBV0ri65yDH94E0Zr2c" target="_blank" class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition flex flex-col items-center gap-4 transform hover:-translate-y-1">
-                            <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-green-500 flex items-center justify-center text-white">
+                        <a href="https://whatsapp.com/channel/0029VbBV0ri65yDH94E0Zr2c" target="_blank" class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition flex flex-col items-center gap-4 transform hover:-translate-y-1 rgb-card">
+                            <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-green-500 flex items-center justify-center text-white rgb-glow">
                                 <i class="fab fa-whatsapp text-xl md:text-2xl"></i>
                             </div>
                             <div>
@@ -1140,8 +1133,8 @@
                             <div class="mt-2 px-4 py-2 bg-white text-indigo-600 rounded-lg font-semibold text-sm">Join Now</div>
                         </a>
                         
-                        <a href="https://t.me/noteswallahfree" target="_blank" class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition flex flex-col items-center gap-4 transform hover:-translate-y-1">
-                            <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-blue-500 flex items-center justify-center text-white">
+                        <a href="https://t.me/noteswallahfree" target="_blank" class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition flex flex-col items-center gap-4 transform hover:-translate-y-1 rgb-card">
+                            <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-blue-500 flex items-center justify-center text-white rgb-glow">
                                 <i class="fab fa-telegram text-xl md:text-2xl"></i>
                             </div>
                             <div>
@@ -1155,21 +1148,13 @@
             </section>
 
             <!-- Footer -->
-            <footer class="mt-20 md:mt-28 border-t pt-8 md:pt-10 pb-10 md:pb-14 text-sm" style="border-color: var(--bg);">
+            <footer class="mt-20 md:mt-28 border-t pt-8 md:pt-10 pb-10 md:pb-14 text-sm rgb-border" style="border-color: var(--bg);">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8">
                     <div>
-                        <div class="font-extrabold text-lg gradient-text">NotesWallah Class 8</div>
+                        <div class="font-extrabold text-lg gradient-text rgb-text">NotesWallah Class 8</div>
                         <div class="mt-2">© <span id="current-year">2024</span> NotesWallah — Free Class 8 Notes For All.</div>
                         <div class="mt-4 flex gap-3">
-                            <a href="#" class="w-8 h-8 rounded-full flex items-center justify-center transition hover:opacity-80" style="background-color: var(--bg);">
-                                <i class="fab fa-facebook-f"></i>
-                            </a>
-                            <a href="#" class="w-8 h-8 rounded-full flex items-center justify-center transition hover:opacity-80" style="background-color: var(--bg);">
-                                <i class="fab fa-twitter"></i>
-                            </a>
-                            <a href="#" class="w-8 h-8 rounded-full flex items-center justify-center transition hover:opacity-80" style="background-color: var(--bg);">
-                                <i class="fab fa-instagram"></i>
-                            </a>
+                           
                         </div>
                     </div>
                     <div>
@@ -1298,30 +1283,6 @@
             }
         });
         
-        // Mode Toggle Functionality
-        document.querySelectorAll('.mode-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const mode = this.getAttribute('data-mode');
-                
-                // Remove active class from all mode buttons
-                document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-                // Add active class to clicked button
-                this.classList.add('active');
-                
-                // Remove all mode classes from body
-                document.body.classList.remove('light-mode', 'dark-mode', 'neon-mode');
-                // Add selected mode
-                document.body.classList.add(`${mode}-mode`);
-                
-                // Save preference to localStorage
-                localStorage.setItem('noteswallah_mode', mode);
-            });
-        });
-        
-        // Load saved mode preference
-        const savedMode = localStorage.getItem('noteswallah_mode') || 'neon';
-        document.querySelector(`.mode-btn.${savedMode}`).click();
-        
         // Mobile menu toggle
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
             const menu = document.getElementById('mobile-menu');
@@ -1424,11 +1385,17 @@
         
         // Create particle effect function
         function createParticles() {
+            // Remove existing particles if any
+            const existingParticles = document.querySelector('.particles');
+            if (existingParticles) {
+                existingParticles.remove();
+            }
+            
             const particlesContainer = document.createElement('div');
             particlesContainer.classList.add('particles');
             document.body.appendChild(particlesContainer);
             
-            const particleCount = 30;
+            const particleCount = 50;
             
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
@@ -1449,6 +1416,11 @@
                 
                 // Random delay
                 particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                // Random color
+                const colors = ['#ff0080', '#8000ff', '#00ffff', '#ffff00'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.backgroundColor = randomColor;
                 
                 particlesContainer.appendChild(particle);
             }
