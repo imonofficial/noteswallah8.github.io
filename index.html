@@ -1263,53 +1263,103 @@
     </div>
 
     <script>
-        // Email verification functionality
-        function phoneEmailReceiver(userObj){
-            var user_json_url = userObj.user_json_url;
+      // Email verification functionality
+function phoneEmailReceiver(userObj) {
+    var user_json_url = userObj.user_json_url;
 
-            // Store verification status
-            localStorage.setItem('noteswallah_email_verified', 'true');
-            
-            // Hide verification modal
-            verifyModal.classList.remove('active');
-            
-            // Create particle effect
-            createParticles();
-            
-            // Show success message
-            alert('Email Verification Successful!\nThank you for verifying your email.');
-        }
+    // Store successful verification status permanently
+    localStorage.setItem('noteswallah_email_verified', 'true');
+    
+    // Clear the time tracking since verification is complete
+    localStorage.removeItem('noteswallah_initial_prompt_time'); 
+
+    // Hide verification modal
+    verifyModal.classList.remove('active');
+
+    // Create particle effect (ensure createParticles() is defined elsewhere)
+    // createParticles();
+
+    // Show success message
+    alert('Email Verification Successful!\nThank you for verifying your email.');
+}
+
+// Email Verification Modal Functionality
+const verifyModal = document.getElementById('verify-modal');
+const closeVerifyBtn = document.getElementById('close-verify-modal');
+const skipVerificationBtn = document.getElementById('skip-verification');
+const verifyButtons = document.querySelectorAll('.verify-btn');
+const accessNotesButtons = document.querySelectorAll('.access-notes-btn'); 
+
+// --- MODIFIED SECTION: Auto-show verification on load with 24-hour delay ---
+
+window.addEventListener('load', function() {
+    const lastPromptTime = localStorage.getItem('noteswallah_initial_prompt_time');
+    const emailVerified = localStorage.getItem('noteswallah_email_verified');
+    // 24 hours in milliseconds
+    const twentyFourHours = 24 * 60 * 60 * 1000; 
+
+    // Only show the prompt if the email is NOT already verified
+    if (emailVerified !== 'true') {
         
-        // Email Verification Modal Functionality
-        const verifyModal = document.getElementById('verify-modal');
-        const closeVerifyBtn = document.getElementById('close-verify-modal');
-        const skipVerificationBtn = document.getElementById('skip-verification');
-        const verifyButtons = document.querySelectorAll('.verify-btn');
-        
-        // Open verification modal when verify buttons are clicked
-        verifyButtons.forEach(button => {
-            button.addEventListener('click', function() {
+        if (!lastPromptTime) {
+            // Case 1: Never seen before or timer cleared, show immediately.
+            setTimeout(function() {
                 verifyModal.classList.add('active');
-            });
-        });
-        
-        // Close verification modal when close button is clicked
-        closeVerifyBtn.addEventListener('click', function() {
-            verifyModal.classList.remove('active');
-        });
-        
-        // Skip verification when skip button is clicked
-        skipVerificationBtn.addEventListener('click', function() {
-            verifyModal.classList.remove('active');
-        });
-        
-        // Close verification modal when clicking outside the modal content
-        verifyModal.addEventListener('click', function(e) {
-            if (e.target === verifyModal) {
-                verifyModal.classList.remove('active');
+            }, 0); 
+        } else {
+            // Case 2: Seen before, check if 24 hours have passed.
+            const currentTime = Date.now();
+            // Ensure lastPromptTime is parsed as an integer
+            const timeDifference = currentTime - parseInt(lastPromptTime, 10);
+
+            if (timeDifference >= twentyFourHours) {
+                // More than 24 hours passed, show the modal.
+                setTimeout(function() {
+                    verifyModal.classList.add('active');
+                }, 0); 
             }
-        });
-        
+            // If less than 24 hours passed, do nothing (modal remains hidden).
+        }
+    }
+});
+
+// --- END OF MODIFIED SECTION ---
+
+// Existing logic to open modal when 'Access Notes' or other verify buttons are clicked
+verifyButtons.forEach(button => {
+    button.addEventListener('click', function() {
+        verifyModal.classList.add('active');
+    });
+});
+accessNotesButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.preventDefault(); 
+        verifyModal.classList.add('active');
+    });
+});
+
+// MODIFIED HANDLER: Skip verification when skip button is clicked
+skipVerificationBtn.addEventListener('click', function() {
+    verifyModal.classList.remove('active');
+    // Store the current timestamp to restart the 24-hour countdown
+    localStorage.setItem('noteswallah_initial_prompt_time', Date.now()); 
+});
+
+// MODIFIED HANDLER: Close verification modal when close button is clicked
+closeVerifyBtn.addEventListener('click', function() {
+    verifyModal.classList.remove('active');
+    // Store the current timestamp
+    localStorage.setItem('noteswallah_initial_prompt_time', Date.now());
+});
+
+// MODIFIED HANDLER: Close verification modal when clicking outside the modal content
+verifyModal.addEventListener('click', function(e) {
+    if (e.target === verifyModal) {
+        verifyModal.classList.remove('active');
+        // Store the current timestamp
+        localStorage.setItem('noteswallah_initial_prompt_time', Date.now());
+    }
+});
         // Free Lectures Modal Functionality
         const lecturesModal = document.getElementById('lectures-modal');
         const closeLecturesButtons = document.querySelectorAll('#close-lectures-modal, #close-lectures-modal-2');
@@ -1461,38 +1511,45 @@
             }
         });
 
-        // StudySpark AI Popup Functionality
-        const studysparkPopup = document.getElementById('studyspark-popup');
-        const closeStudysparkButtons = document.querySelectorAll('#close-studyspark-popup, #close-studyspark-popup-2');
+       // StudySpark AI Popup Functionality
+const studysparkPopup = document.getElementById('studyspark-popup');
+const closeStudysparkButtons = document.querySelectorAll('#close-studyspark-popup, #close-studyspark-popup-2');
 
-        // Show StudySpark popup when page loads (after 3 seconds delay)
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                // Check if user has already seen the popup today
-                const lastPopupDate = localStorage.getItem('noteswallah_studyspark_popup');
-                const today = new Date().toDateString();
-                
-                if (lastPopupDate !== today) {
-                    studysparkPopup.classList.add('active');
-                    // Store today's date to prevent showing again today
-                    localStorage.setItem('noteswallah_studyspark_popup', today);
-                }
-            }, 3000);
-        });
+// Show StudySpark popup when page loads (immediately)
+window.addEventListener('load', function() {
+    setTimeout(function() {
+        // The popup will show every time the page loads
+        studysparkPopup.classList.add('active');
+    }, 0); // Changed the delay from 3000ms to 0ms
+});
 
-        // Close StudySpark popup when close buttons are clicked
-        closeStudysparkButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                studysparkPopup.classList.remove('active');
-            });
-        });
+// Close StudySpark popup when close buttons are clicked
+closeStudysparkButtons.forEach(button => {
+    button.addEventListener('click', function() {
+        studysparkPopup.classList.remove('active');
+    });
+});
 
-        // Close StudySpark popup when clicking outside the modal content
-        studysparkPopup.addEventListener('click', function(e) {
-            if (e.target === studysparkPopup) {
-                studysparkPopup.classList.remove('active');
-            }
-        });
+// Close StudySpark popup when clicking outside the modal content
+studysparkPopup.addEventListener('click', function(e) {
+    if (e.target === studysparkPopup) {
+        studysparkPopup.classList.remove('active');
+    }
+});
+// Close StudySpark popup when close buttons are clicked
+closeStudysparkButtons.forEach(button => {
+    button.addEventListener('click', function() {
+        studysparkPopup.classList.remove('active');
+    });
+});
+
+// Close StudySpark popup when clicking outside the modal content
+studysparkPopup.addEventListener('click', function(e) {
+    if (e.target === studysparkPopup) {
+        studysparkPopup.classList.remove('active');
+    }
+});
+        
         
         // Create particle effect function
         function createParticles() {
