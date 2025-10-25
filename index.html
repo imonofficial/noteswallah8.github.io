@@ -1273,233 +1273,280 @@
     </div>
 
     <script>
-      // Email verification functionality
-function phoneEmailReceiver(userObj) {
-    var user_json_url = userObj.user_json_url;
+    // Google Analytics Integration
+    (function() {
+        // Add Google Analytics script
+        var script1 = document.createElement('script');
+        script1.async = true;
+        script1.src = 'https://www.googletagmanager.com/gtag/js?id=G-VSQ8VQ3FLL';
+        document.head.appendChild(script1);
+        
+        // Initialize gtag
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-VSQ8VQ3FLL');
+    })();
 
-    // Store successful verification status permanently
-    localStorage.setItem('noteswallah_email_verified', 'true');
-    
-    // Clear the time tracking since verification is complete
-    localStorage.removeItem('noteswallah_initial_prompt_time'); 
+    // Email verification functionality
+    function phoneEmailReceiver(userObj) {
+        var user_json_url = userObj.user_json_url;
 
-    // Hide verification modal
-    verifyModal.classList.remove('active');
+        // Store successful verification status permanently
+        localStorage.setItem('noteswallah_email_verified', 'true');
+        
+        // Clear the time tracking since verification is complete
+        localStorage.removeItem('noteswallah_initial_prompt_time'); 
 
-    // Create particle effect (ensure createParticles() is defined elsewhere)
-    // createParticles();
-
-    // Show success message
-    alert('Email Verification Successful!\nThank you for verifying your email.');
-}
-
-// Email Verification Modal Functionality
-const verifyModal = document.getElementById('verify-modal');
-const closeVerifyBtn = document.getElementById('close-verify-modal');
-const skipVerificationBtn = document.getElementById('skip-verification');
-const verifyButtons = document.querySelectorAll('.verify-btn');
-const accessNotesButtons = document.querySelectorAll('.access-notes-btn'); 
-
-// --- MODIFIED SECTION: Auto-show verification on EVERY load ---
-
-window.addEventListener('load', function() {
-    const emailVerified = localStorage.getItem('noteswallah_email_verified');
-    
-    // Only show the prompt if the email is NOT already verified
-    if (emailVerified !== 'true') {
-        // Show modal immediately on every page load if not verified
-        setTimeout(function() {
-            verifyModal.classList.add('active');
-        }, 0); 
-    }
-});
-
-// --- END OF MODIFIED SECTION ---
-
-// Existing logic to open modal when 'Access Notes' or other verify buttons are clicked
-verifyButtons.forEach(button => {
-    button.addEventListener('click', function() {
-        verifyModal.classList.add('active');
-    });
-});
-accessNotesButtons.forEach(button => {
-    button.addEventListener('click', function(e) {
-        e.preventDefault(); 
-        verifyModal.classList.add('active');
-    });
-});
-
-// MODIFIED HANDLER: Skip verification when skip button is clicked
-skipVerificationBtn.addEventListener('click', function() {
-    verifyModal.classList.remove('active');
-    // No longer storing timestamp since we show every time
-});
-
-// MODIFIED HANDLER: Close verification modal when close button is clicked
-closeVerifyBtn.addEventListener('click', function() {
-    verifyModal.classList.remove('active');
-    // No longer storing timestamp since we show every time
-});
-
-// MODIFIED HANDLER: Close verification modal when clicking outside the modal content
-verifyModal.addEventListener('click', function(e) {
-    if (e.target === verifyModal) {
+        // Hide verification modal
         verifyModal.classList.remove('active');
-        // No longer storing timestamp since we show every time
+
+        // Create particle effect (ensure createParticles() is defined elsewhere)
+        // createParticles();
+
+        // Show success message
+        alert('Email Verification Successful!\nThank you for verifying your email.');
+        
+        // Track verification success in Google Analytics
+        gtag('event', 'email_verification_success');
     }
-});
-        // Free Lectures Modal Functionality
-        const lecturesModal = document.getElementById('lectures-modal');
-        const closeLecturesButtons = document.querySelectorAll('#close-lectures-modal, #close-lectures-modal-2');
-        const lecturesButtons = document.querySelectorAll('.lectures-btn');
+
+    // Email Verification Modal Functionality
+    const verifyModal = document.getElementById('verify-modal');
+    const closeVerifyBtn = document.getElementById('close-verify-modal');
+    const skipVerificationBtn = document.getElementById('skip-verification');
+    const verifyButtons = document.querySelectorAll('.verify-btn');
+    const accessNotesButtons = document.querySelectorAll('.access-notes-btn'); 
+
+    // --- MODIFIED SECTION: Auto-show verification on EVERY load ---
+
+    window.addEventListener('load', function() {
+        const emailVerified = localStorage.getItem('noteswallah_email_verified');
         
-        // Open lectures modal when lectures buttons are clicked
-        lecturesButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                lecturesModal.classList.add('active');
-            });
+        // Only show the prompt if the email is NOT already verified
+        if (emailVerified !== 'true') {
+            // Show modal immediately on every page load if not verified
+            setTimeout(function() {
+                verifyModal.classList.add('active');
+                // Track modal display in Google Analytics
+                gtag('event', 'verification_modal_shown');
+            }, 0); 
+        }
+    });
+
+    // --- END OF MODIFIED SECTION ---
+
+    // Existing logic to open modal when 'Access Notes' or other verify buttons are clicked
+    verifyButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            verifyModal.classList.add('active');
+            // Track manual modal open
+            gtag('event', 'verification_manual_open');
         });
-        
-        // Close lectures modal when close buttons are clicked
-        closeLecturesButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                lecturesModal.classList.remove('active');
-            });
+    });
+    accessNotesButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault(); 
+            verifyModal.classList.add('active');
+            // Track access notes button click
+            gtag('event', 'access_notes_click');
         });
-        
-        // Close lectures modal when clicking outside the modal content
-        lecturesModal.addEventListener('click', function(e) {
-            if (e.target === lecturesModal) {
-                lecturesModal.classList.remove('active');
-            }
+    });
+
+    // MODIFIED HANDLER: Skip verification when skip button is clicked
+    skipVerificationBtn.addEventListener('click', function() {
+        verifyModal.classList.remove('active');
+        // Track skip verification
+        gtag('event', 'verification_skipped');
+        // No longer storing timestamp since we show every time
+    });
+
+    // MODIFIED HANDLER: Close verification modal when close button is clicked
+    closeVerifyBtn.addEventListener('click', function() {
+        verifyModal.classList.remove('active');
+        // Track modal close
+        gtag('event', 'verification_modal_closed');
+        // No longer storing timestamp since we show every time
+    });
+
+    // MODIFIED HANDLER: Close verification modal when clicking outside the modal content
+    verifyModal.addEventListener('click', function(e) {
+        if (e.target === verifyModal) {
+            verifyModal.classList.remove('active');
+            // Track modal close by outside click
+            gtag('event', 'verification_modal_closed_outside');
+            // No longer storing timestamp since we show every time
+        }
+    });
+
+    // Free Lectures Modal Functionality
+    const lecturesModal = document.getElementById('lectures-modal');
+    const closeLecturesButtons = document.querySelectorAll('#close-lectures-modal, #close-lectures-modal-2');
+    const lecturesButtons = document.querySelectorAll('.lectures-btn');
+    
+    // Open lectures modal when lectures buttons are clicked
+    lecturesButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            lecturesModal.classList.add('active');
+            // Track lectures modal open
+            gtag('event', 'lectures_modal_open');
         });
-        
-        // Privacy Policy Modal Functionality
-        const policyModal = document.getElementById('policy-modal');
-        const showPolicyLink = document.getElementById('show-policy-link');
-        const closePolicyButtons = document.querySelectorAll('#close-policy-modal, #close-policy-modal-2');
-        
-        // Show privacy policy modal when link is clicked
-        showPolicyLink.addEventListener('click', function(e) {
+    });
+    
+    // Close lectures modal when close buttons are clicked
+    closeLecturesButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            lecturesModal.classList.remove('active');
+        });
+    });
+    
+    // Close lectures modal when clicking outside the modal content
+    lecturesModal.addEventListener('click', function(e) {
+        if (e.target === lecturesModal) {
+            lecturesModal.classList.remove('active');
+        }
+    });
+    
+    // Privacy Policy Modal Functionality
+    const policyModal = document.getElementById('policy-modal');
+    const showPolicyLink = document.getElementById('show-policy-link');
+    const closePolicyButtons = document.querySelectorAll('#close-policy-modal, #close-policy-modal-2');
+    
+    // Show privacy policy modal when link is clicked
+    showPolicyLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        policyModal.classList.add('active');
+        // Track privacy policy view
+        gtag('event', 'privacy_policy_viewed');
+    });
+    
+    // Close privacy policy modal when close buttons are clicked
+    closePolicyButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            policyModal.classList.remove('active');
+        });
+    });
+    
+    // Close privacy policy modal when clicking outside the modal content
+    policyModal.addEventListener('click', function(e) {
+        if (e.target === policyModal) {
+            policyModal.classList.remove('active');
+        }
+    });
+    
+    // Mobile menu toggle
+    document.getElementById('mobile-menu-button').addEventListener('click', function() {
+        const menu = document.getElementById('mobile-menu');
+        menu.classList.toggle('hidden');
+        // Track mobile menu toggle
+        gtag('event', 'mobile_menu_toggled');
+    });
+
+    // Set current year in footer
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            policyModal.classList.add('active');
-        });
-        
-        // Close privacy policy modal when close buttons are clicked
-        closePolicyButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                policyModal.classList.remove('active');
-            });
-        });
-        
-        // Close privacy policy modal when clicking outside the modal content
-        policyModal.addEventListener('click', function(e) {
-            if (e.target === policyModal) {
-                policyModal.classList.remove('active');
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                // Track smooth scrolling
+                gtag('event', 'smooth_scroll', {
+                    'target': this.getAttribute('href')
+                });
             }
         });
-        
-        // Mobile menu toggle
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        });
+    });
 
-        // Set current year in footer
-        document.getElementById('current-year').textContent = new Date().getFullYear();
+    // Notes Access Modal Functionality
+    const notesModal = document.getElementById('notes-modal');
+    const notesAccessButtons = document.querySelectorAll('.notes-access-btn');
+    const closeNotesButtons = document.querySelectorAll('#close-notes-modal, #close-notes-modal-2');
+    
+    // Open notes modal when any notes access button is clicked
+    notesAccessButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            notesModal.classList.add('active');
+            // Track notes modal open
+            gtag('event', 'notes_modal_open');
+        });
+    });
+    
+    // Close notes modal when close buttons are clicked
+    closeNotesButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            notesModal.classList.remove('active');
+        });
+    });
+    
+    // Close notes modal when clicking outside the modal content
+    notesModal.addEventListener('click', function(e) {
+        if (e.target === notesModal) {
+            notesModal.classList.remove('active');
+        }
+    });
 
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
+    // Channel modal functionality
+    const modal = document.getElementById('channel-modal');
+    const closeButtons = document.querySelectorAll('#close-modal, #close-modal-2');
+    const channelButtons = document.querySelectorAll('.channel-btn');
+    
+    // Open modal when any channel button is clicked
+    channelButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            notesModal.classList.remove('active');
+            modal.classList.add('active');
+            // Track channel modal open
+            gtag('event', 'channel_modal_open');
         });
+    });
+    
+    // Close modal when close buttons are clicked
+    closeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            modal.classList.remove('active');
+        });
+    });
+    
+    // Close modal when clicking outside the modal content
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.classList.remove('active');
+        }
+    });
 
-        // Notes Access Modal Functionality
-        const notesModal = document.getElementById('notes-modal');
-        const notesAccessButtons = document.querySelectorAll('.notes-access-btn');
-        const closeNotesButtons = document.querySelectorAll('#close-notes-modal, #close-notes-modal-2');
-        
-        // Open notes modal when any notes access button is clicked
-        notesAccessButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                notesModal.classList.add('active');
-            });
+    // Team modal functionality
+    const teamModal = document.getElementById('team-modal');
+    const joinTeamBtn = document.getElementById('join-team-btn');
+    const closeTeamButtons = document.querySelectorAll('#close-team-modal, #close-team-modal-2');
+    
+    // Open team modal when join team button is clicked
+    joinTeamBtn.addEventListener('click', function() {
+        teamModal.classList.add('active');
+        // Track team modal open
+        gtag('event', 'team_modal_open');
+    });
+    
+    // Close team modal when close buttons are clicked
+    closeTeamButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            teamModal.classList.remove('active');
         });
-        
-        // Close notes modal when close buttons are clicked
-        closeNotesButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                notesModal.classList.remove('active');
-            });
-        });
-        
-        // Close notes modal when clicking outside the modal content
-        notesModal.addEventListener('click', function(e) {
-            if (e.target === notesModal) {
-                notesModal.classList.remove('active');
-            }
-        });
+    });
+    
+    // Close team modal when clicking outside the modal content
+    teamModal.addEventListener('click', function(e) {
+        if (e.target === teamModal) {
+            teamModal.classList.remove('active');
+        }
+    });
 
-        // Channel modal functionality
-        const modal = document.getElementById('channel-modal');
-        const closeButtons = document.querySelectorAll('#close-modal, #close-modal-2');
-        const channelButtons = document.querySelectorAll('.channel-btn');
-        
-        // Open modal when any channel button is clicked
-        channelButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                notesModal.classList.remove('active');
-                modal.classList.add('active');
-            });
-        });
-        
-        // Close modal when close buttons are clicked
-        closeButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                modal.classList.remove('active');
-            });
-        });
-        
-        // Close modal when clicking outside the modal content
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                modal.classList.remove('active');
-            }
-        });
-
-        // Team modal functionality
-        const teamModal = document.getElementById('team-modal');
-        const joinTeamBtn = document.getElementById('join-team-btn');
-        const closeTeamButtons = document.querySelectorAll('#close-team-modal, #close-team-modal-2');
-        
-        // Open team modal when join team button is clicked
-        joinTeamBtn.addEventListener('click', function() {
-            teamModal.classList.add('active');
-        });
-        
-        // Close team modal when close buttons are clicked
-        closeTeamButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                teamModal.classList.remove('active');
-            });
-        });
-        
-        // Close team modal when clicking outside the modal content
-        teamModal.addEventListener('click', function(e) {
-            if (e.target === teamModal) {
-                teamModal.classList.remove('active');
-            }
-        });
-
-       // StudySpark AI Popup Functionality
+   // StudySpark AI Popup Functionality
 const studysparkPopup = document.getElementById('studyspark-popup');
 const closeStudysparkButtons = document.querySelectorAll('#close-studyspark-popup, #close-studyspark-popup-2');
 
@@ -1515,6 +1562,8 @@ window.addEventListener('load', function() {
             studysparkPopup.classList.add('active');
             // Update the last shown time
             localStorage.setItem('studyspark_last_shown', currentTime.toString());
+            // Track StudySpark popup shown
+            gtag('event', 'studyspark_popup_shown');
         }, 0);
     }
 });
@@ -1523,6 +1572,8 @@ window.addEventListener('load', function() {
 closeStudysparkButtons.forEach(button => {
     button.addEventListener('click', function() {
         studysparkPopup.classList.remove('active');
+        // Track StudySpark popup closed
+        gtag('event', 'studyspark_popup_closed');
     });
 });
 
@@ -1530,55 +1581,61 @@ closeStudysparkButtons.forEach(button => {
 studysparkPopup.addEventListener('click', function(e) {
     if (e.target === studysparkPopup) {
         studysparkPopup.classList.remove('active');
+        // Track StudySpark popup closed by outside click
+        gtag('event', 'studyspark_popup_closed_outside');
     }
 });
-        
-        
-        // Create particle effect function
-        function createParticles() {
-            // Remove existing particles if any
-            const existingParticles = document.querySelector('.particles');
-            if (existingParticles) {
-                existingParticles.remove();
-            }
-            
-            const particlesContainer = document.createElement('div');
-            particlesContainer.classList.add('particles');
-            document.body.appendChild(particlesContainer);
-            
-            const particleCount = 50;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                
-                // Random size
-                const size = Math.random() * 10 + 5;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                
-                // Random position
-                particle.style.left = `${Math.random() * 100}%`;
-                particle.style.top = `${Math.random() * 100}%`;
-                
-                // Random animation
-                const duration = Math.random() * 20 + 10;
-                particle.style.animation = `float ${duration}s ease-in-out infinite`;
-                
-                // Random delay
-                particle.style.animationDelay = `${Math.random() * 5}s`;
-                
-                // Random color
-                const colors = ['#ff0080', '#8000ff', '#00ffff', '#ffff00'];
-                const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.backgroundColor = randomColor;
-                
-                particlesContainer.appendChild(particle);
-            }
+    
+    // Create particle effect function
+    function createParticles() {
+        // Remove existing particles if any
+        const existingParticles = document.querySelector('.particles');
+        if (existingParticles) {
+            existingParticles.remove();
         }
         
-        // Initialize particles on page load
-        createParticles();
-    </script>
+        const particlesContainer = document.createElement('div');
+        particlesContainer.classList.add('particles');
+        document.body.appendChild(particlesContainer);
+        
+        const particleCount = 50;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            // Random size
+            const size = Math.random() * 10 + 5;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            
+            // Random position
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+            
+            // Random animation
+            const duration = Math.random() * 20 + 10;
+            particle.style.animation = `float ${duration}s ease-in-out infinite`;
+            
+            // Random delay
+            particle.style.animationDelay = `${Math.random() * 5}s`;
+            
+            // Random color
+            const colors = ['#ff0080', '#8000ff', '#00ffff', '#ffff00'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            particle.style.backgroundColor = randomColor;
+            
+            particlesContainer.appendChild(particle);
+        }
+        
+        // Track particle effect creation
+        gtag('event', 'particles_created');
+    }
+    
+    // Initialize particles on page load
+    createParticles();
+    
+    // Track page view in Google Analytics (already handled by gtag config)
+</script>
 </body>
 </html>
