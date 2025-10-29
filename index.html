@@ -72,7 +72,7 @@
             border-style: solid;
         }
         
-        .channel-modal, .team-modal, .notes-modal, .policy-modal, .lectures-modal, .verify-modal, .studyspark-popup {
+        .channel-modal, .team-modal, .notes-modal, .policy-modal, .lectures-modal, .verify-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -84,7 +84,7 @@
             justify-content: center;
             align-items: center;
         }
-        .channel-modal.active, .team-modal.active, .notes-modal.active, .policy-modal.active, .lectures-modal.active, .verify-modal.active, .studyspark-popup.active {
+        .channel-modal.active, .team-modal.active, .notes-modal.active, .policy-modal.active, .lectures-modal.active, .verify-modal.active {
             display: flex;
         }
         
@@ -184,24 +184,6 @@
             .notes-option-card {
                 padding: 1.5rem;
             }
-        }
-        
-        /* Particle background effect */
-        .particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-        
-        .particle {
-            position: absolute;
-            background-color: var(--primary);
-            border-radius: 50%;
-            opacity: 0.3;
         }
         
         /* Policy modal specific styles */
@@ -334,20 +316,122 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
 
-        /* Popup animation */
-        @keyframes popup-appear {
-            0% { 
-                opacity: 0; 
-                transform: scale(0.8) translateY(-20px); 
-            }
-            100% { 
-                opacity: 1; 
-                transform: scale(1) translateY(0); 
-            }
+        /* NEW: Mini AI Assistant Styles */
+        .ai-assistant {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
         }
-
-        .studyspark-popup.active .bg-white {
-            animation: popup-appear 0.5s ease-out;
+        
+        .ai-assistant.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .ai-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff0080, #8000ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 0, 128, 0.5);
+            animation: pulse 2s infinite;
+            transition: all 0.3s ease;
+        }
+        
+        .ai-icon:hover {
+            transform: scale(1.1);
+        }
+        
+        .ai-panel {
+            display: none;
+            width: 300px;
+            height: 400px;
+            background: var(--card);
+            border-radius: 15px;
+            border: 2px solid;
+            animation: rgb-border 3s linear infinite;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            overflow: hidden;
+        }
+        
+        .ai-assistant.expanded .ai-panel {
+            display: block;
+        }
+        
+        .ai-header {
+            padding: 15px;
+            background: linear-gradient(90deg, #ff0080, #8000ff);
+            color: white;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .ai-content {
+            padding: 15px;
+            height: calc(100% - 50px);
+            overflow-y: auto;
+        }
+        
+        .ai-feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            background: var(--bg);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .ai-feature:hover {
+            transform: translateX(5px);
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* NEW: Made in India Section Styles */
+        .made-in-india {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 20px;
+            border-top: 1px solid var(--bg);
+        }
+        
+        .india-flag-text {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #FF9933, #FFFFFF, #138808);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(255, 153, 51, 0.5);
+            animation: rgb-glow 3s ease-in-out infinite;
+        }
+        
+        @keyframes rgb-glow {
+            0% { text-shadow: 0 0 5px rgba(255, 153, 51, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(255, 153, 51, 0.8), 0 0 30px rgba(19, 136, 8, 0.6); }
+            100% { text-shadow: 0 0 5px rgba(255, 153, 51, 0.5); }
+        }
+        
+        .hashtags {
+            margin-top: 10px;
+            font-size: 1rem;
+            color: var(--text);
+            opacity: 0.9;
+            font-weight: 600;
         }
     </style>
 </head>
@@ -357,62 +441,43 @@
         NotesWallah Special Partners: <a href="https://studyspark.site" target="_blank">Study Spark Lecture Provider</a> - Click to visit website
     </div>
 
-    <!-- StudySpark AI Popup Modal -->
-    <div id="studyspark-popup" class="studyspark-popup">
-        <div class="bg-white rounded-2xl p-6 md:p-8 max-w-md w-full mx-4 shadow-2xl rgb-border" style="background-color: var(--card); color: var(--text);">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold gradient-text rgb-text">🎯 Limited Time Offer</h3>
-                <button id="close-studyspark-popup" class="text-slate-500 hover:text-slate-700">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
+    <!-- NEW: Mini AI Assistant -->
+    <div id="ai-assistant" class="ai-assistant">
+        <div class="ai-icon">🤖</div>
+        <div class="ai-panel">
+            <div class="ai-header">
+                StudySpark AI Assistant
             </div>
-            
-            <div class="text-center mb-6">
-                <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center text-white text-2xl rgb-glow" style="background: linear-gradient(135deg, #ff0080 0%, #8000ff 100%);">
+            <div class="ai-content">
+                <div class="ai-feature" onclick="window.open('https://ai.studyspark.site/', '_blank')">
+                    <i class="fas fa-brain"></i>
+                    <span>AI-Powered Homework Help</span>
+                </div>
+                <div class="ai-feature" onclick="window.open('https://ai.studyspark.site/', '_blank')">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Instant Doubt Solving</span>
+                </div>
+                <div class="ai-feature" onclick="window.open('https://ai.studyspark.site/', '_blank')">
+                    <i class="fas fa-book"></i>
+                    <span>Study Material Generator</span>
+                </div>
+                <div class="ai-feature" onclick="window.open('https://ai.studyspark.site/', '_blank')">
+                    <i class="fas fa-clock"></i>
+                    <span>24/7 Available</span>
+                </div>
+                <div class="ai-feature" onclick="window.open('https://ai.studyspark.site/', '_blank')">
                     <i class="fas fa-robot"></i>
+                    <span>Personal AI Tutor</span>
                 </div>
-                <p class="text-lg font-bold mb-2">Get FREE Access to StudySpark AI</p>
-                <p class="text-sm text-slate-600 mb-4">Your Personal AI Study Assistant</p>
-            </div>
-            
-            <div class="space-y-3 mb-6">
-                <div class="flex items-center gap-3 p-3 rounded-lg border" style="border-color: var(--primary); background-color: var(--bg);">
-                    <i class="fas fa-brain text-purple-500"></i>
-                    <span class="text-sm">AI-Powered Homework Help</span>
+                <div class="ai-feature" onclick="window.open('https://ai.studyspark.site/', '_blank')">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Progress Tracking</span>
                 </div>
-                <div class="flex items-center gap-3 p-3 rounded-lg border" style="border-color: var(--primary); background-color: var(--bg);">
-                    <i class="fas fa-lightbulb text-yellow-500"></i>
-                    <span class="text-sm">Instant Doubt Solving</span>
+                <div class="text-center mt-4">
+                    <a href="https://ai.studyspark.site/" target="_blank" class="inline-block px-4 py-2 rgb-button text-sm">
+                        <i class="fas fa-rocket mr-1"></i> Get Free Access
+                    </a>
                 </div>
-                <div class="flex items-center gap-3 p-3 rounded-lg border" style="border-color: var(--primary); background-color: var(--bg);">
-                    <i class="fas fa-book text-green-500"></i>
-                    <span class="text-sm">Study Material Generator</span>
-                </div>
-                <div class="flex items-center gap-3 p-3 rounded-lg border" style="border-color: var(--primary); background-color: var(--bg);">
-                    <i class="fas fa-clock text-blue-500"></i>
-                    <span class="text-sm">24/7 Available</span>
-                </div>
-            </div>
-            
-            <div class="text-center mb-6">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-2 rgb-glow" style="background: linear-gradient(90deg, #ff0080, #8000ff); color: white;">
-                    <i class="fas fa-bolt"></i>
-                    <span>SPECIAL OFFER FOR NOTESWALLAH USERS</span>
-                </div>
-                <p class="text-xs text-slate-500">Free access for limited time only</p>
-            </div>
-            
-            <div class="flex flex-col gap-3">
-                <a href="https://ai.studyspark.site/" target="_blank" class="w-full py-3 px-4 rgb-button font-semibold rounded-lg shadow hover:opacity-90 transition text-center">
-                    <i class="fas fa-rocket mr-2"></i> Get Free Access Now
-                </a>
-                <button id="close-studyspark-popup-2" class="w-full py-3 px-4 rounded-lg font-semibold transition text-sm" style="background-color: var(--card); color: var(--text); border: 1px solid var(--bg);">
-                    Maybe Later
-                </button>
-            </div>
-            
-            <div class="mt-4 text-center">
-                <p class="text-xs text-slate-500">Powered by <span class="font-semibold" style="color: var(--primary);">Study Spark</span></p>
             </div>
         </div>
     </div>
@@ -598,11 +663,6 @@
                         Join Our Channels
                     </button>
                 </div>
-                
-                
-                </div>
-                
-               
             </div>
             
             <div class="mt-6 text-center">
@@ -1071,10 +1131,10 @@
                     <!-- Team Card 1 -->
                     <div class="subject-card text-center rgb-card">
                         <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center text-white text-xl md:text-2xl mb-4 float-animation rgb-glow" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
-                            IM
+                            ⚡️
                         </div>
-                        <h4 class="font-bold text-lg">IMON</h4>
-                        <div class="text-sm mt-1" style="color: var(--primary);">TECH & CHAIRMAN</div>
+                        <h4 class="font-bold text-lg">NEURØNIX⚡️</h4>
+                        <div class="text-sm mt-1" style="color: var(--primary);">DEVOLOPER & CHAIRMAN</div>
                         <p class="text-sm mt-2">Leading the technical development and strategic direction of NotesWallah</p>
                     </div>
                     
@@ -1084,7 +1144,7 @@
                             AK
                         </div>
                         <h4 class="font-bold text-lg">ADRI KANRI</h4>
-                        <div class="text-sm mt-1" style="color: var(--primary);">TECH AND CEO</div>
+                        <div class="text-sm mt-1" style="color: var(--primary);">WEB MANAGER AND CEO</div>
                         <p class="text-sm mt-2">Overseeing platform operations and technological innovation</p>
                     </div>
                     
@@ -1268,6 +1328,12 @@
                         <div class="mt-2">nw.teamhelp@gmail.com</div>
                     </div>
                 </div>
+                
+                <!-- NEW: Made in India Section -->
+                <div class="made-in-india">
+                    <div class="india-flag-text">Made in India </div>
+                    <div class="hashtags">#NW OFFICIAL #AMERICA KIA KHETE THE 🤡 #FOR STUDENTS BY STUDENTS</div>
+                </div>
             </footer>
         </main>
     </div>
@@ -1288,6 +1354,57 @@
         gtag('config', 'G-VSQ8VQ3FLL');
     })();
 
+// NEW: Mini AI Assistant Functionality
+const aiAssistant = document.getElementById('ai-assistant');
+const aiIcon = document.querySelector('.ai-icon');
+
+// Show AI assistant immediately when website opens
+window.addEventListener('load', function() {
+    // Show AI assistant immediately without waiting for scroll
+    setTimeout(function() {
+        if (aiAssistant && !aiAssistant.classList.contains('visible')) {
+            aiAssistant.classList.add('visible');
+            // Track AI assistant appearance
+            if (window.gtag) {
+                gtag('event', 'ai_assistant_appeared');
+            }
+        }
+    }, 1000); // 1 second delay after page load
+});
+
+// Also show on scroll (optional - keep if you want both)
+window.addEventListener('scroll', function() {
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    if (scrollPercent > 0 && aiAssistant && !aiAssistant.classList.contains('visible')) {
+        aiAssistant.classList.add('visible');
+        // Track AI assistant appearance
+        if (window.gtag) {
+            gtag('event', 'ai_assistant_appeared');
+        }
+    }
+});
+
+// Toggle AI panel when icon is clicked
+if (aiIcon) {
+    aiIcon.addEventListener('click', function() {
+        if (aiAssistant) {
+            aiAssistant.classList.toggle('expanded');
+            // Track AI assistant interaction
+            if (window.gtag) {
+                gtag('event', 'ai_assistant_toggled');
+            }
+        }
+    });
+}
+
+// Close AI panel when clicking outside
+document.addEventListener('click', function(e) {
+    if (aiAssistant && aiAssistant.classList.contains('expanded') && 
+        !aiAssistant.contains(e.target) && 
+        e.target !== aiIcon) {
+        aiAssistant.classList.remove('expanded');
+    }
+});
     // Email verification functionality
     function phoneEmailReceiver(userObj) {
         var user_json_url = userObj.user_json_url;
@@ -1300,9 +1417,6 @@
 
         // Hide verification modal
         verifyModal.classList.remove('active');
-
-        // Create particle effect (ensure createParticles() is defined elsewhere)
-        // createParticles();
 
         // Show success message
         alert('Email Verification Successful!\nThank you for verifying your email.');
@@ -1318,8 +1432,7 @@
     const verifyButtons = document.querySelectorAll('.verify-btn');
     const accessNotesButtons = document.querySelectorAll('.access-notes-btn'); 
 
-    // --- MODIFIED SECTION: Auto-show verification on EVERY load ---
-
+    // Auto-show verification on EVERY load
     window.addEventListener('load', function() {
         const emailVerified = localStorage.getItem('noteswallah_email_verified');
         
@@ -1333,8 +1446,6 @@
             }, 0); 
         }
     });
-
-    // --- END OF MODIFIED SECTION ---
 
     // Existing logic to open modal when 'Access Notes' or other verify buttons are clicked
     verifyButtons.forEach(button => {
@@ -1353,29 +1464,26 @@
         });
     });
 
-    // MODIFIED HANDLER: Skip verification when skip button is clicked
+    // Skip verification when skip button is clicked
     skipVerificationBtn.addEventListener('click', function() {
         verifyModal.classList.remove('active');
         // Track skip verification
         gtag('event', 'verification_skipped');
-        // No longer storing timestamp since we show every time
     });
 
-    // MODIFIED HANDLER: Close verification modal when close button is clicked
+    // Close verification modal when close button is clicked
     closeVerifyBtn.addEventListener('click', function() {
         verifyModal.classList.remove('active');
         // Track modal close
         gtag('event', 'verification_modal_closed');
-        // No longer storing timestamp since we show every time
     });
 
-    // MODIFIED HANDLER: Close verification modal when clicking outside the modal content
+    // Close verification modal when clicking outside the modal content
     verifyModal.addEventListener('click', function(e) {
         if (e.target === verifyModal) {
             verifyModal.classList.remove('active');
             // Track modal close by outside click
             gtag('event', 'verification_modal_closed_outside');
-            // No longer storing timestamp since we show every time
         }
     });
 
@@ -1545,46 +1653,6 @@
             teamModal.classList.remove('active');
         }
     });
-
-   // StudySpark AI Popup Functionality
-const studysparkPopup = document.getElementById('studyspark-popup');
-const closeStudysparkButtons = document.querySelectorAll('#close-studyspark-popup, #close-studyspark-popup-2');
-
-// Show StudySpark popup every 1 hour interval
-window.addEventListener('load', function() {
-    const lastPopupTime = localStorage.getItem('studyspark_last_shown');
-    const oneHour = 60 * 60 * 1000; // 1 hour in milliseconds
-    const currentTime = Date.now();
-
-    // Check if popup has never been shown or 1 hour has passed since last show
-    if (!lastPopupTime || (currentTime - parseInt(lastPopupTime)) >= oneHour) {
-        setTimeout(function() {
-            studysparkPopup.classList.add('active');
-            // Update the last shown time
-            localStorage.setItem('studyspark_last_shown', currentTime.toString());
-            // Track StudySpark popup shown
-            gtag('event', 'studyspark_popup_shown');
-        }, 0);
-    }
-});
-
-// Close StudySpark popup when close buttons are clicked
-closeStudysparkButtons.forEach(button => {
-    button.addEventListener('click', function() {
-        studysparkPopup.classList.remove('active');
-        // Track StudySpark popup closed
-        gtag('event', 'studyspark_popup_closed');
-    });
-});
-
-// Close StudySpark popup when clicking outside the modal content
-studysparkPopup.addEventListener('click', function(e) {
-    if (e.target === studysparkPopup) {
-        studysparkPopup.classList.remove('active');
-        // Track StudySpark popup closed by outside click
-        gtag('event', 'studyspark_popup_closed_outside');
-    }
-});
     
     // Create particle effect function
     function createParticles() {
