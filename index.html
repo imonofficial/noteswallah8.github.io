@@ -438,7 +438,7 @@
 <body class="rgb-mode min-h-screen">
     <!-- Study Spark Banner -->
     <div class="studyspark-banner">
-        NotesWallah Special Partners: <a href="https://studyspark.site" target="_blank">Study Spark Lecture Provider</a> - Click to visit website
+        NotesWallah Official Downloading Website: <a href="https://site-c8vadkbrt.godaddysites.com/" target="_blank">Download Notes Now</a> - Click to visit website
     </div>
 
     <!-- NEW: Mini AI Assistant -->
@@ -1331,332 +1331,475 @@
                 
                 <!-- NEW: Made in India Section -->
                 <div class="made-in-india">
-                    <div class="india-flag-text">Made in India </div>
-                    <div class="hashtags">#NW OFFICIAL #AMERICA KIA KHETE THE 🤡 #FOR STUDENTS BY STUDENTS</div>
+                    <div class="india-flag-text">MADE IN INDIA </div>
+                    <div class="hashtags"> #AMERICA KIA KHETE THE 🤡 #</div>
                 </div>
             </footer>
         </main>
     </div>
 
-    <script>
-    // Google Analytics Integration
-    (function() {
-        // Add Google Analytics script
-        var script1 = document.createElement('script');
-        script1.async = true;
-        script1.src = 'https://www.googletagmanager.com/gtag/js?id=G-VSQ8VQ3FLL';
-        document.head.appendChild(script1);
-        
-        // Initialize gtag
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-VSQ8VQ3FLL');
-    })();
 
-// NEW: Mini AI Assistant Functionality
-const aiAssistant = document.getElementById('ai-assistant');
-const aiIcon = document.querySelector('.ai-icon');
 
-// Show AI assistant immediately when website opens
-window.addEventListener('load', function() {
-    // Show AI assistant immediately without waiting for scroll
-    setTimeout(function() {
-        if (aiAssistant && !aiAssistant.classList.contains('visible')) {
-            aiAssistant.classList.add('visible');
-            // Track AI assistant appearance
-            if (window.gtag) {
-                gtag('event', 'ai_assistant_appeared');
+<script>
+// ==================== ULTIMATE ANTI-INSPECT/ANTI-COPY SCRIPT (Fixed Version) ====================
+
+// Wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // --- 1. Keyboard & Context Menu Blocking ---
+    document.addEventListener('keydown', function(e) {
+        const blockedKeys = [123, 73, 74, 85, 67]; // F12, I, J, U, C
+        if (e.keyCode >= 112 && e.keyCode <= 123) { // Block F1-F12
+            e.preventDefault();
+            showInspectWarning('Function Key Blocked');
+            return false;
+        }
+        if (e.ctrlKey || e.shiftKey || e.altKey) {
+            if (blockedKeys.includes(e.keyCode) || e.altKey) {
+                e.preventDefault();
+                showInspectWarning('Shortcut Key Blocked');
+                return false;
             }
         }
-    }, 1000); // 1 second delay after page load
-});
+    });
 
-// Also show on scroll (optional - keep if you want both)
-window.addEventListener('scroll', function() {
-    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-    if (scrollPercent > 0 && aiAssistant && !aiAssistant.classList.contains('visible')) {
-        aiAssistant.classList.add('visible');
-        // Track AI assistant appearance
-        if (window.gtag) {
-            gtag('event', 'ai_assistant_appeared');
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        showInspectWarning('Right-Click Blocked');
+        return false;
+    });
+
+    // --- 2. Advanced DevTools Detection ---
+    let devToolsOpen = false;
+
+    function checkDevTools() {
+        const widthThreshold = window.outerWidth - window.innerWidth > 200;
+        const heightThreshold = window.outerHeight - window.innerHeight > 200;
+        
+        if (widthThreshold || heightThreshold || (window.innerHeight > 500 && window.innerWidth < 800)) {
+            if (!devToolsOpen) {
+                devToolsOpen = true;
+                showInspectWarning('DevTools Detected (Size Change)');
+                setTimeout(() => {
+                    window.location.replace("about:blank");
+                }, 2000);
+            }
+        } else {
+            devToolsOpen = false;
         }
     }
+    
+    setInterval(checkDevTools, 500);
+
+    // --- 3. Debugger Protection ---
+    function antiDebugLoop() {
+        setInterval(function() {
+            (function() {
+                return false;
+            }
+            ['constructor']('debugger')['call']());
+        }, 1000);
+    }
+
+    try {
+        antiDebugLoop();
+    } catch (e) {
+        // Silent fail
+    }
+
+    // --- 4. Content Protection ---
+    document.addEventListener('selectstart', e => { 
+        e.preventDefault(); 
+        return false; 
+    });
+    
+    document.addEventListener('dragstart', e => { 
+        e.preventDefault(); 
+        return false; 
+    });
+    
+    ['copy', 'cut', 'paste'].forEach(event => {
+        document.addEventListener(event, e => {
+            e.preventDefault();
+            showInspectWarning('Clipboard Blocked');
+            return false;
+        });
+    });
+
+    // --- 5. Anti-iFrame and DOM Tampering ---
+    if (window.top !== window.self) {
+        window.top.location.replace(window.self.location.href);
+    }
+
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'childList' || mutation.type === 'attributes') {
+                showInspectWarning('DOM Tampering Detected');
+            }
+        });
+    });
+
+    observer.observe(document.documentElement, {
+        childList: true,
+        subtree: true,
+        attributes: true
+    });
+
+    // --- 6. CSS Protection ---
+    document.body.style.userSelect = 'none';
+    document.body.style.webkitUserSelect = 'none';
+    document.body.style.MozUserSelect = 'none';
+
+    // --- 7. Initialize All Functionality ---
+    initializeGoogleAnalytics();
+    initializeAIAssistant();
+    initializeModals();
+    initializeMobileMenu();
+    initializeParticles();
+    setCurrentYear();
+    initializeSmoothScrolling();
 });
 
-// Toggle AI panel when icon is clicked
-if (aiIcon) {
+// ==================== CORE FUNCTIONS ====================
+
+// Safe Google Analytics function
+function safeGtag(event, params) {
+    if (window.gtag) {
+        gtag('event', event, params);
+    }
+}
+
+// Warning function
+function showInspectWarning(reason = 'Unauthorized Access Attempt') {
+    const existingWarning = document.getElementById('security-warning-overlay');
+    if (existingWarning) return;
+
+    const warning = document.createElement('div');
+    warning.id = 'security-warning-overlay';
+    warning.innerHTML = `
+        <div style="
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.98); z-index: 999999; display: flex; 
+            justify-content: center; align-items: center; color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center;
+        ">
+            <div style="
+                background: #cc0000; padding: 40px; border-radius: 12px;
+                box-shadow: 0 0 50px rgba(255,0,0,1); max-width: 600px; margin: 20px;
+                border: 4px solid #ff5555;
+            ">
+                <div style="font-size: 60px; margin-bottom: 20px;">🚨</div>
+                <h2 style="margin: 0 0 15px 0; font-size: 30px;">ACCESS DENIED</h2>
+                <p style="margin: 10px 0; font-size: 18px;">Reason: ${reason}</p>
+                <p style="margin: 15px 0; font-size: 16px; opacity: 0.9;">This activity has been reported and the page is being locked.  </p>
+                <p style="margin: 15px 0; font-size: 16px; opacity: 0.9;">Inspect Karaga ? </p>
+                <p style="margin: 15px 0; font-size: 16px; opacity: 0.9;"> 🤡🤡🤡</p>
+                <button onclick="window.location.replace('about:blank')" style="
+                    margin-top: 30px; padding: 12px 30px; background: white; color: #cc0000;
+                    border: none; border-radius: 8px; cursor: pointer; font-weight: bold;
+                    font-size: 16px; transition: background 0.3s;
+                ">
+                    CLOSE PAGE NOW
+                </button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(warning);
+    
+    setTimeout(() => {
+        if (document.body.contains(warning)) {
+            window.location.replace("about:blank");
+        }
+    }, 3000);
+}
+
+// ==================== INITIALIZATION FUNCTIONS ====================
+
+function initializeGoogleAnalytics() {
+    // Add Google Analytics script
+    var script1 = document.createElement('script');
+    script1.async = true;
+    script1.src = 'https://www.googletagmanager.com/gtag/js?id=G-VSQ8VQ3FLL';
+    document.head.appendChild(script1);
+    
+    // Initialize gtag
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VSQ8VQ3FLL');
+}
+
+function initializeAIAssistant() {
+    const aiAssistant = document.getElementById('ai-assistant');
+    const aiIcon = document.querySelector('.ai-icon');
+
+    if (!aiAssistant || !aiIcon) return;
+
+    // Show AI assistant on load
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            if (aiAssistant && !aiAssistant.classList.contains('visible')) {
+                aiAssistant.classList.add('visible');
+                safeGtag('ai_assistant_appeared');
+            }
+        }, 1000);
+    });
+
+    // Show on scroll
+    window.addEventListener('scroll', function() {
+        const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+        if (scrollPercent > 0 && aiAssistant && !aiAssistant.classList.contains('visible')) {
+            aiAssistant.classList.add('visible');
+            safeGtag('ai_assistant_appeared');
+        }
+    });
+
+    // Toggle AI panel
     aiIcon.addEventListener('click', function() {
         if (aiAssistant) {
             aiAssistant.classList.toggle('expanded');
-            // Track AI assistant interaction
-            if (window.gtag) {
-                gtag('event', 'ai_assistant_toggled');
-            }
+            safeGtag('ai_assistant_toggled');
+        }
+    });
+
+    // Close AI panel when clicking outside
+    document.addEventListener('click', function(e) {
+        if (aiAssistant && aiAssistant.classList.contains('expanded') && 
+            !aiAssistant.contains(e.target) && 
+            e.target !== aiIcon) {
+            aiAssistant.classList.remove('expanded');
         }
     });
 }
 
-// Close AI panel when clicking outside
-document.addEventListener('click', function(e) {
-    if (aiAssistant && aiAssistant.classList.contains('expanded') && 
-        !aiAssistant.contains(e.target) && 
-        e.target !== aiIcon) {
-        aiAssistant.classList.remove('expanded');
-    }
-});
-    // Email verification functionality
-    function phoneEmailReceiver(userObj) {
-        var user_json_url = userObj.user_json_url;
-
-        // Store successful verification status permanently
-        localStorage.setItem('noteswallah_email_verified', 'true');
-        
-        // Clear the time tracking since verification is complete
-        localStorage.removeItem('noteswallah_initial_prompt_time'); 
-
-        // Hide verification modal
-        verifyModal.classList.remove('active');
-
-        // Show success message
-        alert('Email Verification Successful!\nThank you for verifying your email.');
-        
-        // Track verification success in Google Analytics
-        gtag('event', 'email_verification_success');
-    }
-
-    // Email Verification Modal Functionality
+function initializeModals() {
+    // Email Verification Modal
     const verifyModal = document.getElementById('verify-modal');
-    const closeVerifyBtn = document.getElementById('close-verify-modal');
-    const skipVerificationBtn = document.getElementById('skip-verification');
-    const verifyButtons = document.querySelectorAll('.verify-btn');
-    const accessNotesButtons = document.querySelectorAll('.access-notes-btn'); 
+    if (verifyModal) {
+        const closeVerifyBtn = document.getElementById('close-verify-modal');
+        const skipVerificationBtn = document.getElementById('skip-verification');
+        const verifyButtons = document.querySelectorAll('.verify-btn');
+        const accessNotesButtons = document.querySelectorAll('.access-notes-btn');
 
-    // Auto-show verification on EVERY load
-    window.addEventListener('load', function() {
-        const emailVerified = localStorage.getItem('noteswallah_email_verified');
-        
-        // Only show the prompt if the email is NOT already verified
-        if (emailVerified !== 'true') {
-            // Show modal immediately on every page load if not verified
-            setTimeout(function() {
-                verifyModal.classList.add('active');
-                // Track modal display in Google Analytics
-                gtag('event', 'verification_modal_shown');
-            }, 0); 
-        }
-    });
-
-    // Existing logic to open modal when 'Access Notes' or other verify buttons are clicked
-    verifyButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            verifyModal.classList.add('active');
-            // Track manual modal open
-            gtag('event', 'verification_manual_open');
-        });
-    });
-    accessNotesButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault(); 
-            verifyModal.classList.add('active');
-            // Track access notes button click
-            gtag('event', 'access_notes_click');
-        });
-    });
-
-    // Skip verification when skip button is clicked
-    skipVerificationBtn.addEventListener('click', function() {
-        verifyModal.classList.remove('active');
-        // Track skip verification
-        gtag('event', 'verification_skipped');
-    });
-
-    // Close verification modal when close button is clicked
-    closeVerifyBtn.addEventListener('click', function() {
-        verifyModal.classList.remove('active');
-        // Track modal close
-        gtag('event', 'verification_modal_closed');
-    });
-
-    // Close verification modal when clicking outside the modal content
-    verifyModal.addEventListener('click', function(e) {
-        if (e.target === verifyModal) {
-            verifyModal.classList.remove('active');
-            // Track modal close by outside click
-            gtag('event', 'verification_modal_closed_outside');
-        }
-    });
-
-    // Free Lectures Modal Functionality
-    const lecturesModal = document.getElementById('lectures-modal');
-    const closeLecturesButtons = document.querySelectorAll('#close-lectures-modal, #close-lectures-modal-2');
-    const lecturesButtons = document.querySelectorAll('.lectures-btn');
-    
-    // Open lectures modal when lectures buttons are clicked
-    lecturesButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            lecturesModal.classList.add('active');
-            // Track lectures modal open
-            gtag('event', 'lectures_modal_open');
-        });
-    });
-    
-    // Close lectures modal when close buttons are clicked
-    closeLecturesButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            lecturesModal.classList.remove('active');
-        });
-    });
-    
-    // Close lectures modal when clicking outside the modal content
-    lecturesModal.addEventListener('click', function(e) {
-        if (e.target === lecturesModal) {
-            lecturesModal.classList.remove('active');
-        }
-    });
-    
-    // Privacy Policy Modal Functionality
-    const policyModal = document.getElementById('policy-modal');
-    const showPolicyLink = document.getElementById('show-policy-link');
-    const closePolicyButtons = document.querySelectorAll('#close-policy-modal, #close-policy-modal-2');
-    
-    // Show privacy policy modal when link is clicked
-    showPolicyLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        policyModal.classList.add('active');
-        // Track privacy policy view
-        gtag('event', 'privacy_policy_viewed');
-    });
-    
-    // Close privacy policy modal when close buttons are clicked
-    closePolicyButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            policyModal.classList.remove('active');
-        });
-    });
-    
-    // Close privacy policy modal when clicking outside the modal content
-    policyModal.addEventListener('click', function(e) {
-        if (e.target === policyModal) {
-            policyModal.classList.remove('active');
-        }
-    });
-    
-    // Mobile menu toggle
-    document.getElementById('mobile-menu-button').addEventListener('click', function() {
-        const menu = document.getElementById('mobile-menu');
-        menu.classList.toggle('hidden');
-        // Track mobile menu toggle
-        gtag('event', 'mobile_menu_toggled');
-    });
-
-    // Set current year in footer
-    document.getElementById('current-year').textContent = new Date().getFullYear();
-
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-                // Track smooth scrolling
-                gtag('event', 'smooth_scroll', {
-                    'target': this.getAttribute('href')
-                });
+        // Auto-show verification
+        window.addEventListener('load', function() {
+            const emailVerified = localStorage.getItem('noteswallah_email_verified');
+            if (emailVerified !== 'true') {
+                setTimeout(function() {
+                    verifyModal.classList.add('active');
+                    safeGtag('verification_modal_shown');
+                }, 0);
             }
         });
-    });
 
-    // Notes Access Modal Functionality
+        // Manual open triggers
+        if (verifyButtons.length > 0) {
+            verifyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    verifyModal.classList.add('active');
+                    safeGtag('verification_manual_open');
+                });
+            });
+        }
+
+        if (accessNotesButtons.length > 0) {
+            accessNotesButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    verifyModal.classList.add('active');
+                    safeGtag('access_notes_click');
+                });
+            });
+        }
+
+        // Close handlers
+        if (closeVerifyBtn) {
+            closeVerifyBtn.addEventListener('click', function() {
+                verifyModal.classList.remove('active');
+                safeGtag('verification_modal_closed');
+            });
+        }
+
+        if (skipVerificationBtn) {
+            skipVerificationBtn.addEventListener('click', function() {
+                verifyModal.classList.remove('active');
+                safeGtag('verification_skipped');
+            });
+        }
+
+        verifyModal.addEventListener('click', function(e) {
+            if (e.target === verifyModal) {
+                verifyModal.classList.remove('active');
+                safeGtag('verification_modal_closed_outside');
+            }
+        });
+    }
+
+    // Free Lectures Modal
+    const lecturesModal = document.getElementById('lectures-modal');
+    if (lecturesModal) {
+        const closeLecturesButtons = document.querySelectorAll('#close-lectures-modal, #close-lectures-modal-2');
+        const lecturesButtons = document.querySelectorAll('.lectures-btn');
+
+        if (lecturesButtons.length > 0) {
+            lecturesButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    lecturesModal.classList.add('active');
+                    safeGtag('lectures_modal_open');
+                });
+            });
+        }
+
+        if (closeLecturesButtons.length > 0) {
+            closeLecturesButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    lecturesModal.classList.remove('active');
+                });
+            });
+        }
+
+        lecturesModal.addEventListener('click', function(e) {
+            if (e.target === lecturesModal) {
+                lecturesModal.classList.remove('active');
+            }
+        });
+    }
+
+    // Privacy Policy Modal
+    const policyModal = document.getElementById('policy-modal');
+    if (policyModal) {
+        const showPolicyLink = document.getElementById('show-policy-link');
+        const closePolicyButtons = document.querySelectorAll('#close-policy-modal, #close-policy-modal-2');
+
+        if (showPolicyLink) {
+            showPolicyLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                policyModal.classList.add('active');
+                safeGtag('privacy_policy_viewed');
+            });
+        }
+
+        if (closePolicyButtons.length > 0) {
+            closePolicyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    policyModal.classList.remove('active');
+                });
+            });
+        }
+
+        policyModal.addEventListener('click', function(e) {
+            if (e.target === policyModal) {
+                policyModal.classList.remove('active');
+            }
+        });
+    }
+
+    // Notes Access Modal
     const notesModal = document.getElementById('notes-modal');
-    const notesAccessButtons = document.querySelectorAll('.notes-access-btn');
-    const closeNotesButtons = document.querySelectorAll('#close-notes-modal, #close-notes-modal-2');
-    
-    // Open notes modal when any notes access button is clicked
-    notesAccessButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            notesModal.classList.add('active');
-            // Track notes modal open
-            gtag('event', 'notes_modal_open');
-        });
-    });
-    
-    // Close notes modal when close buttons are clicked
-    closeNotesButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            notesModal.classList.remove('active');
-        });
-    });
-    
-    // Close notes modal when clicking outside the modal content
-    notesModal.addEventListener('click', function(e) {
-        if (e.target === notesModal) {
-            notesModal.classList.remove('active');
-        }
-    });
+    if (notesModal) {
+        const notesAccessButtons = document.querySelectorAll('.notes-access-btn');
+        const closeNotesButtons = document.querySelectorAll('#close-notes-modal, #close-notes-modal-2');
 
-    // Channel modal functionality
-    const modal = document.getElementById('channel-modal');
-    const closeButtons = document.querySelectorAll('#close-modal, #close-modal-2');
-    const channelButtons = document.querySelectorAll('.channel-btn');
-    
-    // Open modal when any channel button is clicked
-    channelButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            notesModal.classList.remove('active');
-            modal.classList.add('active');
-            // Track channel modal open
-            gtag('event', 'channel_modal_open');
-        });
-    });
-    
-    // Close modal when close buttons are clicked
-    closeButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            modal.classList.remove('active');
-        });
-    });
-    
-    // Close modal when clicking outside the modal content
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            modal.classList.remove('active');
+        if (notesAccessButtons.length > 0) {
+            notesAccessButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    notesModal.classList.add('active');
+                    safeGtag('notes_modal_open');
+                });
+            });
         }
-    });
 
-    // Team modal functionality
+        if (closeNotesButtons.length > 0) {
+            closeNotesButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    notesModal.classList.remove('active');
+                });
+            });
+        }
+
+        notesModal.addEventListener('click', function(e) {
+            if (e.target === notesModal) {
+                notesModal.classList.remove('active');
+            }
+        });
+    }
+
+    // Channel Modal
+    const channelModal = document.getElementById('channel-modal');
+    if (channelModal) {
+        const closeButtons = document.querySelectorAll('#close-modal, #close-modal-2');
+        const channelButtons = document.querySelectorAll('.channel-btn');
+
+        if (channelButtons.length > 0) {
+            channelButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const notesModal = document.getElementById('notes-modal');
+                    if (notesModal) notesModal.classList.remove('active');
+                    channelModal.classList.add('active');
+                    safeGtag('channel_modal_open');
+                });
+            });
+        }
+
+        if (closeButtons.length > 0) {
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    channelModal.classList.remove('active');
+                });
+            });
+        }
+
+        channelModal.addEventListener('click', function(e) {
+            if (e.target === channelModal) {
+                channelModal.classList.remove('active');
+            }
+        });
+    }
+
+    // Team Modal
     const teamModal = document.getElementById('team-modal');
-    const joinTeamBtn = document.getElementById('join-team-btn');
-    const closeTeamButtons = document.querySelectorAll('#close-team-modal, #close-team-modal-2');
-    
-    // Open team modal when join team button is clicked
-    joinTeamBtn.addEventListener('click', function() {
-        teamModal.classList.add('active');
-        // Track team modal open
-        gtag('event', 'team_modal_open');
-    });
-    
-    // Close team modal when close buttons are clicked
-    closeTeamButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            teamModal.classList.remove('active');
-        });
-    });
-    
-    // Close team modal when clicking outside the modal content
-    teamModal.addEventListener('click', function(e) {
-        if (e.target === teamModal) {
-            teamModal.classList.remove('active');
+    if (teamModal) {
+        const joinTeamBtn = document.getElementById('join-team-btn');
+        const closeTeamButtons = document.querySelectorAll('#close-team-modal, #close-team-modal-2');
+
+        if (joinTeamBtn) {
+            joinTeamBtn.addEventListener('click', function() {
+                teamModal.classList.add('active');
+                safeGtag('team_modal_open');
+            });
         }
-    });
+
+        if (closeTeamButtons.length > 0) {
+            closeTeamButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    teamModal.classList.remove('active');
+                });
+            });
+        }
+
+        teamModal.addEventListener('click', function(e) {
+            if (e.target === teamModal) {
+                teamModal.classList.remove('active');
+            }
+        });
+    }
+}
+
+function initializeMobileMenu() {
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
     
-    // Create particle effect function
+    if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+            safeGtag('mobile_menu_toggled');
+        });
+    }
+}
+
+function initializeParticles() {
     function createParticles() {
-        // Remove existing particles if any
         const existingParticles = document.querySelector('.particles');
         if (existingParticles) {
             existingParticles.remove();
@@ -1672,23 +1815,16 @@ document.addEventListener('click', function(e) {
             const particle = document.createElement('div');
             particle.classList.add('particle');
             
-            // Random size
             const size = Math.random() * 10 + 5;
             particle.style.width = `${size}px`;
             particle.style.height = `${size}px`;
-            
-            // Random position
             particle.style.left = `${Math.random() * 100}%`;
             particle.style.top = `${Math.random() * 100}%`;
             
-            // Random animation
             const duration = Math.random() * 20 + 10;
             particle.style.animation = `float ${duration}s ease-in-out infinite`;
-            
-            // Random delay
             particle.style.animationDelay = `${Math.random() * 5}s`;
             
-            // Random color
             const colors = ['#ff0080', '#8000ff', '#00ffff', '#ffff00'];
             const randomColor = colors[Math.floor(Math.random() * colors.length)];
             particle.style.backgroundColor = randomColor;
@@ -1696,14 +1832,57 @@ document.addEventListener('click', function(e) {
             particlesContainer.appendChild(particle);
         }
         
-        // Track particle effect creation
-        gtag('event', 'particles_created');
+        safeGtag('particles_created');
     }
-    
-    // Initialize particles on page load
+
     createParticles();
-    
-    // Track page view in Google Analytics (already handled by gtag config)
+}
+
+function setCurrentYear() {
+    const yearElement = document.getElementById('current-year');
+    if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+    }
+}
+
+function initializeSmoothScrolling() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                safeGtag('smooth_scroll', {
+                    'target': this.getAttribute('href')
+                });
+            }
+        });
+    });
+}
+
+// Email verification functionality
+function phoneEmailReceiver(userObj) {
+    if (userObj && userObj.user_json_url) {
+        localStorage.setItem('noteswallah_email_verified', 'true');
+        localStorage.removeItem('noteswallah_initial_prompt_time');
+
+        const verifyModal = document.getElementById('verify-modal');
+        if (verifyModal) {
+            verifyModal.classList.remove('active');
+        }
+
+        alert('Email Verification Successful!\nThank you for verifying your email.');
+        safeGtag('email_verification_success');
+    }
+}
+
+// Track page view
+window.addEventListener('load', function() {
+    safeGtag('page_view');
+});
 </script>
 </body>
 </html>
